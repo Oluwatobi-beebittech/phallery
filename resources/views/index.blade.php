@@ -21,7 +21,7 @@
             
         </style>
     </head>
-    <body class="viewport">
+    <body class="viewport" id = "body">
         
         
             {{-- @if (Route::has('login'))
@@ -37,7 +37,7 @@
                     @endif
                 </div>
             @endif --}}
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+            {{-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
             <a class="navbar-brand font-weight-bold" href="#">Phallery</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -59,7 +59,7 @@
                 </ul>
             </div>
             </nav>
-            <section class="bg-dark-trans viewport-80 text-white">
+            <section class="bg-dark-trans viewport-80 text-white"> --}}
                 {{-- <div id="carouselExampleSlidesOnly" class=" carousel slide carousel-fade" data-ride="carousel">
                     <div class="carousel-inner">
                       <div class="carousel-item active">
@@ -76,7 +76,7 @@
                       </div>
                     </div>
                   </div> --}}
-                <div class="container h-100 d-flex flex-md-row flex-column align-items-md-center">
+                {{-- <div class="container h-100 d-flex flex-md-row flex-column align-items-md-center">
                         <div class="md-6">
                             <h1 class= "font-s-title">Celebrating African</h1>
                             <h1 class="font-s-title">
@@ -122,15 +122,20 @@
                     
                     
                 </div>
-            </section>
-            <script src="{{ asset('js/typed.min.js') }}"></script>
+            </section> --}}
+            
             <script>
-                var typed = new Typed('#typed-element', {
-                strings: ['People', 'Community', 'Wildlife'],
-                typeSpeed: 80,
-                backSpeed: 80,
-                loop: true
-            });
+                var backgroundImg = ["../image/1a.jpg", "../image/1b.jpg", "../image/1c.jpg", "../image/1d.jpg"];
+                var count = 1;
+                setInterval(function(){
+                    $('body').css('background-image', 'url('+backgroundImg[count]+')');
+                    if(count < backgroundImg.length-1){
+                        count++;
+                    }else{
+                        count=0;
+                    }
+                    
+                }, 10000);
             </script>
     </body>
 </html>

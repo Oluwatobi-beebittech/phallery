@@ -10,12 +10,15 @@ body {
 .bg-orange-img {
     background-image: url("../image/canvas-orange.jpg");
 }
+.bg-kente {
+    background-image: url("../image/kente.jpg");
+}
 .font-s-title {
     font-size: 400%;
     font-weight: 700;
     text-shadow: 1px 1px 0px #000;
 }
-.font-s-200{
+.font-s-200 {
     font-size: 200%;
 }
 .viewport-80 {
@@ -24,7 +27,9 @@ body {
 .h-9 {
     height: 11.5vh;
 }
-
+.text-shadow {
+    text-shadow: 1px 1px 0px #000;
+}
 /*
 .color-blue {
     background-color: #2b32b2;
