@@ -27,7 +27,7 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
     return redirect('index');
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
-Route::get('dashboard', [FeedsController::class, 'index']);
+Route::get('dashboard', [FeedsController::class, 'index'])->middleware('auth');
 
 Route::get('/{path?}', function () {
     return view('index');

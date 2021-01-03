@@ -49,11 +49,12 @@ class URLLoginController extends Controller
 
         $user = User::find($request->email);
         if($user){
+            $plainTextToken = $user->createToken($request->email)->plainTextToken;
             $signedURL = URL::temporarySignedRoute(
-                'api.pass', now()->addMinutes(10), ['user' => $request->email]
+                'api.pass', now()->addMinutes(60), ['user' => $request->email, 'token' => $plainTextToken]
             );
             Mail::to($request->email)->send(new LoginURL($signedURL));
-
+            // return $user->createToken($request->email)->plainTextToken;
             return response()->json(["status"=>"Success", "togken"=>"old","message" => $user->tokens]);
         }
         return response()->json(["status"=>"Failed", "message"=>"User not found"]);
@@ -64,8 +65,9 @@ class URLLoginController extends Controller
     {
         if($request->hasValidSignature()){
             if(Auth::loginUsingId($user)){
-                
-                return redirect()->intended('dashboard');
+                $token = $request->token;
+                return response()->view("index",["token"=>$token],200);
+                // return redirect($to='/api/dashboard',$status=307,$headers=['Cache-Control'=>'no-cache, must-revalidate'],$http=null);
             }
             return response()->json(['status'=>'invalid', 'message' => 'User not found']);
             

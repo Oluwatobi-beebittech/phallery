@@ -15,3 +15,6 @@ mix.react("resources/js/app.js", "public/js")
     .sass("resources/sass/app.scss", "public/css")
     .sourceMaps();
 
+mix.react("resources/js/user.js", "public/js")
+    .sourceMaps();
+

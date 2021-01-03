@@ -35,4 +35,5 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     protected $primaryKey = 'email';
+    public $incrementing = false;
 }

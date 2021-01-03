@@ -16,11 +16,13 @@ use App\Http\Controllers\FeedsController;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::post('register', [RegisterController::class, 'store']);
-Route::post('login', [URLLoginController::class, 'findAndSend'])->name('api.login');
-Route::get('pass/{user}', [URLLoginController::class, 'signedLogin'])->name('api.pass');
-Route::get('dashboard', [FeedsController::class, 'index'])->middleware('auth:web');
+Route::post('login', [URLLoginController::class, 'findAndSend']);
+Route::get('pass/{user}', [URLLoginController::class, 'signedLogin'])
+    ->name('api.pass')
+    ->middleware('tokenAttach');
+Route::get('dashboard', [FeedsController::class, 'index'])->middleware('auth:sanctum');
 
