@@ -1,13 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Nav from "./phallery/nav";
-import Footer from "./phallery/footer";
+import Redirect from "./phallery/dashboard/redirect";
 
 function Dashboard() {
     return (
         <React.Fragment>
-            <Nav />
-            <Footer />
+            <Redirect />
+            
         </React.Fragment>
     );
 }
