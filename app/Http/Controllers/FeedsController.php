@@ -14,7 +14,7 @@ class FeedsController extends Controller
     public function index()
     {
         //
-        return response()->json(['status'=>'loggedin']);
+        return response()->json(['status'=>'success', 'redirect'=>'/dashboard/feeds']);
     }
 
     /**

@@ -1,12 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Redirect from "./phallery/dashboard/redirect";
+import Home from "./phallery/dashboard/home";
+import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 
 function Dashboard() {
     return (
         <React.Fragment>
-            <Redirect />
-            
+            <Router>
+                <Redirect />
+                <Switch>
+                    <Route exact path="/dashboard/feeds" component={Home} />
+                </Switch>
+            </Router>
         </React.Fragment>
     );
 }
