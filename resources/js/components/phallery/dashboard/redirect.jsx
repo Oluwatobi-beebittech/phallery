@@ -1,15 +1,16 @@
 import React, { Component } from "react";
 import queryString from "query-string";
+import axios from "axios";
 
 class Redirect extends Component {
     constructor(props) {
         super(props);
     }
     componentDidMount() {
-        // const value = queryString.parse(this.props.location.search);
-        // const token = value.token;
-        // console.log('token', token);
-        console.log(this.props);
+        const value = queryString.parse(window.location.search);
+        const token = value.token;
+        axios.defaults.headers.common = { Authorization: "Bearer " + token };
+        axios.get("/api/dashboard").then(res => {});
     }
     render() {
         return (

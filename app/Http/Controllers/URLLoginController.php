@@ -67,7 +67,6 @@ class URLLoginController extends Controller
             if(Auth::loginUsingId($user)){
                 $token = $request->token;
                 return response()->view("dashboard.index",["token"=>$token],200);
-                // return redirect($to='/api/dashboard',$status=307,$headers=['Cache-Control'=>'no-cache, must-revalidate'],$http=null);
             }
             return response()->json(['status'=>'invalid', 'message' => 'User not found']);
             
