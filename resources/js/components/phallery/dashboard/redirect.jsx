@@ -9,6 +9,7 @@ class Redirect extends Component {
         super(props);
         this.state = { status: "", redirect: "", token: "" };
         this.redirect = this.redirect.bind(this);
+        this.cookies = new Cookies();
     }
     componentDidMount() {
         this.redirect();
@@ -29,14 +30,13 @@ class Redirect extends Component {
     }
     render() {
         if (this.state.status === "success") {
-            const cookies = new Cookies();
+            const cookies = this.cookies;
             cookies.set("sanctum_token", this.state.token, {
                 path: "/",
                 secure: true
             });
             cookies.set("redirect", this.state.redirect, { path: "/" });
             return <Redirector to={this.state.redirect} />;
-            
         } else if (typeof this.state.status === "undefined") {
             return <Redirector to="/signin" />;
         }
