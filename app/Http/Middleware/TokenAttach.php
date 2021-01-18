@@ -23,6 +23,10 @@ class TokenAttach
         // return $response;
         // $response = Http::withHeaders(['X-First'=>'foo'])->get('http://localhost:8000/api/dashboard');
         // dd($request->cookie('sanctum_token'));
-        return $next($request);
+        if($request->cookie("sanctum_token")){
+            return response()->view('dashboard.index');
+        }
+        return response()->view('index');
+        
     }
 }

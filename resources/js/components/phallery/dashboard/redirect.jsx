@@ -17,7 +17,7 @@ class Redirect extends Component {
     redirect() {
         const value = queryString.parse(window.location.search);
         const token = value.token;
-        axios.defaults.headers.common = { Authorization: "Bearer g" + token };
+        axios.defaults.headers.common = { Authorization: "Bearer " + token };
         axios.get("/api/dashboard").then(res => {
             console.log(res);
             this.setState({
