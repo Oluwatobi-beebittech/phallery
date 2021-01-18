@@ -16,8 +16,8 @@ class Redirect extends Component {
     }
 
     redirect() {
-        const value = "";
-        const token = "";
+        let value = "";
+        let token = "";
         const cookies = this.cookies;
 
         if (cookies.get("sanctum_token")) {
