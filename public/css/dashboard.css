@@ -1,5 +1,7 @@
 body {
-   
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 .bg-dark-trans {
     background-color: rgba(0, 0, 0, 0.5);

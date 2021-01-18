@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
-use App\Http\Controllers\FeedsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,9 +26,8 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
     return redirect('index');
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
-Route::get('dashboard', [FeedsController::class, 'index'])->middleware('auth');
-
 Route::get('/{path?}', function () {
     return view('index');
-});
+})->where('path','.*')->middleware('tokenAttach');
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

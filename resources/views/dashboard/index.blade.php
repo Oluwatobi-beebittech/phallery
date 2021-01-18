@@ -21,6 +21,20 @@
         
         <main id = "body">
 
-        </main>   
+        </main> 
+
+        <script>
+                var backgroundImg = ["../image/1a.jpg", "../image/1b.jpg", "../image/1c.jpg", "../image/1d.jpg"];
+                var count = 1;
+                setInterval(function(){
+                    $('body').css('background-image', 'url('+backgroundImg[count]+')');
+                    if(count < backgroundImg.length-1){
+                        count++;
+                    }else{
+                        count=0;
+                    }
+                    
+                }, 10000);
+            </script>  
     </body>
 </html>

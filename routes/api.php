@@ -22,7 +22,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('register', [RegisterController::class, 'store']);
 Route::post('login', [URLLoginController::class, 'findAndSend']);
 Route::get('pass/{user}', [URLLoginController::class, 'signedLogin'])
-    ->name('api.pass')
-    ->middleware('tokenAttach');
+    ->name('api.pass');
 Route::get('dashboard', [FeedsController::class, 'index'])->middleware('auth:sanctum');
 

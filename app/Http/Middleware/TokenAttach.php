@@ -22,6 +22,7 @@ class TokenAttach
         // $response->header('Authorization','no-cache, must-revalidate');
         // return $response;
         // $response = Http::withHeaders(['X-First'=>'foo'])->get('http://localhost:8000/api/dashboard');
+        // dd($request->cookie('sanctum_token'));
         return $next($request);
     }
 }

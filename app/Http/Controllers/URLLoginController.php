@@ -66,7 +66,7 @@ class URLLoginController extends Controller
         if($request->hasValidSignature()){
             if(Auth::loginUsingId($user)){
                 $token = $request->token;
-                return response()->view("dashboard.index",["token"=>$token],200);
+                return response()->view("dashboard.index");
             }
             return response()->json(['status'=>'invalid', 'message' => 'User not found']);
             
