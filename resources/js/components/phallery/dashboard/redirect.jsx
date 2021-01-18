@@ -16,8 +16,17 @@ class Redirect extends Component {
     }
 
     redirect() {
-        const value = queryString.parse(window.location.search);
-        const token = value.token;
+        const value = "";
+        const token = "";
+        const cookies = this.cookies;
+
+        if (cookies.get("sanctum_token")) {
+            token = cookies.get("sanctum_token");
+        } else {
+            value = queryString.parse(window.location.search);
+            token = value.token;
+        }
+
         axios.defaults.headers.common = { Authorization: "Bearer " + token };
         axios.get("/api/dashboard").then(res => {
             console.log(res);
@@ -29,8 +38,9 @@ class Redirect extends Component {
         });
     }
     render() {
+        const cookies = this.cookies;
+
         if (this.state.status === "success") {
-            const cookies = this.cookies;
             cookies.set("sanctum_token", this.state.token, {
                 path: "/",
                 secure: true
