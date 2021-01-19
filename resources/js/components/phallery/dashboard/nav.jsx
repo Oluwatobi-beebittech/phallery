@@ -6,7 +6,8 @@ import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 
 function Nav() {
     return (
-        <Router>
+        <React.Fragment>
+            {/* // <Router> */}
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
                 <Link to="/" className="navbar-brand font-weight-bold">
                     Phallery
@@ -46,13 +47,14 @@ function Nav() {
                     </ul>
                 </div>
             </nav>
-            <Switch>
+            {/* <Switch>
                 <Route exact path="/signin" component={Signin} />
                 <Route exact path="/signup" component={Signup} />
                 <Route exact path="/" component={Home} />
                 <Route component={Home} />
-            </Switch>
-        </Router>
+            </Switch> */}
+            {/* </Router> */}
+        </React.Fragment>
     );
 }
 
