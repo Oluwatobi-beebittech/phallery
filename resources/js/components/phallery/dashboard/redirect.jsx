@@ -43,9 +43,9 @@ class Redirect extends Component {
         if (this.state.status === "success") {
             cookies.set("sanctum_token", this.state.token, {
                 path: "/",
-                secure: true
+                secure: true,
+                sameSite: "lax"
             });
-            cookies.set("redirect", this.state.redirect, { path: "/" });
             return <Redirector to={this.state.redirect} />;
         } else if (typeof this.state.status === "undefined") {
             return <Redirector to="/signin" />;
