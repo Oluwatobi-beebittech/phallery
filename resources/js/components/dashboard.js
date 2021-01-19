@@ -12,7 +12,7 @@ function Dashboard() {
                 <Redirect />
                 <Switch>
                     <Route exact path="/dashboard/feeds" component={Home} />
-                    <Route exact path="/signin" component={Index} />
+                    <Route exact path="/" component={Index} />
                 </Switch>
             </Router>
         </React.Fragment>

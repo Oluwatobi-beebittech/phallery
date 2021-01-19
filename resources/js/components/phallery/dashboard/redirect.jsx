@@ -48,7 +48,7 @@ class Redirect extends Component {
             });
             return <Redirector to={this.state.redirect} />;
         } else if (typeof this.state.status === "undefined") {
-            return <Redirector to="/signin" />;
+            return <Redirector to="/" />;
         }
         return (
             <section className="viewport-80 text-white">
