@@ -4,8 +4,8 @@ body {
     background-repeat: no-repeat;
     background-color: #cceef2;
 }
-.bg-none{
-    background-color: rgba(255,255,255,0) !important;
+.bg-none {
+    background-color: rgba(255, 255, 255, 0) !important;
 }
 .bg-dark-trans {
     background-color: rgba(0, 0, 0, 0.5);
@@ -33,13 +33,13 @@ body {
 .text-shadow {
     text-shadow: 1px 1px 0px #000;
 }
-/*
-.color-blue {
-    background-color: #2b32b2;
+.link-card > a {
+    transition: all 0.5s ease-in-out;
 }
-.text-blue {
-    color: #2b32b2;
+.link-card > a:hover {
+    text-decoration: none;
+    color: #298a53;
+    transition: linear;
+    transform: scale(1.05);
+    cursor: pointer;
 }
-.font-3 {
-    font-size: 50em;
-} */
