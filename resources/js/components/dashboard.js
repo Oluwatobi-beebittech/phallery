@@ -4,6 +4,7 @@ import Redirect from "./phallery/dashboard/redirect";
 import Home from "./phallery/dashboard/home";
 import Feeds from "./phallery/dashboard/feeds";
 import Profile from "./phallery/dashboard/profile";
+import Network from "./phallery/dashboard/network";
 import Notifications from "./phallery/dashboard/notifications";
 import Index from "./index";
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
@@ -23,9 +24,13 @@ function Dashboard() {
                         path="/dashboard/profile"
                         component={Profile}
                     />
+                    <Route
+                        exact
+                        path="/dashboard/mynetwork"
+                        component={Network}
+                    />
                     <Route exact path="/dashboard/myposts" component={Feeds} />
                     <Route exact path="/dashboard/feeds" component={Home} />
-
                     <Redirect />
                 </Switch>
             </Router>

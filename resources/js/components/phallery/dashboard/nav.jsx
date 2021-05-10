@@ -46,6 +46,15 @@ function Nav() {
                         </li>
                         <li className="nav-item mx-1 my-1">
                             <Link
+                                to="/dashboard/mynetwork"
+                                className="nav-link btn btn-lg bg-dark text-white mr-0"
+                            >
+                                <span className="fa fa-network-wired"></span>
+                                &nbsp;My Network
+                            </Link>
+                        </li>
+                        <li className="nav-item mx-1 my-1">
+                            <Link
                                 to="/dashboard/profile"
                                 className="nav-link btn btn-lg bg-dark text-white mr-0"
                             >
@@ -58,8 +67,11 @@ function Nav() {
                                 to="/dashboard/notifications"
                                 className="nav-link btn btn-lg bg-dark text-white mr-0"
                             >
-                                <span className="far fa-bell"></span>
-                                &nbsp;Notification
+                                <span className="text-warning far fa-bell"></span>
+                                &nbsp;Notification&nbsp;
+                                <span class="badge badge-pill badge-warning">
+                                    12
+                                </span>
                             </Link>
                         </li>
                     </ul>
