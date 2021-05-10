@@ -2,6 +2,10 @@ body {
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
+    background-color: #cceef2;
+}
+.bg-none{
+    background-color: rgba(255,255,255,0) !important;
 }
 .bg-dark-trans {
     background-color: rgba(0, 0, 0, 0.5);

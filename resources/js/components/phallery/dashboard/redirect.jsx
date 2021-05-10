@@ -49,25 +49,27 @@ class Redirect extends Component {
             return <Redirector to={this.state.redirect} />;
         } else if (typeof this.state.status === "undefined") {
             return <Redirector to="/" />;
-        }
-        return (
-            <section className="viewport-80 text-white">
-                <div className="container h-100 d-flex flex-column align-items-md-center">
-                    <div className="mx-auto my-auto text-center">
-                        <p className="text-muted ">
-                            You will be redirected automatically. If this does
-                            not happen, click the go to dashboard button
-                        </p>
-                        <a
-                            className="btn btn-lg btn-dark"
-                            onClick={this.redirect}
-                        >
-                            Go to Dashboard
-                        </a>
+        } else {
+            return (
+                <section className="viewport-80 text-white">
+                    <div className="container h-100 d-flex flex-column align-items-md-center">
+                        <div className="mx-auto my-auto text-center">
+                            <p className="text-muted ">
+                                You will be redirected automatically. If this
+                                does not happen, click the go to dashboard
+                                button
+                            </p>
+                            <a
+                                className="btn btn-lg btn-dark"
+                                onClick={this.redirect}
+                            >
+                                Go to Dashboard
+                            </a>
+                        </div>
                     </div>
-                </div>
-            </section>
-        );
+                </section>
+            );
+        }
     }
 }
 

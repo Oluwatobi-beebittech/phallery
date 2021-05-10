@@ -2,12 +2,12 @@ import React from "react";
 import Home from "./home";
 import Signup from "../auth/signup";
 import Signin from "../auth/signin";
+import Feeds from "./feeds";
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 
 function Nav() {
     return (
         <React.Fragment>
-            {/* // <Router> */}
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
                 <Link to="/" className="navbar-brand font-weight-bold">
                     Phallery
@@ -28,32 +28,43 @@ function Nav() {
                     <ul className="navbar-nav ml-auto">
                         <li className="nav-item mx-1 my-1">
                             <Link
-                                to="/signup"
-                                className="active nav-link btn btn-lg btn-outline-light bg-dark text-white mr-0"
+                                to="/dashboard/feeds"
+                                className="active nav-link btn btn-lg bg-dark text-white mr-0"
                             >
-                                Get Started &nbsp;
-                                <span className="fa fa-shoe-prints"></span>
+                                <span className="fa fa-home"></span>
+                                &nbsp;Home
                             </Link>
                         </li>
                         <li className="nav-item mx-1 my-1">
                             <Link
-                                to="/signin"
-                                className="nav-link btn btn-lg btn-outline-light bg-dark text-white mr-0"
+                                to="/dashboard/myposts"
+                                className="nav-link btn btn-lg bg-dark text-white mr-0"
                             >
-                                Sign In &nbsp;
-                                <span className="fa fa-arrow-circle-right"></span>
+                                <span className="fa fa-images"></span>
+                                &nbsp;My Posts
+                            </Link>
+                        </li>
+                        <li className="nav-item mx-1 my-1">
+                            <Link
+                                to="/dashboard/profile"
+                                className="nav-link btn btn-lg bg-dark text-white mr-0"
+                            >
+                                <span className="fa fa-user-circle"></span>
+                                &nbsp;Profile
+                            </Link>
+                        </li>
+                        <li className="nav-item mx-1 my-1">
+                            <Link
+                                to="/dashboard/notifications"
+                                className="nav-link btn btn-lg bg-dark text-white mr-0"
+                            >
+                                <span className="far fa-bell"></span>
+                                &nbsp;Notification
                             </Link>
                         </li>
                     </ul>
                 </div>
             </nav>
-            {/* <Switch>
-                <Route exact path="/signin" component={Signin} />
-                <Route exact path="/signup" component={Signup} />
-                <Route exact path="/" component={Home} />
-                <Route component={Home} />
-            </Switch> */}
-            {/* </Router> */}
         </React.Fragment>
     );
 }

@@ -23,7 +23,7 @@
 
         </main> 
 
-        <script>
+        {{-- <script>
                 var backgroundImg = ["../image/1a.jpg", "../image/1b.jpg", "../image/1c.jpg", "../image/1d.jpg"];
                 var count = 1;
                 setInterval(function(){
@@ -35,6 +35,6 @@
                     }
                     
                 }, 10000);
-            </script>  
+            </script>   --}}
     </body>
 </html>
