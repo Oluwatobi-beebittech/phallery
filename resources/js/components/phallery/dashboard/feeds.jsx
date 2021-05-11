@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import Nav from "./nav";
 import Banner from "./banner";
 import CreatePost from "./create_post";
+import Comment from "./post_component/comment";
+import Like from "./post_component/like";
+import Heart from "./post_component/heart";
 
 class Feeds extends Component {
     render() {
@@ -11,7 +14,7 @@ class Feeds extends Component {
                 <Banner text="My Posts" />
                 <div className="container">
                     <CreatePost />
-                    
+
                     <div className="row">
                         <div className="col-md-4">
                             <div className="card my-3 border-0 bg-none">
@@ -28,18 +31,9 @@ class Feeds extends Component {
                                         little bit longer.
                                     </p>
                                     <div className="card-text d-flex justify-content-around">
-                                        <a
-                                            href="#"
-                                            className="far fa-heart fa-2x text-decoration-none"
-                                        ></a>
-                                        <a
-                                            href="#"
-                                            className="far fa-thumbs-up fa-2x text-decoration-none"
-                                        ></a>
-                                        <a
-                                            href="#"
-                                            className="far fa-comment-dots fa-2x text-decoration-none"
-                                        ></a>
+                                        <Heart />
+                                        <Like />
+                                        <Comment />
                                     </div>
                                 </div>
                             </div>
@@ -60,18 +54,9 @@ class Feeds extends Component {
                                         little bit longer.
                                     </p>
                                     <div className="card-text d-flex justify-content-around">
-                                        <a
-                                            href="#"
-                                            className="far fa-heart fa-2x text-decoration-none"
-                                        ></a>
-                                        <a
-                                            href="#"
-                                            className="far fa-thumbs-up fa-2x text-decoration-none"
-                                        ></a>
-                                        <a
-                                            href="#"
-                                            className="far fa-comment-dots fa-2x text-decoration-none"
-                                        ></a>
+                                        <Heart />
+                                        <Like />
+                                        <Comment />
                                     </div>
                                 </div>
                             </div>
@@ -92,18 +77,9 @@ class Feeds extends Component {
                                         little bit longer.
                                     </p>
                                     <div className="card-text d-flex justify-content-around">
-                                        <a
-                                            href="#"
-                                            className="far fa-heart fa-2x text-decoration-none"
-                                        ></a>
-                                        <a
-                                            href="#"
-                                            className="far fa-thumbs-up fa-2x text-decoration-none"
-                                        ></a>
-                                        <a
-                                            href="#"
-                                            className="far fa-comment-dots fa-2x text-decoration-none"
-                                        ></a>
+                                        <Heart />
+                                        <Like />
+                                        <Comment />
                                     </div>
                                 </div>
                             </div>
@@ -124,18 +100,9 @@ class Feeds extends Component {
                                         little bit longer.
                                     </p>
                                     <div className="card-text d-flex justify-content-around">
-                                        <a
-                                            href="#"
-                                            className="far fa-heart fa-2x text-decoration-none"
-                                        ></a>
-                                        <a
-                                            href="#"
-                                            className="far fa-thumbs-up fa-2x text-decoration-none"
-                                        ></a>
-                                        <a
-                                            href="#"
-                                            className="far fa-comment-dots fa-2x text-decoration-none"
-                                        ></a>
+                                        <Heart />
+                                        <Like />
+                                        <Comment />
                                     </div>
                                 </div>
                             </div>
@@ -156,18 +123,9 @@ class Feeds extends Component {
                                         little bit longer.
                                     </p>
                                     <div className="card-text d-flex justify-content-around">
-                                        <a
-                                            href="#"
-                                            className="far fa-heart fa-2x text-decoration-none"
-                                        ></a>
-                                        <a
-                                            href="#"
-                                            className="far fa-thumbs-up fa-2x text-decoration-none"
-                                        ></a>
-                                        <a
-                                            href="#"
-                                            className="far fa-comment-dots fa-2x text-decoration-none"
-                                        ></a>
+                                        <Heart />
+                                        <Like />
+                                        <Comment />
                                     </div>
                                 </div>
                             </div>
