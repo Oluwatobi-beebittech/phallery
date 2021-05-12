@@ -18,9 +18,9 @@ class Post extends Component {
                 <div className="card-body mx-auto bg-white rounded-bottom shadow">
                     <p className="card-text">{this.props.text}</p>
                     <div className="card-text d-flex justify-content-around">
-                        <Heart />
-                        <Like />
-                        <Comment />
+                        <Heart count={this.props.hearts} />
+                        <Like count={this.props.likes} />
+                        <Comment count={this.props.comments} />
                     </div>
                 </div>
             </div>

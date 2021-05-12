@@ -8,7 +8,13 @@ class PostContainer extends Component {
     render() {
         return (
             <div className="col-md-4">
-                <Post imgUrl={this.props.imgUrl} text={this.props.text} />
+                <Post
+                    imgUrl={this.props.imgUrl}
+                    text={this.props.text}
+                    likes={this.props.likes}
+                    hearts={this.props.hearts}
+                    comments={this.props.comments}
+                />
             </div>
         );
     }
