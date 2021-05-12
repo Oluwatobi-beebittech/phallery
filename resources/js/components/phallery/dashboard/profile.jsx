@@ -5,7 +5,7 @@ class Profile extends Component {
     render() {
         return (
             <React.Fragment>
-                <Nav />
+                <Nav hasNotification={true} count={9} />
                 <Banner text="Profile" />
 
                 <div className="container">

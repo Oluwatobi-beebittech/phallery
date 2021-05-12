@@ -5,7 +5,7 @@ class Notifications extends Component {
     render() {
         return (
             <React.Fragment>
-                <Nav />
+                <Nav hasNotification={true} count={9} />
                 <Banner text="Notifications" />
 
                 <div className="container my-3">

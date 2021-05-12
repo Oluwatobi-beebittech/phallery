@@ -8,7 +8,7 @@ class Home extends Component {
     render() {
         return (
             <React.Fragment>
-                <Nav />
+                <Nav hasNotification={true} count={9} />
                 <Banner text="Feeds" />
                 <div className="container my-3">
                     <CreatePost />
@@ -34,36 +34,36 @@ class Home extends Component {
                             text="This is a wider card with supporting text below as a
                         natural lead-in to additional content. This content is a
                         little bit longer."
-                        likes={0}
-                        hearts={0}
-                        comments={0}
+                            likes={0}
+                            hearts={0}
+                            comments={0}
                         />
                         <PostContainer
                             imgUrl="../image/1a.jpg"
                             text="This is a wider card with supporting text below as a
                         natural lead-in to additional content. This content is a
                         little bit longer."
-                        likes={0}
-                        hearts={0}
-                        comments={0}
+                            likes={0}
+                            hearts={0}
+                            comments={0}
                         />
                         <PostContainer
                             imgUrl="../image/1a.jpg"
                             text="This is a wider card with supporting text below as a
                         natural lead-in to additional content. This content is a
                         little bit longer."
-                        likes={0}
-                        hearts={0}
-                        comments={0}
+                            likes={0}
+                            hearts={0}
+                            comments={0}
                         />
                         <PostContainer
                             imgUrl="../image/1a.jpg"
                             text="This is a wider card with supporting text below as a
                         natural lead-in to additional content. This content is a
                         little bit longer."
-                        likes={0}
-                        hearts={0}
-                        comments={0}
+                            likes={0}
+                            hearts={0}
+                            comments={0}
                         />
                     </div>
                 </div>

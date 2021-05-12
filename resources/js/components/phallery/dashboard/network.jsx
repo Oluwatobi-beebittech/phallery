@@ -6,7 +6,7 @@ class Network extends Component {
     render() {
         return (
             <React.Fragment>
-                <Nav />
+                <Nav hasNotification={true} count={9} />
                 <Banner text="My Network" />
                 <div className="container my-3">
                     <form className="form-inline ">
