@@ -11,7 +11,7 @@ class Comment extends Component {
         const classText = color + " fa-2x text-decoration-none";
         return (
             <React.Fragment>
-                <p class="h5 font-weight-bold">{this.state.count}</p>
+                <p className="h5 font-weight-bold">{this.state.count}</p>
                 <a href="#" className={classText}></a>
             </React.Fragment>
         );

@@ -83,7 +83,7 @@ class Nav extends Component {
                                 >
                                     <span className={notifyIcon}></span>
                                     &nbsp;Notification&nbsp;
-                                    <span class={notifyBadge}>
+                                    <span className={notifyBadge}>
                                         {notifyCount}
                                     </span>
                                 </Link>
