@@ -60,10 +60,7 @@ class Signin extends Component {
                 className="alert alert-danger alert-dismissible fade show"
                 role="alert"
             >
-                <strong>
-                    Some errors were encountered. Ensure the email is
-                    registered.
-                </strong>
+                <strong>{this.state.response.message}</strong>
             </div>
         );
     }

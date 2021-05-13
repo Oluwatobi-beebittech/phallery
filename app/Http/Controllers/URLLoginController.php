@@ -47,17 +47,27 @@ class URLLoginController extends Controller
             return response()->json(["status"=>"Failed", "errors"=>$validatedData->errors()]);
         }
 
-        $user = User::find($request->email);
-        if($user){
-            $plainTextToken = $user->createToken($request->email)->plainTextToken;
-            $signedURL = URL::temporarySignedRoute(
-                'api.pass', now()->addMinutes(60), ['user' => $request->email, 'token' => $plainTextToken]
-            );
-            Mail::to($request->email)->send(new LoginURL($signedURL));
-            // return $user->createToken($request->email)->plainTextToken;
-            return response()->json(["status"=>"Success", "togken"=>"old","message" => $user->tokens]);
+        try{
+            $user = User::find($request->email);
+            if($user){
+                $plainTextToken = $user->createToken($request->email)->plainTextToken;
+                $signedURL = URL::temporarySignedRoute(
+                    'api.pass', now()->addMinutes(60), ['user' => $request->email, 'token' => $plainTextToken]
+                );
+                
+                
+                Mail::to($request->email)->send(new LoginURL($signedURL));
+                
+                
+                return response()->json(["status"=>"Success", "togken"=>"old","message" => $user->tokens]);
+            }
+        }catch(\Illuminate\Database\QueryException $err){
+            return response()->json(["status"=>"Failed", "message"=>"Error  connecting to database"]);
+        }catch(\Swift_TransportException $e){
+            return response()->json(["status"=>"Failed", "message"=>"Could not conect to mail server. Kindly try again."]);
         }
-        return response()->json(["status"=>"Failed", "message"=>"User not found"]);
+        return response()->json(["status"=>"Failed", "message"=>"Some errors were encountered. Ensure the email is
+        registered."]);
     }
 
 
