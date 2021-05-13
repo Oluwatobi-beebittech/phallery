@@ -78,10 +78,10 @@ class URLLoginController extends Controller
                 $token = $request->token;
                 return response()->view("dashboard.index");
             }
-            return response()->json(['status'=>'invalid', 'message' => 'User not found']);
+            return response()->view("invalidLogin");
             
         }
-        return response()->json(['status'=>'invalid', "message" => "Invalid signature"]);
+        return response()->view("invalidLogin");
     }
     /**
      * Display the specified resource.
