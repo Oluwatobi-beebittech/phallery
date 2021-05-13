@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Nav from "./nav";
 import Banner from "./banner";
+import SearchResultUI from "./search_component/searchResultUI";
 
 class Network extends Component {
     render() {
@@ -23,6 +24,7 @@ class Network extends Component {
                                     </button>
                                 </div>
                             </div>
+                            <SearchResultUI/>
                         </div>
                     </form>
 
