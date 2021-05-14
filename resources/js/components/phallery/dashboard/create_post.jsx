@@ -4,7 +4,7 @@ import Modal from "react-bootstrap/Modal";
 class CreatePost extends Component {
     constructor(props) {
         super(props);
-        this.state = { modalShow: false, postText: "", file: "",  };
+        this.state = { modalShow: false, postText: "", file: "" };
         this.displayModal = this.displayModal.bind(this);
         this.postTextChanged = this.postTextChanged.bind(this);
         this.onFileChanged = this.onFileChanged.bind(this);
@@ -22,16 +22,40 @@ class CreatePost extends Component {
         this.setState({ file: e.target.files[0] });
     }
 
+    checkImageValidity() {
+        if (this.state.file.type.substring(0, 5) != "image") {
+            return false;
+        }
+        return true;
+    }
+
     render() {
-        const fileName =
-            this.state.file != "" ? (
-                <p>
-                    <span className="fa fa-file-image"></span>
-                    &nbsp;{this.state.file.name}
-                </p>
-            ) : (
-                ""
-            );
+        const imgError = (
+            <p className="text-danger font-weight-bold">
+                You have to upload an image &nbsp;
+                <span className="text-danger fa fa-times"></span>
+            </p>
+        );
+        const imgSuccess = (
+            <p className="font-weight-bold">
+                <span className="fa fa-file-image"></span>
+                &nbsp;{this.state.file.name}&nbsp;
+                <span className="text-success fa fa-check"></span>
+            </p>
+        );
+        const fileStatus =
+            this.state.file != ""
+                ? this.checkImageValidity
+                    ? imgSuccess
+                    : imgError
+                : "";
+
+        const btnDisabled =
+            this.state.file != ""
+                ? this.state.postText != "" && this.checkImageValidity
+                    ? false
+                    : true
+                : true;
         return (
             <React.Fragment>
                 <button
@@ -88,7 +112,7 @@ class CreatePost extends Component {
                                         <span className="fa fa-upload"></span>
                                         &nbsp;Upload photo
                                     </label>
-                                    {fileName}
+                                    {fileStatus}
                                     <input
                                         type="file"
                                         className="form-control"
@@ -103,6 +127,7 @@ class CreatePost extends Component {
                                 <button
                                     type="submit"
                                     className="btn btn-success"
+                                    disabled={btnDisabled}
                                 >
                                     <span className="fa fa-plus-square"></span>
                                     &nbsp; Create
