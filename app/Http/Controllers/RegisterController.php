@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Database\QueryException;
 use App\Models\User;
 
 
@@ -39,16 +40,20 @@ class RegisterController extends Controller
     public function store(Request $request)
     {
         //
-        $validatedData = $request->validate([
-            'first_name' => 'required|alpha|max:255|min:2',
-            'last_name' => 'required|alpha|max:255|min:2',
-            'email' => 'required|email|max:255|min:2|unique:users',
-            'phone_number' => 'nullable|digits:11|unique:users'
-        ]);
-        
-        $user = User::create($request->all());
-        event(new Registered($user));
-        
+        try{
+            $validatedData = $request->validate([
+                'first_name' => 'required|alpha|max:255|min:2',
+                'last_name' => 'required|alpha|max:255|min:2',
+                'email' => 'required|email|max:255|min:2|unique:users',
+                'phone_number' => 'nullable|digits:11|unique:users'
+            ]);
+            
+            $user = User::create($request->all());
+            event(new Registered($user));
+        }catch(QueryException $err)
+        {
+            return response()->json(["message"=>"Error connecting to database", "errors"=>"Database Unreachable"], 422);
+        }
         return $user;
     }
 

@@ -82,12 +82,16 @@ class Signup extends Component {
             );
         }
 
+        const error =
+            this.state.message === "Database Unreachable"
+                ? "Error connecting to the database"
+                : "Some errors were encountered";
         return (
             <div
                 className="alert alert-danger alert-dismissible fade show"
                 role="alert"
             >
-                <strong>Some errors were encountered</strong>
+                <strong>{error}</strong>
             </div>
         );
     }
@@ -96,13 +100,6 @@ class Signup extends Component {
         let returnValue = "form-control ";
 
         switch (field) {
-            case "firstName":
-                returnValue =
-                    typeof this.state.message.first_name !== "undefined"
-                        ? returnValue + "is-invalid"
-                        : returnValue;
-
-                break;
             case "firstName":
                 returnValue =
                     typeof this.state.message.first_name !== "undefined"
