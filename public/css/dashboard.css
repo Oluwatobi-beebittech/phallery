@@ -64,3 +64,13 @@ body {
     width: auto;
     height: 100%;
 }
+
+.comment-box {
+    background-color: rgba(211, 211, 211, 0.25);
+}
+.rounded-15 {
+    border-radius: 1.5rem !important;
+}
+.chat-box {
+    background-color: rgba(0, 0, 0, 0.1);
+}
