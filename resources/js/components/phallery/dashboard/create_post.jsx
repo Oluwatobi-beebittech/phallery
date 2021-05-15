@@ -8,6 +8,7 @@ class CreatePost extends Component {
         this.displayModal = this.displayModal.bind(this);
         this.postTextChanged = this.postTextChanged.bind(this);
         this.onFileChanged = this.onFileChanged.bind(this);
+        this.getFileType = this.getFileType.bind(this);
     }
 
     displayModal(value) {
@@ -22,11 +23,9 @@ class CreatePost extends Component {
         this.setState({ file: e.target.files[0] });
     }
 
-    checkImageValidity() {
-        if (this.state.file.type.substring(0, 5) != "image") {
-            return false;
-        }
-        return true;
+    getFileType() {
+        const [fileType, extension] = this.state.file.type.split("/");
+        return fileType;
     }
 
     render() {
@@ -43,19 +42,19 @@ class CreatePost extends Component {
                 <span className="text-success fa fa-check"></span>
             </p>
         );
-        const fileStatus =
-            this.state.file != ""
-                ? this.checkImageValidity
-                    ? imgSuccess
-                    : imgError
-                : "";
+        const isFilePresent = this.state.file != "";
+        const fileType = isFilePresent ? this.getFileType() : "";
+        const imageValidity = isFilePresent ? fileType === "image" : false;
+        const message = isFilePresent
+            ? imageValidity
+                ? imgSuccess
+                : imgError
+            : " ";
 
-        const btnDisabled =
-            this.state.file != ""
-                ? this.state.postText != "" && this.checkImageValidity
-                    ? false
-                    : true
-                : true;
+        const btnDisabled = !(
+            imageValidity && this.state.postText.trim() != ""
+        );
+
         return (
             <React.Fragment>
                 <button
@@ -112,7 +111,7 @@ class CreatePost extends Component {
                                         <span className="fa fa-upload"></span>
                                         &nbsp;Upload photo
                                     </label>
-                                    {fileStatus}
+                                    {message}
                                     <input
                                         type="file"
                                         className="form-control"
