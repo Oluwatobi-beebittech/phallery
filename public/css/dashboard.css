@@ -67,6 +67,9 @@ body {
 
 .comment-box {
     background-color: rgba(211, 211, 211, 0.25);
+    height: 15%;
+    overflow-y: scroll;
+    
 }
 .rounded-15 {
     border-radius: 1.5rem !important;

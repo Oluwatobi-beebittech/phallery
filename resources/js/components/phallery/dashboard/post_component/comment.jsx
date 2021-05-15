@@ -64,14 +64,17 @@ class Comment extends Component {
                             </p>
                             <div className="d-flex flex-column">
                                 <div className="col-md-6 p-2 rounded-15 chat-box">
-                                    jfhf
-                                    <small>24 June 2021</small>
+                                    <p className="font-weight-bold">
+                                        Oluwatobi Akanji
+                                    </p>
+                                    <p>gffj</p>
+                                    <small className="float-right font-weight-light">
+                                        24 June 2021
+                                    </small>
                                 </div>
                                 <div>
                                     <div className="col-md-6 p-2 rounded-15 chat-box float-right">
-                                        <p className="font-weight-bold">
-                                            Oluwatobi Akanji
-                                        </p>
+                                        <p className="font-weight-bold">You</p>
                                         <p>gffj</p>
                                         <small className="float-right font-weight-light">
                                             24 June 2021
