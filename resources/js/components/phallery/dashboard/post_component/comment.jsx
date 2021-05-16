@@ -35,6 +35,7 @@ class Comment extends Component {
             ? "fa fa-comment-dots text-success"
             : "far fa-comment-dots";
         const classText = color + " fa-2x text-decoration-none";
+        const isDisabled = this.state.commentText.trim() !="" ? false : true;
         return (
             <React.Fragment>
                 <p className="h5 font-weight-bold">{this.state.count}</p>
@@ -63,7 +64,25 @@ class Comment extends Component {
                                 This is a wider card with supporting text below
                             </p>
                             <div className="d-flex flex-column">
-                                <div className="col-md-6 p-2 rounded-15 chat-box">
+                                <div className="col-md-6 p-2 rounded-15 chat-box my-1">
+                                    <p className="font-weight-bold">
+                                        Oluwatobi Akanji
+                                    </p>
+                                    <p>gffj</p>
+                                    <small className="float-right font-weight-light">
+                                        24 June 2021
+                                    </small>
+                                </div>
+                                <div className="col-md-6 p-2 rounded-15 chat-box my-1">
+                                    <p className="font-weight-bold">
+                                        Oluwatobi Akanji
+                                    </p>
+                                    <p>gffj</p>
+                                    <small className="float-right font-weight-light">
+                                        24 June 2021
+                                    </small>
+                                </div>
+                                <div className="col-md-6 p-2 rounded-15 chat-box my-1">
                                     <p className="font-weight-bold">
                                         Oluwatobi Akanji
                                     </p>
@@ -73,7 +92,7 @@ class Comment extends Component {
                                     </small>
                                 </div>
                                 <div>
-                                    <div className="col-md-6 p-2 rounded-15 chat-box float-right">
+                                    <div className="col-md-6 p-2 rounded-15 chat-box float-right my-1">
                                         <p className="font-weight-bold">You</p>
                                         <p>gffj</p>
                                         <small className="float-right font-weight-light">
@@ -95,12 +114,18 @@ class Comment extends Component {
                                         onChange={this.commentTextChanged}
                                         value={this.state.commentText}
                                         placeholder="Your comment"
-                                        maxLength={300}
-                                        aria-describedby="cardPostHelpText"
+                                        maxLength={100}
+                                        aria-describedby="cardCommentHelpText"
                                     />
+                                    <small
+                                        id="cardCommentHelpText"
+                                        className="form-text text-muted float-right"
+                                    >
+                                        {this.state.commentText.length}/100
+                                    </small>
                                 </div>
                                 <div className=" d-flex flex-column justify-content-around text-center text-primary col-md-3">
-                                    <button className="btn btn-primary">
+                                    <button className="btn btn-primary" disabled={isDisabled}>
                                         Send{" "}
                                         <span className="fa fa-chevron-right"></span>
                                     </button>
