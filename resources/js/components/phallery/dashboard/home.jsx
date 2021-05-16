@@ -3,7 +3,7 @@ import Nav from "./nav";
 import Banner from "./banner";
 import CreatePost from "./create_post";
 import PostContainer from "./post_component/postContainer";
-import SearchResultUI from "./search_component/searchResultUI";
+import SearchBar from "./search_component/searchBar";
 
 class Home extends Component {
     render() {
@@ -13,23 +13,8 @@ class Home extends Component {
                 <Banner text="Feeds" />
                 <div className="container my-3">
                     <CreatePost />
-                    <form className="form-inline ">
-                        <div className="col-md-6 mx-auto">
-                            <div className="input-group">
-                                <input
-                                    type="text"
-                                    className="form-control rounded-left"
-                                    placeholder="Search for friends"
-                                />
-                                <div className="input-group-prepend">
-                                    <button className="btn btn-success rounded-right">
-                                        <span className="fa fa-search text-white"></span>
-                                    </button>
-                                </div>
-                            </div>
-                            <SearchResultUI/>
-                        </div>
-                    </form>
+                    <SearchBar />
+                    
                     <div className="row">
                         <PostContainer
                             imgUrl="../image/1a.jpg"

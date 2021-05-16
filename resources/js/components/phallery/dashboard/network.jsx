@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Nav from "./nav";
 import Banner from "./banner";
-import SearchResultUI from "./search_component/searchResultUI";
+import SearchBar from "./search_component/searchBar";
 
 class Network extends Component {
     render() {
@@ -10,23 +10,7 @@ class Network extends Component {
                 <Nav hasNotification={true} count={9} />
                 <Banner text="My Network" />
                 <div className="container my-3">
-                    <form className="form-inline ">
-                        <div className="col-md-6 mx-auto">
-                            <div className="input-group">
-                                <input
-                                    type="text"
-                                    className="form-control rounded-left"
-                                    placeholder="Search for friends"
-                                />
-                                <div className="input-group-prepend">
-                                    <button className="btn btn-success rounded-right">
-                                        <span className="fa fa-search text-white"></span>
-                                    </button>
-                                </div>
-                            </div>
-                            <SearchResultUI/>
-                        </div>
-                    </form>
+                    <SearchBar />
 
                     <div className="rounded-lg bg-primary text-white col-md-1  py-1 mx-auto text-center my-2 shadow-lg">
                         <h4 className="font-weight-bold">55</h4>
