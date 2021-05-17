@@ -4,17 +4,30 @@ import SearchResultUI from "./searchResultUI";
 class SearchBar extends Component {
     constructor(props) {
         super(props);
-        this.state = { searchText: "" };
+        this.state = { searchText: "", focused: false };
         this.handleSearchChange = this.handleSearchChange.bind(this);
+        this.unFocused = this.unFocused.bind(this);
+        this.focused = this.focused.bind(this);
     }
 
     handleSearchChange(e) {
         this.setState({ searchText: e.target.value });
     }
 
+    unFocused(e) {
+        this.setState({ focused: false });
+    }
+
+    focused(e) {
+        this.setState({ focused: true });
+    }
     render() {
         const searchUI =
-            this.state.searchText.trim() != "" ? <SearchResultUI /> : "";
+            this.state.searchText.trim() != "" && this.state.focused ? (
+                <SearchResultUI />
+            ) : (
+                ""
+            );
         return (
             <React.Fragment>
                 <form className="form-inline ">
@@ -25,6 +38,8 @@ class SearchBar extends Component {
                                 className="form-control rounded-left"
                                 placeholder="Search for friends"
                                 onChange={this.handleSearchChange}
+                                onBlur={this.unFocused}
+                                onFocus={this.focused}
                                 value={this.state.searchText}
                             />
                             <div className="input-group-prepend">
