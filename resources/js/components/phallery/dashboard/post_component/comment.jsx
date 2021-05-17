@@ -65,9 +65,9 @@ class Comment extends Component {
                             </p>
                             <div className="d-flex flex-column">
                                 <div className="col-md-6 p-2 rounded-15 chat-box my-1">
-                                    <p className="font-weight-bold">
+                                    <a className="font-weight-bold text-decoration-none text-primary" href="">
                                         Oluwatobi Akanji
-                                    </p>
+                                    </a>
                                     <p>gffj</p>
                                     <small className="float-right font-weight-light">
                                         24 June 2021
