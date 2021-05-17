@@ -8,19 +8,36 @@ class Notification extends Component {
         this.displayNotificationModal = this.displayNotificationModal.bind(
             this
         );
+        this.displayNotificationCallback = this.displayNotificationCallback.bind(
+            this
+        );
     }
 
     displayNotificationModal(e) {
         e.preventDefault();
-        this.setState({ showModal: true });
+        this.displayNotificationCallback(true);
+    }
+
+    displayNotificationCallback(value) {
+        this.setState({ showModal: value });
     }
 
     render() {
         const notificationModal = this.state.showModal ? (
-            <NotificationModal show={true} />
+            <NotificationModal
+                notificationCallback={this.displayNotificationCallback}
+                message="Test Donec
+                id elit non mi porta gravida at eget metus. Maecenas sed
+                diam eget risus varius blandit."
+            />
         ) : (
             ""
         );
+
+        const readClass = this.props.read
+            ? "fa fa-check text-success"
+            : "fa fa-check";
+
         return (
             <React.Fragment>
                 <a
@@ -31,8 +48,8 @@ class Notification extends Component {
                     <small className="float-right">3 days ago</small>
 
                     <p className="mb-1">
-                        <span className="fa fa-check"></span>&nbsp; Test Donec
-                        id elit non mi porta gravida at eget metus. Maecenas sed
+                        <span className={readClass}></span>&nbsp; Test Donec id
+                        elit non mi porta gravida at eget metus. Maecenas sed
                         diam eget risus varius blandit.
                     </p>
                 </a>

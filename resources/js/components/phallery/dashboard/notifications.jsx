@@ -19,43 +19,8 @@ class Notifications extends Component {
                     </div>
                     <div className="list-group">
                         <Notification />
-                        <a
-                            href="#"
-                            className="list-group-item list-group-item-action flex-column align-items-start"
-                        >
-                            <small className="float-right">3 days ago</small>
-
-                            <p className="mb-1">
-                                <span className="fa fa-check"></span>&nbsp;
-                                Donec id elit non mi porta gravida at eget
-                                metus. Maecenas sed diam eget risus varius
-                                blandit.
-                            </p>
-                        </a>
-                        <a
-                            href="#"
-                            className="list-group-item list-group-item-action flex-column align-items-start"
-                        >
-                            <small className="float-right">3 days ago</small>
-                            <p className="mb-1">
-                                <span className="fa fa-check"></span>&nbsp;
-                                Donec id elit non mi porta gravida at eget
-                                metus. Maecenas sed diam eget risus varius
-                                blandit.
-                            </p>
-                        </a>
-                        <a
-                            href="#"
-                            className="list-group-item list-group-item-action flex-column align-items-start"
-                        >
-                            <small className="float-right">3 days ago</small>
-                            <p className="mb-1">
-                                <span className="text-success fa fa-check"></span>
-                                &nbsp; Donec id elit non mi porta gravida at
-                                eget metus. Maecenas sed diam eget risus varius
-                                blandit.
-                            </p>
-                        </a>
+                        <Notification />
+                        <Notification read={true} />
                     </div>
                 </div>
             </React.Fragment>
