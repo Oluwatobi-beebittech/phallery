@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Banner from "./banner";
 import Nav from "./nav";
+import Notification from "./notification/notification";
+
 class Notifications extends Component {
     render() {
         return (
@@ -16,6 +18,7 @@ class Notifications extends Component {
                         </button>
                     </div>
                     <div className="list-group">
+                        <Notification />
                         <a
                             href="#"
                             className="list-group-item list-group-item-action flex-column align-items-start"
@@ -31,7 +34,7 @@ class Notifications extends Component {
                         </a>
                         <a
                             href="#"
-                            class="list-group-item list-group-item-action flex-column align-items-start"
+                            className="list-group-item list-group-item-action flex-column align-items-start"
                         >
                             <small className="float-right">3 days ago</small>
                             <p className="mb-1">
