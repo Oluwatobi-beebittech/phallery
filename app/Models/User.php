@@ -36,4 +36,11 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected $primaryKey = 'email';
     public $incrementing = false;
+
+    /**
+     * Get post associated with user
+     */
+    public function post(){
+        return $this->hasMany(Post::class, 'user_email');
+    }
 }
