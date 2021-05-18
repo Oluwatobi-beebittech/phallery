@@ -15,7 +15,6 @@ class Post extends Model
      * @var array
      */
     protected $fillable = [
-        'post_id',
         'user_email',
         'post_text',
         'post_image'
