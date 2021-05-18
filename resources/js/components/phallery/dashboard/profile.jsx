@@ -36,7 +36,7 @@ class Profile extends Component {
                             <div className="w-75 mx-auto">
                                 <ul class="list-group list-group-flush">
                                     <div className="form-group ">
-                                        <li class="list-group-item border-left-0 border-right-0">
+                                        <li className="list-group-item border-left-0 border-right-0">
                                             <div className="row">
                                                 <div className="col-sm-8 col-md-8">
                                                     <input
@@ -52,7 +52,7 @@ class Profile extends Component {
                                             </div>
                                         </li>
 
-                                        <li class="list-group-item border-left-0 border-right-0">
+                                        <li className="list-group-item border-left-0 border-right-0">
                                             <div className="row">
                                                 <div className="col-sm-8 col-md-8">
                                                     <input
@@ -68,7 +68,7 @@ class Profile extends Component {
                                             </div>
                                         </li>
 
-                                        <li class="list-group-item border-left-0 border-right-0">
+                                        <li className="list-group-item border-left-0 border-right-0">
                                             <div className="row">
                                                 <div className="col-sm-8 col-md-8">
                                                     <input

@@ -14,7 +14,8 @@ class FeedsController extends Controller
     public function index()
     {
         //
-        return response()->json(['status'=>'success', 'redirect'=>'/dashboard/feeds']);
+
+        return response()->json(['status'=>'success', 'redirect'=>'/dashboard/feeds', 'user' => auth('sanctum')->user()->id]);
     }
 
     /**
