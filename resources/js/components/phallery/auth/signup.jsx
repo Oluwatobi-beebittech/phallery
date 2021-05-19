@@ -47,10 +47,10 @@ class Signup extends Component {
             email: this.state.email,
             phone_number: this.state.phone
         };
-        axios.get("/sanctum/csrf-cookie").then(res => {
+        axios.get("/sanctum/csrf-cookie").then((res) => {
             axios
                 .post("api/register", input)
-                .then(res => {
+                .then((res) => {
                     console.log(res);
                     let success = { OK: "Success" };
                     this.setState({

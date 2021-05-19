@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 class Signin extends Component {
     constructor(props) {
@@ -23,10 +24,10 @@ class Signin extends Component {
     handleOnSubmit(e) {
         e.preventDefault();
         this.setState({ isLoading: true });
-        axios.get("/sanctum/csrf-cookie").then(res => {
+        axios.get("/sanctum/csrf-cookie").then((res) => {
             axios
                 .post("api/login", { email: this.state.data.email })
-                .then(res => {
+                .then((res) => {
                     console.log(res);
                     this.setState({
                         response: res.data,
