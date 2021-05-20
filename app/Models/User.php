@@ -34,11 +34,22 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * Set the primary key to email instead of default'id'
+     * @var String
+     */
     protected $primaryKey = 'email';
+
+    /**
+     * Deactivates primary key auto increment
+     * @var boolean
+     */
     public $incrementing = false;
 
     /**
-     * Get post associated with user
+     * Get posts created by user
+     * 
+     * @return \App\Post
      */
     public function post(){
         return $this->hasMany(Post::class, 'user_email');
