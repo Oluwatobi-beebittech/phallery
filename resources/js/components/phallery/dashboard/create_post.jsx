@@ -1,14 +1,26 @@
 import React, { Component } from "react";
 import Modal from "react-bootstrap/Modal";
+import axios from "axios";
+import Cookies from "universal-cookie";
 
 class CreatePost extends Component {
     constructor(props) {
         super(props);
-        this.state = { modalShow: false, postText: "", file: "" };
+
+        let sanctumTokenCookie = new Cookies();
+        let sanctumToken = sanctumTokenCookie.get("sanctum_token");
+        this.state = {
+            modalShow: false,
+            postText: "",
+            file: "",
+            authToken: sanctumToken
+        };
+
         this.displayModal = this.displayModal.bind(this);
         this.postTextChanged = this.postTextChanged.bind(this);
         this.onFileChanged = this.onFileChanged.bind(this);
         this.getFileType = this.getFileType.bind(this);
+        this.createPost = this.createPost.bind(this);
     }
 
     displayModal(value) {
@@ -24,8 +36,27 @@ class CreatePost extends Component {
     }
 
     getFileType() {
-        const [fileType, extension] = this.state.file.type.split("/");
+        const [fileType] = this.state.file.type.split("/");
         return fileType;
+    }
+
+    createPost() {
+        axios.defaults.headers.common = {
+            Authorization: "Bearer " + this.state.authToken
+        };
+        
+        let formData = new FormData();
+        formData.append(this.state.postText);
+        formData.append(this.state.file);
+
+        axios
+            .post("/api/post/create", formData)
+            .then(res => {
+                console.log(res);
+            })
+            .catch(error => {
+                console.log(error);
+            });
     }
 
     render() {
@@ -127,6 +158,7 @@ class CreatePost extends Component {
                                     type="submit"
                                     className="btn btn-success"
                                     disabled={btnDisabled}
+                                    onClick={this.createPost}
                                 >
                                     <span className="fa fa-plus-square"></span>
                                     &nbsp; Create
