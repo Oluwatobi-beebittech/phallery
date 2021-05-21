@@ -20,7 +20,7 @@ use App\Http\Controllers\FeedsController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::post('post/create', [PostController::class, 'store'])->middleware('auth:sanctum');;
+Route::post('post/create', [PostController::class, 'store'])->middleware('auth:sanctum');
 Route::post('register', [RegisterController::class, 'store']);
 Route::post('login', [URLLoginController::class, 'findAndSend']);
 Route::get('pass/{user}', [URLLoginController::class, 'signedLogin'])

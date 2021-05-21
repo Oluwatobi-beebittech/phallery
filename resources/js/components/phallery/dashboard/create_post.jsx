@@ -40,17 +40,18 @@ class CreatePost extends Component {
         return fileType;
     }
 
-    createPost() {
+    createPost(e) {
+        e.preventDefault();
         axios.defaults.headers.common = {
             Authorization: "Bearer " + this.state.authToken
         };
-        
-        let formData = new FormData();
-        formData.append(this.state.postText);
-        formData.append(this.state.file);
+
+        const formData = new FormData();
+        formData.append("post_text", this.state.postText);
+        formData.append("post_image", this.state.file);
 
         axios
-            .post("/api/post/create", formData)
+            .post("http://localhost:8000/api/post/create", formData)
             .then(res => {
                 console.log(res);
             })
@@ -110,7 +111,7 @@ class CreatePost extends Component {
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <form>
+                        <form onSubmit={this.createPost}>
                             <div className="form-row">
                                 <div className="form-group col-md-12">
                                     <label htmlFor="card-post">Post</label>
@@ -158,7 +159,6 @@ class CreatePost extends Component {
                                     type="submit"
                                     className="btn btn-success"
                                     disabled={btnDisabled}
-                                    onClick={this.createPost}
                                 >
                                     <span className="fa fa-plus-square"></span>
                                     &nbsp; Create
