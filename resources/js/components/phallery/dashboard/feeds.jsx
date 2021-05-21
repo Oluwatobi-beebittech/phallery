@@ -14,6 +14,7 @@ class Feeds extends Component {
                     <CreatePost />
 
                     <div className="row">
+                        
                         <PostContainer
                             imgUrl="../image/1a.jpg"
                             text="This is a wider card with supporting text below as a

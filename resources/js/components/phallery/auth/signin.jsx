@@ -11,6 +11,10 @@ class Signin extends Component {
         this.getErrors = this.getErrors.bind(this);
     }
 
+    /**
+     * Sets the email state when email input changes
+     * @param {Event} e 
+     */
     handleOnChange(e) {
         switch (e.target.name) {
             case "email":
@@ -20,7 +24,10 @@ class Signin extends Component {
                 break;
         }
     }
-
+    /**
+     * Handles form submission
+     * @param {Event} e 
+     */
     handleOnSubmit(e) {
         e.preventDefault();
         this.setState({ isLoading: true });
@@ -44,6 +51,9 @@ class Signin extends Component {
         });
     }
 
+    /**
+     * Gets the alert to be displayed 
+     */
     getAlert() {
         if (this.state.response.status === "Success") {
             return (
@@ -65,7 +75,9 @@ class Signin extends Component {
             </div>
         );
     }
-
+    /**
+     * Gets the error UI rendering for the email input field
+     */
     getErrors() {
         let returnValue = "form-control ";
         returnValue =

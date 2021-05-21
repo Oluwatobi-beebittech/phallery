@@ -19,6 +19,10 @@ class Signup extends Component {
         this.getErrorMessage = this.getErrorMessage.bind(this);
     }
 
+    /**
+     * Sets the input states when the value changes for each input field
+     * @param {Event} e 
+     */
     handleOnChange(e) {
         switch (e.target.name) {
             case "firstName":
@@ -38,6 +42,10 @@ class Signup extends Component {
         }
     }
 
+    /**
+     * Handles the sign up form submission
+     * @param {Event} e 
+     */
     handleSubmit(e) {
         e.preventDefault();
         this.setState({ isLoading: true });
@@ -67,6 +75,9 @@ class Signup extends Component {
         });
     }
 
+    /**
+     * Gets the alert message to be displayed
+     */
     getAlert() {
         if (this.state.message.OK === "Success") {
             return (
@@ -96,6 +107,10 @@ class Signup extends Component {
         );
     }
 
+    /**
+     * Gets the error UI rendering for each input field
+     * @param {string} field 
+     */
     getErrors(field) {
         let returnValue = "form-control ";
 
@@ -134,6 +149,10 @@ class Signup extends Component {
         return returnValue;
     }
 
+    /**
+     * Gets the first error message for each input field
+     * @param {string} field 
+     */
     getErrorMessage(field) {
         return typeof this.state.message[field] !== "undefined" ? (
             <small className="invalid-feedback" role="alert">

@@ -2,6 +2,12 @@ import React, { Component } from "react";
 import Post from "./post";
 
 class PostContainer extends Component {
+    /* Container for posts
+        @props 
+            imgUrl: URL of the image in the post
+            text: Writeup of the post
+            likes,hearts, comments: number of likes, hearts, and comments the post has 
+    */
     constructor(props) {
         super(props);
     }
