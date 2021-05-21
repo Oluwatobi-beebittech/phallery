@@ -28,6 +28,9 @@ class CreatePost extends Component {
 
     displayModal(value) {
         this.setState({ modalShow: value });
+        if (!value) {
+            this.setState({ message: "" });
+        }
     }
 
     postTextChanged(e) {
@@ -59,6 +62,8 @@ class CreatePost extends Component {
             .then(res => {
                 if (res.data.status === "success") {
                     this.setState({
+                        file: "",
+                        postText: "",
                         message: res.data.message,
                         isSuccess: true,
                         loading: false
@@ -108,7 +113,7 @@ class CreatePost extends Component {
             ) : (
                 ""
             );
-            
+
         const imgError = (
             <p className="text-danger font-weight-bold">
                 You have to upload an image &nbsp;
