@@ -15,7 +15,8 @@ class CreatePost extends Component {
             file: "",
             authToken: sanctumToken,
             message: "",
-            isSuccess: false
+            isSuccess: false,
+            loading: false
         };
 
         this.displayModal = this.displayModal.bind(this);
@@ -44,6 +45,7 @@ class CreatePost extends Component {
 
     createPost(e) {
         e.preventDefault();
+        this.setState({ loading: true });
         axios.defaults.headers.common = {
             Authorization: "Bearer " + this.state.authToken
         };
@@ -58,28 +60,46 @@ class CreatePost extends Component {
                 if (res.data.status === "success") {
                     this.setState({
                         message: res.data.message,
-                        isSuccess: true
+                        isSuccess: true,
+                        loading: false
                     });
                 } else {
                     this.setState({
                         message: res.data.message,
-                        isSuccess: false
+                        isSuccess: false,
+                        loading: false
                     });
                 }
             })
             .catch(error => {
-                // this.setState({ message: error });
-                console.log("error");
-                console.log(error);
+                this.setState({
+                    message: error.message,
+                    isSuccess: false,
+                    loading: false
+                });
             });
     }
 
     render() {
+        const { icon, btnText, btnClass } = !this.state.loading
+            ? {
+                  icon: "fa fa-plus-square",
+                  btnText: "Create",
+                  btnClass: "btn btn-success"
+              }
+            : {
+                  icon: "fa fa-spinner fa-pulse",
+                  btnText: "Creating",
+                  btnClass: "btn btn-dark"
+              };
+
         const alertType = this.state.isSuccess
             ? "alert-success"
             : "alert-danger";
+
         const alertClass =
             "alert " + alertType + " alert-dismissible fade show";
+
         const bannerAlert =
             this.state.message != "" ? (
                 <div className={alertClass} role="alert">
@@ -88,6 +108,7 @@ class CreatePost extends Component {
             ) : (
                 ""
             );
+            
         const imgError = (
             <p className="text-danger font-weight-bold">
                 You have to upload an image &nbsp;
@@ -110,9 +131,9 @@ class CreatePost extends Component {
                 : imgError
             : " ";
 
-        const btnDisabled = !(
-            imageValidity && this.state.postText.trim() != ""
-        );
+        const btnDisabled = !this.state.loading
+            ? !(imageValidity && this.state.postText.trim() != "")
+            : this.state.loading;
 
         return (
             <React.Fragment>
@@ -185,11 +206,11 @@ class CreatePost extends Component {
                             <div className="col-md-12 mx-auto text-center">
                                 <button
                                     type="submit"
-                                    className="btn btn-success"
+                                    className={btnClass}
                                     disabled={btnDisabled}
                                 >
-                                    <span className="fa fa-plus-square"></span>
-                                    &nbsp; Create
+                                    <span className={icon}></span>
+                                    &nbsp; {btnText}
                                 </button>
                             </div>
                         </form>

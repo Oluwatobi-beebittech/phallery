@@ -78,7 +78,7 @@ class Signin extends Component {
     render() {
         const disabled = this.state.isLoading;
         const { icon, loadText, btnProp } =
-            this.state.isLoading === true
+            this.state.isLoading
                 ? {
                       icon: "fa fa-spinner fa-pulse",
                       loadText: "Working on it",
