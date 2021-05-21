@@ -13,7 +13,9 @@ class CreatePost extends Component {
             modalShow: false,
             postText: "",
             file: "",
-            authToken: sanctumToken
+            authToken: sanctumToken,
+            message: "",
+            isSuccess: false
         };
 
         this.displayModal = this.displayModal.bind(this);
@@ -53,14 +55,39 @@ class CreatePost extends Component {
         axios
             .post("http://localhost:8000/api/post/create", formData)
             .then(res => {
-                console.log(res);
+                if (res.data.status === "success") {
+                    this.setState({
+                        message: res.data.message,
+                        isSuccess: true
+                    });
+                } else {
+                    this.setState({
+                        message: res.data.message,
+                        isSuccess: false
+                    });
+                }
             })
             .catch(error => {
+                // this.setState({ message: error });
+                console.log("error");
                 console.log(error);
             });
     }
 
     render() {
+        const alertType = this.state.isSuccess
+            ? "alert-success"
+            : "alert-danger";
+        const alertClass =
+            "alert " + alertType + " alert-dismissible fade show";
+        const bannerAlert =
+            this.state.message != "" ? (
+                <div className={alertClass} role="alert">
+                    <strong>{this.state.message}</strong>
+                </div>
+            ) : (
+                ""
+            );
         const imgError = (
             <p className="text-danger font-weight-bold">
                 You have to upload an image &nbsp;
@@ -111,6 +138,7 @@ class CreatePost extends Component {
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
+                        {bannerAlert}
                         <form onSubmit={this.createPost}>
                             <div className="form-row">
                                 <div className="form-group col-md-12">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Models\Post;
 
 class PostController extends Controller
@@ -17,10 +18,14 @@ class PostController extends Controller
     {
         //
         
-        $validatedData = $request->validate([
+        $validatedData = Validator::make($request->all(),[
             'post_text' => 'required|max:100|string',
             'post_image' => 'required|image'
         ]);
+
+        if($validatedData->fails()){
+            return response()->json(["message"=>"Failed to create post", "errors"=>$validatedData->errors(), "status"=>"failed"]);
+        }
         
         $post = new Post;
         
@@ -30,7 +35,7 @@ class PostController extends Controller
 
         $post->save();
 
-        return $post;
+        return response()->json(["message"=>"Post created successfully", "status"=> "success"]);
     }
 
     /**
