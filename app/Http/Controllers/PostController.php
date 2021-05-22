@@ -8,6 +8,12 @@ use App\Models\Post;
 
 class PostController extends Controller
 {
+    public function getMyPosts(Request $request){
+
+        $userEmail =  $request->user()->email;
+        $posts = Post::where('user_email', $userEmail)->get();
+        return $posts;
+    }
     /**
      * Store a newly created resource in storage.
      *

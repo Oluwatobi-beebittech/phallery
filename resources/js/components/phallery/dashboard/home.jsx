@@ -6,6 +6,7 @@ import PostContainer from "./post_component/postContainer";
 import SearchBar from "./search_component/searchBar";
 
 class Home extends Component {
+
     render() {
         return (
             <React.Fragment>

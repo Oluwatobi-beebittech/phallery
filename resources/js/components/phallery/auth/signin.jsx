@@ -9,7 +9,9 @@ class Signin extends Component {
         this.handleOnSubmit = this.handleOnSubmit.bind(this);
         this.getAlert = this.getAlert.bind(this);
         this.getErrors = this.getErrors.bind(this);
+
     }
+
 
     /**
      * Sets the email state when email input changes
