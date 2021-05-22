@@ -18,9 +18,9 @@ function Feeds() {
         axios
             .get("http://localhost:8000/api/post/myposts")
             .then(res => {
-                console.log(res);
+                
                 setMyPosts(res.data);
-                console.log(myPosts);
+                
             })
             .catch(error => {
                 console.log(error);
@@ -50,9 +50,7 @@ function Feeds() {
                     ))}
                     <PostContainer
                         imgUrl="../image/1a.jpg"
-                        text="This is a wider card with supporting text below as a
-                        natural lead-in to additional content. This content is a
-                        little bit longer."
+                        text="dsfrrgr."
                         likes={0}
                         hearts={0}
                         comments={0}

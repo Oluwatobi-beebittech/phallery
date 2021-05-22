@@ -15,7 +15,7 @@ class Post extends Component {
                     src={this.props.imgUrl}
                     alt="Card image cap"
                 />
-                <div className="card-body mx-auto bg-white rounded-bottom shadow">
+                <div className="card-body mx-auto bg-white rounded-bottom shadow w-100">
                     <p className="card-text">{this.props.text}</p>
                     <div className="card-text d-flex justify-content-around">
                         <Heart count={this.props.hearts} />
