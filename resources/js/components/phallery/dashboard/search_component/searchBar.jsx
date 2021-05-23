@@ -24,7 +24,7 @@ class SearchBar extends Component {
     render() {
         const searchUI =
             this.state.searchText.trim() != "" && this.state.focused ? (
-                <SearchResultUI />
+                <SearchResultUI text={this.state.searchText}/>
             ) : (
                 ""
             );
