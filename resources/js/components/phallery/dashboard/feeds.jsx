@@ -10,7 +10,7 @@ function Feeds() {
     const sanctumTokenCookie = new Cookies();
     const sanctumToken = sanctumTokenCookie.get("sanctum_token");
     const [myPosts, setMyPosts] = useState([]);
-    
+
     useEffect(() => {
         axios.defaults.headers.common = {
             Authorization: "Bearer " + sanctumToken
@@ -18,9 +18,7 @@ function Feeds() {
         axios
             .get("http://localhost:8000/api/post/myposts")
             .then(res => {
-                
                 setMyPosts(res.data);
-                
             })
             .catch(error => {
                 console.log(error);
@@ -38,9 +36,7 @@ function Feeds() {
                     {myPosts.map(item => (
                         <PostContainer
                             key={item.post_id}
-                            imgUrl={
-                                "http://localhost:8000/"+item.post_image
-                            }
+                            imgUrl={"http://localhost:8000/" + item.post_image}
                             text={item.post_text}
                             likes={item.likes}
                             hearts={item.hearts}
@@ -48,58 +44,6 @@ function Feeds() {
                             postId={item.post_id}
                         />
                     ))}
-                    <PostContainer
-                        imgUrl="../image/1a.jpg"
-                        text="dsfrrgr."
-                        likes={0}
-                        hearts={0}
-                        comments={0}
-                    />
-                    <PostContainer
-                        imgUrl="../image/1a.jpg"
-                        text="This is a wider card with supporting text below as a
-                        natural lead-in to additional content. This content is a
-                        little bit longer."
-                        likes={0}
-                        hearts={0}
-                        comments={0}
-                    />
-                    <PostContainer
-                        imgUrl="../image/1a.jpg"
-                        text="This is a wider card with supporting text below as a
-                        natural lead-in to additional content. This content is a
-                        little bit longer."
-                        likes={0}
-                        hearts={0}
-                        comments={0}
-                    />
-                    <PostContainer
-                        imgUrl="../image/1a.jpg"
-                        text="This is a wider card with supporting text below as a
-                        natural lead-in to additional content. This content is a
-                        little bit longer."
-                        likes={0}
-                        hearts={0}
-                        comments={0}
-                    />
-                    <PostContainer
-                        imgUrl="../image/1a.jpg"
-                        text="This is a wider card with supporting text below as a
-                        natural lead-in to additional content. This content is a
-                        little bit longer."
-                        likes={0}
-                        hearts={0}
-                        comments={0}
-                    />
-                    <PostContainer
-                        imgUrl="../image/1a.jpg"
-                        text="This is a wider card with supporting text below as a
-                        natural lead-in to additional content. This content is a
-                        little bit longer."
-                        likes={0}
-                        hearts={0}
-                        comments={0}
-                    />
                 </div>
             </div>
         </React.Fragment>
