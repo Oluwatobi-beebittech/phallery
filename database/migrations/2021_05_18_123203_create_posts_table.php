@@ -16,7 +16,7 @@ class CreatePostsTable extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->uuid('post_id')->primary();
             $table->string('user_email');
-            $table->string('post_text', 100);
+            $table->string('post_text', 300);
             $table->text('post_image');
             $table->integer('likes')->default(0);
             $table->integer('hearts')->default(0);

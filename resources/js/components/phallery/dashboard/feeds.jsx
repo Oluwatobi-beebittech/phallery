@@ -10,6 +10,9 @@ function Feeds() {
     const sanctumTokenCookie = new Cookies();
     const sanctumToken = sanctumTokenCookie.get("sanctum_token");
     const [myPosts, setMyPosts] = useState([]);
+    const [isPostAvailabilityChecked, setIsPostAvailabilityChecked] = useState(
+        false
+    );
 
     useEffect(() => {
         axios.defaults.headers.common = {
@@ -18,10 +21,12 @@ function Feeds() {
         axios
             .get("http://localhost:8000/api/post/myposts")
             .then(res => {
+                setIsPostAvailabilityChecked(true);
                 setMyPosts(res.data);
             })
             .catch(error => {
                 console.log(error);
+                setIsPostAvailabilityChecked(true);
             });
     });
 
@@ -33,17 +38,31 @@ function Feeds() {
                 <CreatePost />
 
                 <div className="row">
-                    {myPosts.map(item => (
-                        <PostContainer
-                            key={item.post_id}
-                            imgUrl={"http://localhost:8000/" + item.post_image}
-                            text={item.post_text}
-                            likes={item.likes}
-                            hearts={item.hearts}
-                            comments={item.comments}
-                            postId={item.post_id}
-                        />
-                    ))}
+                    {myPosts.length > 0 ? (
+                        myPosts.map(item => (
+                            <PostContainer
+                                key={item.post_id}
+                                imgUrl={
+                                    "http://localhost:8000/" + item.post_image
+                                }
+                                text={item.post_text}
+                                likes={item.likes}
+                                hearts={item.hearts}
+                                comments={item.comments}
+                                postId={item.post_id}
+                            />
+                        ))
+                    ) : isPostAvailabilityChecked ? (
+                        <p className="offset-md-4 font-weight-bold text-center text-muted">
+                            <span className="fab fa-searchengin fa-2x"></span>{" "}
+                            Seems like you have no posts yet. Try creating one
+                        </p>
+                    ) : (
+                        <div className="d-block font-weight-bold offset-md-6">
+                            <span className="fa fa-spinner fa-pulse fa-3x text-center "></span>
+                            <p className="text-center ">Loading</p>
+                        </div>
+                    )}
                 </div>
             </div>
         </React.Fragment>
