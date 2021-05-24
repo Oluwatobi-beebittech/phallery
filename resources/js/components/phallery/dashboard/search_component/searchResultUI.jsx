@@ -14,10 +14,11 @@ function SearchResultUI(props) {
         axios
             .get("http://localhost:8000/api/search/" + props.text)
             .then(res => {
-                const result =
+                let result =
                     res.data.length > 0
                         ? res.data
                         : [{ image: "", name: "No result found" }];
+                console.log(result);
                 setSearchResult(result);
             })
             .catch(() => {
@@ -28,33 +29,28 @@ function SearchResultUI(props) {
         <div className="container">
             <div className="search-result">
                 <div className="list-group font-weight-bold">
-                    <a
-                        href="#"
-                        className="list-group-item list-group-item-action d-flex flex-row align-items-center border-left-0 border-right-0"
-                    >
-                        <div className="img-circle-wrapper">
-                            <img src="../image/1a.jpg" className="img-circle" />
-                        </div>
-                        <p className="mb-1">&nbsp; Alpha Juanita</p>
-                    </a>
-                    <a
-                        href="#"
-                        className="list-group-item list-group-item-action d-flex flex-row align-items-center border-left-0 border-right-0"
-                    >
-                        <div className="img-circle-wrapper">
-                            <img src="../image/1a.jpg" className="img-circle" />
-                        </div>
-                        <p className="mb-1">&nbsp; Alpha Juanita</p>
-                    </a>
-                    <a
-                        href="#"
-                        className="list-group-item list-group-item-action d-flex flex-row align-items-center border-left-0 border-right-0"
-                    >
-                        <div className="img-circle-wrapper">
-                            <img src="../image/1a.jpg" className="img-circle" />
-                        </div>
-                        <p className="mb-1">&nbsp; Alpha Juanita</p>
-                    </a>
+                    ye
+                    {searchResult.map(item => {
+                        <a
+                            key={item.email}
+                            href="#"
+                            className="list-group-item list-group-item-action d-flex flex-row align-items-center border-left-0 border-right-0"
+                        >
+                            <div className="img-circle-wrapper">
+                                <img
+                                    src={
+                                        "http://localhost:8000/" +
+                                        item.profile_image
+                                    }
+                                    className="img-circle"
+                                />
+                            </div>
+                            <p className="mb-1">
+                                &nbsp; {item.first_name + " " + item.last_name}
+                            </p>
+                        </a>;
+                    })}
+                    
                 </div>
             </div>
         </div>

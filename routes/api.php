@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\URLLoginController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\FeedsController;
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::middleware(['auth:sanctum'])->group(function(){
+    Route::get('search/{text}', [SearchController::class, 'search']);
     Route::get('post/myposts',[PostController::class, 'getMyPosts']);
     Route::post('post/create', [PostController::class, 'store']);
     Route::get('dashboard', [FeedsController::class, 'index']);
