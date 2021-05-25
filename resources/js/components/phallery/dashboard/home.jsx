@@ -12,7 +12,7 @@ function Home(props) {
             <Nav hasNotification={true} count={9} />
             <Banner text="Feeds" />
             <div className="container my-3">
-                <CreatePost />
+                <CreatePost caller="home"/>
                 <SearchBar />
 
                 <div className="row">

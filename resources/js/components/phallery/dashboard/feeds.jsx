@@ -35,7 +35,7 @@ function Feeds() {
             <Nav hasNotification={true} count={9} />
             <Banner text="My Posts" />
             <div className="container">
-                <CreatePost />
+                <CreatePost caller="feeds"/>
 
                 <div className="row">
                     {myPosts.length > 0 ? (

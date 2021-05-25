@@ -154,11 +154,11 @@ class CreatePost extends Component {
                     size="lg"
                     show={this.state.modalShow}
                     onHide={() => this.displayModal(false)}
-                    aria-labelledby="create-post"
+                    aria-labelledby={"create-post-"+this.props.caller}
                     centered
                 >
                     <Modal.Header closeButton className="bg-dark text-white">
-                        <Modal.Title id="create-post">
+                        <Modal.Title id={"create-post-"+this.props.caller}>
                             <span className="fa fa-edit"></span>&nbsp;Create a
                             post
                         </Modal.Title>
@@ -168,20 +168,20 @@ class CreatePost extends Component {
                         <form onSubmit={this.createPost}>
                             <div className="form-row">
                                 <div className="form-group col-md-12">
-                                    <label htmlFor="card-post">Post</label>
+                                    <label htmlFor={"card-post-"+this.props.caller}>Post</label>
                                     <textarea
                                         type="text"
                                         className="form-control"
                                         rows="3"
-                                        id="card-post"
+                                        id={"card-post-"+this.props.caller}
                                         onChange={this.postTextChanged}
                                         value={this.state.postText}
                                         placeholder="Write the post"
                                         maxLength={300}
-                                        aria-describedby="cardPostHelpText"
+                                        aria-describedby={"cardPostHelpText-"+this.props.caller}
                                     />
                                     <small
-                                        id="cardPostHelpText"
+                                        id={"cardPostHelpText-"+this.props.caller}
                                         className="form-text text-muted float-right"
                                     >
                                         {this.state.postText.length}/300
@@ -191,7 +191,7 @@ class CreatePost extends Component {
                             <div className="form-row">
                                 <div className="form-group col-md-12">
                                     <label
-                                        htmlFor="card-upload"
+                                        htmlFor={"card-upload-"+this.props.caller}
                                         className="btn btn-primary"
                                     >
                                         <span className="fa fa-upload"></span>
@@ -201,7 +201,7 @@ class CreatePost extends Component {
                                     <input
                                         type="file"
                                         className="form-control"
-                                        id="card-upload"
+                                        id={"card-upload-"+this.props.caller}
                                         onChange={this.onFileChanged}
                                         hidden
                                     />

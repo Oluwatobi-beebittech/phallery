@@ -49,11 +49,11 @@ class Comment extends Component {
                     size="md"
                     show={this.state.commentBoxDisplay}
                     onHide={() => this.displayCommentBox(false)}
-                    aria-labelledby="create-comment"
+                    aria-labelledby={"create-comment-"+this.props.caller}
                     centered
                 >
                     <Modal.Header closeButton className="bg-dark text-white">
-                        <Modal.Title id="create-comment">
+                        <Modal.Title id={"create-comment-"+this.props.caller}>
                             <span className="fa fa-comment-dots"></span>
                             &nbsp;Comments
                         </Modal.Title>
@@ -110,15 +110,15 @@ class Comment extends Component {
                                         type="text"
                                         className="form-control"
                                         rows="3"
-                                        id="card-post"
+                                        id={"card-comment-"+this.props.caller}
                                         onChange={this.commentTextChanged}
                                         value={this.state.commentText}
                                         placeholder="Your comment"
                                         maxLength={100}
-                                        aria-describedby="cardCommentHelpText"
+                                        aria-describedby={"cardCommentHelpText-"+this.props.caller}
                                     />
                                     <small
-                                        id="cardCommentHelpText"
+                                        id={"cardCommentHelpText-"+this.props.caller}
                                         className="form-text text-muted float-right"
                                     >
                                         {this.state.commentText.length}/100

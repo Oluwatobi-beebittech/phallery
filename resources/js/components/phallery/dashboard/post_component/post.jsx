@@ -20,7 +20,7 @@ class Post extends Component {
                     <div className="card-text d-flex justify-content-around">
                         <Heart count={this.props.hearts} />
                         <Like count={this.props.likes} />
-                        <Comment count={this.props.comments} />
+                        <Comment count={this.props.comments} caller={this.props.imgUrl} />
                     </div>
                 </div>
             </div>
