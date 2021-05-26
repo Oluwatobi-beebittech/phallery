@@ -14,17 +14,17 @@ class SearchBar extends Component {
         this.setState({ searchText: e.target.value });
     }
 
-    unFocused(e) {
+    unFocused() {
         this.setState({ focused: false });
     }
 
-    focused(e) {
+    focused() {
         this.setState({ focused: true });
     }
     render() {
         const searchUI =
             this.state.searchText.trim() != "" && this.state.focused ? (
-                <SearchResultUI text={this.state.searchText}/>
+                <SearchResultUI text={this.state.searchText} />
             ) : (
                 ""
             );
