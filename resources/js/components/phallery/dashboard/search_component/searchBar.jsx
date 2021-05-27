@@ -4,10 +4,16 @@ import SearchResultUI from "./searchResultUI";
 class SearchBar extends Component {
     constructor(props) {
         super(props);
-        this.state = { searchText: "", focused: false };
+        this.state = {
+            searchText: "",
+            focused: false,
+            searchResultFocus: false
+        };
         this.handleSearchChange = this.handleSearchChange.bind(this);
         this.unFocused = this.unFocused.bind(this);
         this.focused = this.focused.bind(this);
+        this.searchResultFocused = this.searchResultFocused.bind(this);
+        
     }
 
     handleSearchChange(e) {
@@ -21,10 +27,18 @@ class SearchBar extends Component {
     focused() {
         this.setState({ focused: true });
     }
+    searchResultFocused(value) {
+        this.setState({ searchResultFocus: value });
+    }
+
     render() {
+        const focus = this.state.focused || this.state.searchResultFocus;
         const searchUI =
-            this.state.searchText.trim() != "" && this.state.focused ? (
-                <SearchResultUI text={this.state.searchText} />
+            this.state.searchText.trim() != "" && focus ? (
+                <SearchResultUI
+                    text={this.state.searchText}
+                    searchResultFocused={this.searchResultFocused}
+                />
             ) : (
                 ""
             );

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { createBrowserHistory } from "history";
 import axios from "axios";
 import Cookies from "universal-cookie";
 
@@ -17,6 +18,11 @@ class SearchResultUI extends Component {
         this.cancelToken = axios.CancelToken;
         this.source = this.cancelToken.source();
         this.configAxios = { cancelToken: this.source.token };
+
+        this.history = createBrowserHistory();
+        this.viewSearchResult = this.viewSearchResult.bind(this);
+        this.getUnknownState = this.getUnknownState.bind(this);
+        this.setSearchResultFocus = this.setSearchResultFocus.bind(this);
     }
     getUnknownState() {
         return {
@@ -80,6 +86,12 @@ class SearchResultUI extends Component {
         this.source.cancel("Search Result Unmounted");
     }
 
+    viewSearchResult(e) {
+        e.preventDefault();
+    }
+    setSearchResultFocus(value) {
+        this.props.searchResultFocused(value);
+    }
     render() {
         return (
             <div className="container">
@@ -89,7 +101,14 @@ class SearchResultUI extends Component {
                             this.state.searchResult.map(item => (
                                 <a
                                     key={item.email}
-                                    href="#"
+                                    href=""
+                                    onClick={this.viewSearchResult}
+                                    onMouseOver={() =>
+                                        this.setSearchResultFocus(true)
+                                    }
+                                    onMouseLeave={() =>
+                                        this.setSearchResultFocus(false)
+                                    }
                                     className="list-group-item list-group-item-action d-flex flex-row align-items-center border-left-0 border-right-0"
                                 >
                                     <div className="img-circle-wrapper">
