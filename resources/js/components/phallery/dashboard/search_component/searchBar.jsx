@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import SearchResultUI from "./searchResultUI";
 
+
 class SearchBar extends Component {
     constructor(props) {
         super(props);
@@ -24,7 +25,9 @@ class SearchBar extends Component {
     render() {
         const searchUI =
             this.state.searchText.trim() != "" && this.state.focused ? (
-                <SearchResultUI text={this.state.searchText} />
+                
+                    <SearchResultUI text={this.state.searchText} />
+                
             ) : (
                 ""
             );
