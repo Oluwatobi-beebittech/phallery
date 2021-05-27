@@ -1,6 +1,20 @@
 import React, { Component } from "react";
 import SearchResultUI from "./searchResultUI";
 
+/**
+ * Search Bar Component displays search bar
+ * @state
+ *      @String searchText
+ *      @boolean focused - to track input search focus
+ *      @boolean searchResultFocus - to track mouse focus on search result
+ * @props
+ * 
+ * @methods
+ *      handleSearchChange
+ *      focused
+ *      searchResultFocused
+ */
+
 class SearchBar extends Component {
     constructor(props) {
         super(props);
@@ -10,23 +24,31 @@ class SearchBar extends Component {
             searchResultFocus: false
         };
         this.handleSearchChange = this.handleSearchChange.bind(this);
-        this.unFocused = this.unFocused.bind(this);
         this.focused = this.focused.bind(this);
         this.searchResultFocused = this.searchResultFocused.bind(this);
         
     }
 
+    /**
+     * Handles the change of search text
+     * @param {Event} e 
+     */
     handleSearchChange(e) {
         this.setState({ searchText: e.target.value });
     }
 
-    unFocused() {
-        this.setState({ focused: false });
+    /**
+     * Sets the focus of the search input field in this.state
+     * @param {Boolean} value
+     */
+    focused(value) {
+        this.setState({ focused: value });
     }
 
-    focused() {
-        this.setState({ focused: true });
-    }
+    /**
+     * Sets the focus of the search results in this.state
+     * @param {Boolean} value 
+     */
     searchResultFocused(value) {
         this.setState({ searchResultFocus: value });
     }
@@ -57,8 +79,8 @@ class SearchBar extends Component {
                                 className="form-control rounded-left"
                                 placeholder="Search for friends"
                                 onChange={this.handleSearchChange}
-                                onBlur={this.unFocused}
-                                onFocus={this.focused}
+                                onBlur={()=>this.focused(false)}
+                                onFocus={()=>this.focused(true)}
                                 value={this.state.searchText}
                             />
                         </div>

@@ -3,6 +3,25 @@ import { createBrowserHistory } from "history";
 import axios from "axios";
 import Cookies from "universal-cookie";
 
+/**
+ * Search Result UI Component displays search results from backend
+ * @state
+ *      @array searchResult
+ *
+ * @props
+ *      @string text - Search Text from SearchBar component
+ *      @callback searchResultFocused - callback reference from SearchBar 
+ *                                     Component to set the focus of search results
+ * @methods
+ *      viewSearchResult
+ *      getUnknownState
+ *      setSearchResultFocus
+ *      @lifecycle
+ *      componentDidMount
+ *      componentDidUpdate
+ *      componentWillUnmount
+ */
+
 class SearchResultUI extends Component {
     constructor(props) {
         super(props);
@@ -24,14 +43,10 @@ class SearchResultUI extends Component {
         this.getUnknownState = this.getUnknownState.bind(this);
         this.setSearchResultFocus = this.setSearchResultFocus.bind(this);
     }
-    getUnknownState() {
-        return {
-            email: "unknown@xyz.com",
-            profile_image: "profile/eTTydgxzlOOusgqWEtSgejskl.jpg",
-            first_name: "No result found",
-            last_name: ""
-        };
-    }
+    
+    /**
+     * Gets search result on component mounted
+     */
     componentDidMount() {
         axios
             .get(
@@ -54,6 +69,12 @@ class SearchResultUI extends Component {
                 }
             });
     }
+
+    /**
+     * Gets new search results on props text change
+     * @param {*} prevProps 
+     * @param {*} prevState 
+     */
 
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.text !== this.props.text) {
@@ -82,13 +103,38 @@ class SearchResultUI extends Component {
         }
     }
 
+    /**
+     * Cancels all axios calls on when search result is unmounted 
+     * (when search result and search bar input lose focus)
+     */
     componentWillUnmount() {
         this.source.cancel("Search Result Unmounted");
     }
 
+    /**
+     * @return Object - Object representing dummy values of unknown user
+     */
+    getUnknownState() {
+        return {
+            email: "unknown@xyz.com",
+            profile_image: "profile/eTTydgxzlOOusgqWEtSgejskl.jpg",
+            first_name: "No result found",
+            last_name: ""
+        };
+    }
+
+    /**
+     * View the profile of a user in the result on click
+     * @param {Event} e 
+     */
     viewSearchResult(e) {
         e.preventDefault();
     }
+
+    /**
+     * Calls props callback to set focus value of search result
+     * @param {Boolean} value 
+     */
     setSearchResultFocus(value) {
         this.props.searchResultFocused(value);
     }
