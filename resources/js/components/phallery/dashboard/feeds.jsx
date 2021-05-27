@@ -33,6 +33,7 @@ function Feeds() {
                     console.log("Feeds component unmounted");
                 } else {
                     setIsPostAvailabilityChecked(true);
+                    console.log(true);
                 }
             });
 

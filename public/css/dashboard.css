@@ -60,6 +60,15 @@ body {
     border-radius: 50%;
 }
 
+.img-circle-wrapper-profile {
+    display: inline-block;
+    position: relative;
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
 .img-circle {
     width: auto;
     height: 100%;

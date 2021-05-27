@@ -6,7 +6,7 @@ import Feeds from "./phallery/dashboard/feeds";
 import Profile from "./phallery/dashboard/profile";
 import Network from "./phallery/dashboard/network";
 import Notifications from "./phallery/dashboard/notifications";
-import Index from "./index";
+import ViewProfile from "./phallery/dashboard/search_component/viewProfile";
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 
 function Dashboard() {
@@ -14,6 +14,11 @@ function Dashboard() {
         <React.Fragment>
             <Router>
                 <Switch>
+                    <Route
+                        exact
+                        path="/dashboard/search"
+                        component={ViewProfile}
+                    />
                     <Route
                         exact
                         path="/dashboard/notifications"

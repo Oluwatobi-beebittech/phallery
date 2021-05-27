@@ -129,7 +129,7 @@ class SearchResultUI extends Component {
      * @param {Event} e
      */
     viewSearchResult(userObject) {
-        this.history.push("search/", userObject);
+        this.history.push("/dashboard/search");
     }
 
     /**
