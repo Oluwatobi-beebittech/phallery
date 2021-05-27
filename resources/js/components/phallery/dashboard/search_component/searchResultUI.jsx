@@ -10,7 +10,7 @@ import Cookies from "universal-cookie";
  *
  * @props
  *      @string text - Search Text from SearchBar component
- *      @callback searchResultFocused - callback reference from SearchBar 
+ *      @callback searchResultFocused - callback reference from SearchBar
  *                                     Component to set the focus of search results
  * @methods
  *      viewSearchResult
@@ -39,11 +39,12 @@ class SearchResultUI extends Component {
         this.configAxios = { cancelToken: this.source.token };
 
         this.history = createBrowserHistory();
+
         this.viewSearchResult = this.viewSearchResult.bind(this);
         this.getUnknownState = this.getUnknownState.bind(this);
         this.setSearchResultFocus = this.setSearchResultFocus.bind(this);
     }
-    
+
     /**
      * Gets search result on component mounted
      */
@@ -72,8 +73,8 @@ class SearchResultUI extends Component {
 
     /**
      * Gets new search results on props text change
-     * @param {*} prevProps 
-     * @param {*} prevState 
+     * @param {*} prevProps
+     * @param {*} prevState
      */
 
     componentDidUpdate(prevProps, prevState) {
@@ -104,7 +105,7 @@ class SearchResultUI extends Component {
     }
 
     /**
-     * Cancels all axios calls on when search result is unmounted 
+     * Cancels all axios calls on when search result is unmounted
      * (when search result and search bar input lose focus)
      */
     componentWillUnmount() {
@@ -125,15 +126,15 @@ class SearchResultUI extends Component {
 
     /**
      * View the profile of a user in the result on click
-     * @param {Event} e 
+     * @param {Event} e
      */
-    viewSearchResult(e) {
-        e.preventDefault();
+    viewSearchResult(userObject) {
+        this.history.push("search/", userObject);
     }
 
     /**
      * Calls props callback to set focus value of search result
-     * @param {Boolean} value 
+     * @param {Boolean} value
      */
     setSearchResultFocus(value) {
         this.props.searchResultFocused(value);
@@ -148,7 +149,15 @@ class SearchResultUI extends Component {
                                 <a
                                     key={item.email}
                                     href=""
-                                    onClick={this.viewSearchResult}
+                                    onClick={e => {
+                                        e.preventDefault();
+                                        this.viewSearchResult({
+                                            email: item.email,
+                                            first_name: item.first_name,
+                                            last_name: item.last_name,
+                                            profile_image: item.profile_image
+                                        });
+                                    }}
                                     onMouseOver={() =>
                                         this.setSearchResultFocus(true)
                                     }

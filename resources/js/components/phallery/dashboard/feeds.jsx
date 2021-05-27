@@ -14,20 +14,31 @@ function Feeds() {
         false
     );
 
+    const cancelToken = axios.CancelToken;
+    const source = cancelToken.source();
+    const configAxios = { cancelToken: source.token };
+    axios.defaults.headers.common = {
+        Authorization: "Bearer " + sanctumToken
+    };
+
     useEffect(() => {
-        axios.defaults.headers.common = {
-            Authorization: "Bearer " + sanctumToken
-        };
         axios
-            .get("http://localhost:8000/api/post/myposts")
+            .get("http://localhost:8000/api/post/myposts", configAxios)
             .then(res => {
                 setIsPostAvailabilityChecked(true);
                 setMyPosts(res.data);
             })
             .catch(error => {
-                console.log(error);
-                setIsPostAvailabilityChecked(true);
+                if (axios.isCancel(error)) {
+                    console.log("Feeds component unmounted");
+                } else {
+                    setIsPostAvailabilityChecked(true);
+                }
             });
+
+        return () => {
+            source.cancel("Feeds component unmounted");
+        };
     });
 
     return (
@@ -35,7 +46,7 @@ function Feeds() {
             <Nav hasNotification={true} count={9} />
             <Banner text="My Posts" />
             <div className="container">
-                <CreatePost caller="feeds"/>
+                <CreatePost caller="feeds" />
 
                 <div className="row">
                     {myPosts.length > 0 ? (

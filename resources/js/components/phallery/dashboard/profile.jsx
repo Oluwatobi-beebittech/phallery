@@ -34,7 +34,7 @@ class Profile extends Component {
                             </div>
 
                             <div className="w-75 mx-auto">
-                                <ul class="list-group list-group-flush">
+                                <ul className="list-group list-group-flush">
                                     <div className="form-group ">
                                         <li className="list-group-item border-left-0 border-right-0">
                                             <div className="row">
