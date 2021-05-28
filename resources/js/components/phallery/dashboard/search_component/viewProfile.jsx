@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Nav from "../nav";
 import Banner from "../banner";
+import PostContainer from "../post_component/postContainer";
 import { withRouter } from "react-router";
 import axios from "axios";
 import Cookies from "universal-cookie";
@@ -11,7 +12,7 @@ class ViewProfile extends Component {
         if (typeof this.props.location.state === "undefined") {
             this.props.history.goBack();
         } else {
-            this.state = this.props.location.state;
+            this.state = { ...this.props.location.state };
             this.name = this.state.first_name + " " + this.state.last_name;
 
             const sanctumTokenCookie = new Cookies();
@@ -22,21 +23,22 @@ class ViewProfile extends Component {
 
             const cancelToken = axios.CancelToken;
             this.source = cancelToken.source();
-            this.configAxios = { cancelToken: source.token };
+            this.configAxios = { cancelToken: this.source.token };
         }
     }
 
     componentDidMount() {
         axios
             .get(
-                "https://localhost:8000/post/" + this.state.email,
+                "http://localhost:8000/api/post/" + this.state.email,
                 this.configAxios
             )
             .then(res => {
                 this.setState({
-                    post: res.data,
+                    posts: res.data,
                     isPostAvailabilityChecked: true
                 });
+                console.log(res.data);
             })
             .catch(error => {
                 if (axios.isCancel(error)) {
@@ -48,27 +50,27 @@ class ViewProfile extends Component {
             });
     }
 
-    componentDidUpdate() {
-        axios
-            .get(
-                "https://localhost:8000/post/" + this.state.email,
-                this.configAxios
-            )
-            .then(res => {
-                this.setState({
-                    post: res.data,
-                    isPostAvailabilityChecked: true
-                });
-            })
-            .catch(error => {
-                if (axios.isCancel(error)) {
-                    console.log("View Profile Component Unmounted");
-                }
-                this.setState({
-                    isPostAvailabilityChecked: true
-                });
-            });
-    }
+    // componentDidUpdate() {
+    //     axios
+    //         .get(
+    //             "https://localhost:8000/post/" + this.state.email,
+    //             this.configAxios
+    //         )
+    //         .then(res => {
+    //             this.setState({
+    //                 posts: res.data,
+    //                 isPostAvailabilityChecked: true
+    //             });
+    //         })
+    //         .catch(error => {
+    //             if (axios.isCancel(error)) {
+    //                 console.log("View Profile Component Unmounted");
+    //             }
+    //             this.setState({
+    //                 isPostAvailabilityChecked: true
+    //             });
+    //         });
+    // }
 
     componentWillUnmount() {
         this.source.cancel("View Profile Component Unmounted");
@@ -98,9 +100,9 @@ class ViewProfile extends Component {
                         </button>
                         <h5 className="font-weight-bold">{this.name}</h5>
                     </div>
-                    <div>
-                        {this.state.post.length > 0 ? (
-                            this.state.post.map(item => (
+                    <div className="row">
+                        {this.state.posts.length > 0 ? (
+                            this.state.posts.map(item => (
                                 <PostContainer
                                     key={item.post_id}
                                     imgUrl={
@@ -120,9 +122,9 @@ class ViewProfile extends Component {
                                 Seems like {this.name} has no posts yet.
                             </p>
                         ) : (
-                            <div className="d-block font-weight-bold offset-md-6">
-                                <span className="fa fa-spinner fa-pulse fa-3x text-center "></span>
-                                <p className="text-center ">Loading</p>
+                            <div className="font-weight-bold offset-md-6 text-center">
+                                <span className="fa fa-spinner fa-pulse fa-3x"></span>
+                                <p className="">Loading</p>
                             </div>
                         )}
                     </div>

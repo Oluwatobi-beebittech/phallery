@@ -52,7 +52,8 @@ class PostController extends Controller
      */
     public function show($email)
     {
-        
+        $posts = Post::where('user_email', $email)->get();
+        return $posts;
     }
 
     /**
