@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { createBrowserHistory } from "history";
+import { withRouter } from "react-router";
 import axios from "axios";
 import Cookies from "universal-cookie";
 
@@ -37,8 +37,6 @@ class SearchResultUI extends Component {
         this.cancelToken = axios.CancelToken;
         this.source = this.cancelToken.source();
         this.configAxios = { cancelToken: this.source.token };
-
-        this.history = createBrowserHistory();
 
         this.viewSearchResult = this.viewSearchResult.bind(this);
         this.getUnknownState = this.getUnknownState.bind(this);
@@ -126,10 +124,10 @@ class SearchResultUI extends Component {
 
     /**
      * View the profile of a user in the result on click
-     * @param {Event} e
+     * @param {Object} userObject
      */
     viewSearchResult(userObject) {
-        this.history.push("/dashboard/search");
+        this.props.history.push("/dashboard/search", userObject);
     }
 
     /**
@@ -196,4 +194,4 @@ class SearchResultUI extends Component {
     }
 }
 
-export default SearchResultUI;
+export default withRouter(SearchResultUI);
