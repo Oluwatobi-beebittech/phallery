@@ -38,7 +38,7 @@ class ViewProfile extends Component {
                     posts: res.data,
                     isPostAvailabilityChecked: true
                 });
-                console.log(res.data);
+                
             })
             .catch(error => {
                 if (axios.isCancel(error)) {
@@ -50,27 +50,27 @@ class ViewProfile extends Component {
             });
     }
 
-    // componentDidUpdate() {
-    //     axios
-    //         .get(
-    //             "https://localhost:8000/post/" + this.state.email,
-    //             this.configAxios
-    //         )
-    //         .then(res => {
-    //             this.setState({
-    //                 posts: res.data,
-    //                 isPostAvailabilityChecked: true
-    //             });
-    //         })
-    //         .catch(error => {
-    //             if (axios.isCancel(error)) {
-    //                 console.log("View Profile Component Unmounted");
-    //             }
-    //             this.setState({
-    //                 isPostAvailabilityChecked: true
-    //             });
-    //         });
-    // }
+    componentDidUpdate() {
+        axios
+            .get(
+                "http://localhost:8000/api/post/" + this.state.email,
+                this.configAxios
+            )
+            .then(res => {
+                this.setState({
+                    posts: res.data,
+                    isPostAvailabilityChecked: true
+                });
+            })
+            .catch(error => {
+                if (axios.isCancel(error)) {
+                    console.log("View Profile Component Unmounted");
+                }
+                this.setState({
+                    isPostAvailabilityChecked: true
+                });
+            });
+    }
 
     componentWillUnmount() {
         this.source.cancel("View Profile Component Unmounted");
