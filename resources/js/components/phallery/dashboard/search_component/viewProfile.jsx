@@ -6,6 +6,25 @@ import { withRouter } from "react-router";
 import axios from "axios";
 import Cookies from "universal-cookie";
 
+/**
+ * View Profile Component displays profile of searched user
+ * @state
+ *      @String email
+ *      @String first_name
+ *      @String last_name
+ *      @String profile_image
+ *      @array post
+ *      @bool isPostAvailabilityChecked
+ *
+ * @props
+ *      @Object location
+ * @methods
+ *      @lifecycle
+ *      componentDidMount
+ *      componentDidUpdate
+ *      componentWillUnmount
+ */
+
 class ViewProfile extends Component {
     constructor(props) {
         super(props);
