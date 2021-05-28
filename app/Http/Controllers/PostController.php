@@ -47,12 +47,12 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $email
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($email)
     {
-        //
+        
     }
 
     /**

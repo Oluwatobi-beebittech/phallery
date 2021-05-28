@@ -153,7 +153,9 @@ class SearchResultUI extends Component {
                                             email: item.email,
                                             first_name: item.first_name,
                                             last_name: item.last_name,
-                                            profile_image: item.profile_image
+                                            profile_image: item.profile_image,
+                                            posts: [],
+                                            isPostAvailabilityChecked: false
                                         });
                                     }}
                                     onMouseOver={() =>

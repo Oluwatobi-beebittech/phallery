@@ -9,6 +9,7 @@ import Cookies from "universal-cookie";
 function Feeds() {
     const sanctumTokenCookie = new Cookies();
     const sanctumToken = sanctumTokenCookie.get("sanctum_token");
+    
     const [myPosts, setMyPosts] = useState([]);
     const [isPostAvailabilityChecked, setIsPostAvailabilityChecked] = useState(
         false
