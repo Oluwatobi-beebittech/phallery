@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Nav from "./nav";
 import Banner from "./banner";
+
 class Profile extends Component {
     render() {
         return (
