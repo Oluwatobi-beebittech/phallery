@@ -43,56 +43,42 @@ class ViewProfile extends Component {
             const cancelToken = axios.CancelToken;
             this.source = cancelToken.source();
             this.configAxios = { cancelToken: this.source.token };
+            this.loadPosts = this.loadPosts.bind(this);
         }
     }
 
     componentDidMount() {
-        axios
-            .get(
-                "http://localhost:8000/api/post/" + this.state.email,
-                this.configAxios
-            )
-            .then(res => {
-                this.setState({
-                    posts: res.data,
-                    isPostAvailabilityChecked: true
-                });
-                
-            })
-            .catch(error => {
-                if (axios.isCancel(error)) {
-                    console.log("View Profile Component Unmounted");
-                }
-                this.setState({
-                    isPostAvailabilityChecked: true
-                });
-            });
+        this.loadPosts();
     }
 
     componentDidUpdate() {
-        axios
-            .get(
-                "http://localhost:8000/api/post/" + this.state.email,
-                this.configAxios
-            )
-            .then(res => {
-                this.setState({
-                    posts: res.data,
-                    isPostAvailabilityChecked: true
-                });
-            })
-            .catch(error => {
-                if (axios.isCancel(error)) {
-                    console.log("View Profile Component Unmounted");
-                }
-                this.setState({
-                    isPostAvailabilityChecked: true
-                });
-            });
+        this.loadPosts();
     }
 
     componentWillUnmount() {
         this.source.cancel("View Profile Component Unmounted");
+    }
+
+    loadPosts() {
+        axios
+            .get(
+                "http://localhost:8000/api/post/" + this.state.email,
+                this.configAxios
+            )
+            .then(res => {
+                this.setState({
+                    posts: res.data,
+                    isPostAvailabilityChecked: true
+                });
+            })
+            .catch(error => {
+                if (axios.isCancel(error)) {
+                    console.log("View Profile Component Unmounted");
+                }
+                this.setState({
+                    isPostAvailabilityChecked: true
+                });
+            });
     }
 
     render() {

@@ -7,6 +7,8 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\URLLoginController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\FeedsController;
+use App\Http\Controllers\NetworkController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -22,6 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::middleware(['auth:sanctum'])->group(function(){
+    Route::get('network/all',[NetworkController::class, 'getNetworkConnections']);
     Route::get('post/myposts',[PostController::class, 'getMyPosts']);
     Route::post('post/create', [PostController::class, 'store']);
     Route::get('post/{email}', [PostController::class, 'show']);
