@@ -16,7 +16,8 @@ class SearchController extends Controller
      */
     public function search(Request $request,$text){
         $user_email = $request->user()->email;
-        return User::where('email','<>',$user_email)
+        return User::select('first_name', 'last_name', 'email', 'profile_image')
+                    ->where('email','<>',$user_email)
                     ->where('first_name','like',"%$text%")
                     ->orWhere('last_name','Like',"%$text%")
                     ->where('email','<>',$user_email)
