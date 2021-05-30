@@ -56,7 +56,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Get people followed by user
+     * Get people user follows
      * 
      * @return \App\Following
      */
@@ -65,7 +65,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Get people followed by user
+     * Get people following user
      * 
      * @return \App\Following
      */
