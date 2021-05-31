@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use APp\Models\Following;
+use App\Models\Following;
 
 class NetworkController extends Controller
 {
@@ -18,17 +18,31 @@ class NetworkController extends Controller
         $follows = Following::where('follower', $userEmail);
         $followingCount = $follows->count();
 
-        $result = array('followingCount'=>$followsCount, 'connections'=>array());
+        $result = array('followingCount'=>$followingCount, 'connections'=>array());
 
-        foreach($follower as $follows){
+        foreach($follows as $follower){
 
+            $followed_id = $follower->following_id;
             $followed_email = $follower->follows;
-            $followed_first_name = $follower->follows()->first_name;
-            $followed_last_name = $follower->follows()->last_name;
+
+            $followedUser = $follower->follows();
+            
+            $followed_first_name = $followedUser->first_name;
+            $followed_last_name = $followedUser->last_name;
+            $followed_profile_image = $followedUser->profile_image;
+
             $followedCount = Following::where('follower', $followed_email)->count();
 
-            $result['connections'].push(array('conn_first_name'=>$followed_first_name,
-            'conn_last_name'=>$followed_last_name, 'conn_count'=>$followedCount));
+            $result['connections']
+            .push(
+                array(
+                    'conn_follow_id'=>$followed_id,
+                    'conn_first_name'=>$followed_first_name,
+                    'conn_last_name'=>$followed_last_name,
+                    'conn_count'=>$followedCount,
+                    'conn_profile_image'=>$followed_image
+                )
+            );
 
         }
 

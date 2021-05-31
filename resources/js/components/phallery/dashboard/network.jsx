@@ -7,6 +7,7 @@ import Cookies from "universal-cookie";
 
 class Network extends Component {
     constructor(props) {
+        super(props);
         this.state = { connectionResult: [], isNetworkChecked: false };
 
         const sanctumTokenCookie = new Cookies();
@@ -19,7 +20,7 @@ class Network extends Component {
         this.source = cancelToken.source();
         this.configAxios = { cancelToken: this.source.token };
 
-        this.loadConection = this.loadConection.bind(this);
+        this.loadConnection = this.loadConnection.bind(this);
     }
 
     componentDidMount() {
@@ -41,6 +42,7 @@ class Network extends Component {
                     connectionResult: res.data,
                     isNetworkChecked: true
                 });
+                console.log(res.data);
             })
             .catch(error => {
                 if (axios.isCancel(error)) {
@@ -59,36 +61,46 @@ class Network extends Component {
 
                     <div className="rounded-lg bg-primary text-white col-md-1  py-1 mx-auto text-center my-2 shadow-lg">
                         <h4 className="font-weight-bold">
-                            {this.state.connectionResult.length > 0
-                                ? this.state.connectionResult.length
-                                : "Search and make connections"}
+                            {this.state.isNetworkChecked ? (
+                                this.state.connectionResult.followingCount
+                            ) : (
+                                <span className="fa fa-spinner fa-pulse"></span>
+                            )}
                         </h4>
-                        {this.state.connectionResult.length > 0 ? (
-                            <small className="font-weight-bold">
-                                Connections
-                            </small>
-                        ) : (
-                            ""
-                        )}
+
+                        <small className="font-weight-bold">Connections</small>
                     </div>
 
                     <div className="row justify-content-around text-center mt-2 link-card">
-                        {this.state.connectionResult > 0 ? (
-                            this.state.connectionResult.map(item => (
-                                <a className="col-md-3 rounded-lg bg-white shadow">
-                                    <p className="mt-2 fa-2x">
-                                        <span className="fa fa-user-circle fa-2x "></span>
-                                    </p>
-                                    <p className="font-weight-bold">
-                                        Adinoyi, Abraham
-                                    </p>
-                                    <p>
-                                        <span className="fas fa-link"></span> 43
-                                        connections
-                                    </p>
-                                </a>
-                            ))
-                        ) : isNetworkChecked ? (
+                        {this.state.connectionResult.connections > 0 ? (
+                            this.state.connectionResult.connections.map(
+                                connection => (
+                                    <a
+                                        key={connection.conn_follow_id}
+                                        className="col-md-3 rounded-lg bg-white shadow"
+                                    >
+                                        <div className="img-circle-wrapper">
+                                        <img
+                                            src={
+                                                "http://localhost:8000/" +
+                                                connection.conn_profile_image
+                                            }
+                                            className="img-circle"
+                                        />
+                                    </div>
+                                        <p className="font-weight-bold">
+                                            {connection.first_name +
+                                                " " +
+                                                connection.last_name}
+                                        </p>
+                                        <p>
+                                            <span className="fas fa-link"></span>{" "}
+                                            {connection.conn_count} connections
+                                        </p>
+                                    </a>
+                                )
+                            )
+                        ) : this.state.isNetworkChecked ? (
                             <p className="offset-md-4 font-weight-bold text-center text-muted">
                                 <span className="fab fa-searchengin fa-2x"></span>{" "}
                                 Seems like you have not made connections yet.
