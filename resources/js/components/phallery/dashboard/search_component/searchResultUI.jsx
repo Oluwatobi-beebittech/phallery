@@ -127,7 +127,9 @@ class SearchResultUI extends Component {
      * @param {Object} userObject
      */
     viewSearchResult(userObject) {
-        this.props.history.push("/dashboard/search", userObject);
+        userObject.email === "unknown@xyz.com"
+            ? ""
+            : this.props.history.push("/dashboard/search", userObject);
     }
 
     /**
@@ -145,6 +147,7 @@ class SearchResultUI extends Component {
                         {this.state.searchResult.length > 0 ? (
                             this.state.searchResult.map(item => (
                                 <a
+                                    disabled={true}
                                     key={item.email}
                                     href=""
                                     onClick={e => {
