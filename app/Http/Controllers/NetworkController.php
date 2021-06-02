@@ -59,4 +59,36 @@ class NetworkController extends Controller
         }
         return response()->json(["isFollowing"=>false]);
     }
+
+    public function follow(Request $request, $email){
+        $userEmail = $request->user()->email;
+        $viewedEmail = $email;
+
+        $isNotFollowing = Following::where('follower', $userEmail)->where('follows', $email)->doesntExist();
+        if($isNotFollowing){
+
+            $newFollowing = Following::create(['follower'=>$userEmail, 'follows'=>$viewedEmail]);
+            return ($newFollowing 
+                    ? response()->json(["isFollowing"=>true])
+                    :response()->json(["isFollowing"=>false])
+                    );
+        }
+        return response()->json(["isFollowing"=>false]);
+    }
+
+    public function unfollow(Request $request, $email){
+        $userEmail = $request->user()->email;
+        $viewedEmail = $email;
+
+        $following = Following::where('follower', $userEmail)->where('follows', $email);
+        if($following->exists()){
+
+            $newUnFollowing = $following->delete();
+            return ($newUnFollowing 
+                    ? response()->json(["isFollowing"=>false])
+                    :response()->json(["isFollowing"=>true])
+                    );
+        }
+        return response()->json(["isFollowing"=>true]);
+    }
 }

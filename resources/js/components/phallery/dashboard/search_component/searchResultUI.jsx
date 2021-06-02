@@ -158,6 +158,7 @@ class SearchResultUI extends Component {
                                             profile_image: item.profile_image,
                                             posts: [],
                                             isPostAvailabilityChecked: false,
+                                            isFollowingChecked: false,
                                             isFollowing: false
                                         });
                                     }}

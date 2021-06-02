@@ -45,6 +45,8 @@ class ViewProfile extends Component {
             this.configAxios = { cancelToken: this.source.token };
             this.loadPosts = this.loadPosts.bind(this);
             this.checkIfFollowed = this.checkIfFollowed.bind(this);
+            this.follow = this.follow.bind(this);
+            this.unfollow = this.unfollow.bind(this);
         }
     }
 
@@ -55,7 +57,6 @@ class ViewProfile extends Component {
 
     componentDidUpdate() {
         this.loadPosts();
-        this.checkIfFollowed();
     }
 
     componentWillUnmount() {
@@ -92,7 +93,64 @@ class ViewProfile extends Component {
             )
             .then(res => {
                 this.setState({
-                    isFollowing: res.data.isFollowing
+                    isFollowing: res.data.isFollowing,
+                    isFollowingChecked: true
+                });
+                console.log("Is following ", res.data);
+            })
+            .catch(error => {
+                if (axios.isCancel(error)) {
+                    console.log("View Profile Component Unmounted");
+                }
+                // this.setState({
+                //     isPostAvailabilityChecked: true
+                // });
+                console.log("Is following ", error);
+            });
+    }
+
+    follow() {
+        this.setState({
+            isFollowingChecked: false
+        });
+
+        axios
+            .get(
+                "http://localhost:8000/api/follow/" + this.state.email,
+                this.configAxios
+            )
+            .then(res => {
+                this.setState({
+                    isFollowing: res.data.isFollowing,
+                    isFollowingChecked: true
+                });
+                console.log("Is following ", res.data);
+            })
+            .catch(error => {
+                if (axios.isCancel(error)) {
+                    console.log("View Profile Component Unmounted");
+                }
+                // this.setState({
+                //     isPostAvailabilityChecked: true
+                // });
+                console.log("Is following ", error);
+            });
+    }
+
+    unfollow() {
+        this.setState({
+            isFollowingChecked: false
+        });
+
+        axios
+            .get(
+                "http://localhost:8000/api/unfollow/" + this.state.email,
+                this.configAxios
+            )
+            .then(res => {
+                this.setState({
+                    isFollowing: res.data.isFollowing,
+                    isFollowingChecked: true
                 });
                 console.log("Is following ", res.data);
             })
@@ -108,17 +166,30 @@ class ViewProfile extends Component {
     }
 
     render() {
-        const { followBtnClass, followBtnText, followBtnIcon } = this.state
-            .isFollowing
-            ? {
-                  followBtnClass: "btn-outline-danger",
-                  followBtnText: "Unfollow",
-                  followBtnIcon: "fa-times"
-              }
+        const {
+            followBtnClass,
+            followBtnText,
+            followBtnIcon,
+            onClickFunction
+        } = this.state.isFollowingChecked
+            ? this.state.isFollowing
+                ? {
+                      followBtnClass: "btn-outline-danger",
+                      followBtnText: "Unfollow",
+                      followBtnIcon: "fa-times",
+                      onClickFunction: () => this.unfollow()
+                  }
+                : {
+                      followBtnClass: "btn-success",
+                      followBtnText: "Follow",
+                      followBtnIcon: "fa-plus",
+                      onClickFunction: () => this.follow()
+                  }
             : {
-                  followBtnClass: "btn-success",
-                  followBtnText: "Follow",
-                  followBtnIcon: "fa-plus"
+                  followBtnClass: "btn-dark",
+                  followBtnText: "Loading",
+                  followBtnIcon: "fa-spinner fa-pulse",
+                  onClickFunction: () => null
               };
 
         return (
@@ -144,6 +215,8 @@ class ViewProfile extends Component {
                                 "mx-auto btn my-3 font-weight-bold " +
                                 followBtnClass
                             }
+                            onClick={onClickFunction}
+                            disabled={!this.state.isFollowingChecked}
                         >
                             <span className={"fa " + followBtnIcon}></span>
                             &nbsp;{followBtnText}
