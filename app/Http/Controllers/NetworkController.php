@@ -48,4 +48,15 @@ class NetworkController extends Controller
 
         return response()->json($result); 
     }
+
+    public function isFollowing(Request $request, $email){
+        $userEmail = $request->user()->email;
+        $viewedEmail = $email;
+
+        $isFollowing = Following::where('follower', $userEmail)->where('follows', $email)->exists();
+        if($isFollowing){
+            return response()->json(["isFollowing"=>true]);
+        }
+        return response()->json(["isFollowing"=>false]);
+    }
 }

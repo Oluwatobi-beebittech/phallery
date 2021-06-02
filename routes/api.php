@@ -27,6 +27,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::get('network/all',[NetworkController::class, 'getNetworkConnections']);
     Route::get('post/myposts',[PostController::class, 'getMyPosts']);
     Route::post('post/create', [PostController::class, 'store']);
+    Route::get('isFollowing/{email}', [NetworkController::class, 'isFollowing']);
     Route::get('post/{email}', [PostController::class, 'show']);
     Route::get('search/{text}', [SearchController::class, 'search']);
     

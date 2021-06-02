@@ -44,15 +44,18 @@ class ViewProfile extends Component {
             this.source = cancelToken.source();
             this.configAxios = { cancelToken: this.source.token };
             this.loadPosts = this.loadPosts.bind(this);
+            this.checkIfFollowed = this.checkIfFollowed.bind(this);
         }
     }
 
     componentDidMount() {
         this.loadPosts();
+        this.checkIfFollowed();
     }
 
     componentDidUpdate() {
         this.loadPosts();
+        this.checkIfFollowed();
     }
 
     componentWillUnmount() {
@@ -81,7 +84,43 @@ class ViewProfile extends Component {
             });
     }
 
+    checkIfFollowed() {
+        axios
+            .get(
+                "http://localhost:8000/api/isFollowing/" + this.state.email,
+                this.configAxios
+            )
+            .then(res => {
+                this.setState({
+                    isFollowing: res.data.isFollowing
+                });
+                console.log("Is following ", res.data);
+            })
+            .catch(error => {
+                if (axios.isCancel(error)) {
+                    console.log("View Profile Component Unmounted");
+                }
+                // this.setState({
+                //     isPostAvailabilityChecked: true
+                // });
+                console.log("Is following ", error);
+            });
+    }
+
     render() {
+        const { followBtnClass, followBtnText, followBtnIcon } = this.state
+            .isFollowing
+            ? {
+                  followBtnClass: "btn-outline-danger",
+                  followBtnText: "Unfollow",
+                  followBtnIcon: "fa-times"
+              }
+            : {
+                  followBtnClass: "btn-success",
+                  followBtnText: "Follow",
+                  followBtnIcon: "fa-plus"
+              };
+
         return (
             <React.Fragment>
                 <Nav hasNotification={true} count={9} />
@@ -100,8 +139,14 @@ class ViewProfile extends Component {
                         </div>
                     </div>
                     <div className="text-center">
-                        <button className="mx-auto btn btn-success my-3 font-weight-bold">
-                            <span className="fa fa-plus"></span>&nbsp;Follow
+                        <button
+                            className={
+                                "mx-auto btn my-3 font-weight-bold " +
+                                followBtnClass
+                            }
+                        >
+                            <span className={"fa " + followBtnIcon}></span>
+                            &nbsp;{followBtnText}
                         </button>
                         <h5 className="font-weight-bold">{this.name}</h5>
                     </div>

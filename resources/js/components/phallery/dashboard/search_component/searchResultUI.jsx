@@ -147,7 +147,6 @@ class SearchResultUI extends Component {
                         {this.state.searchResult.length > 0 ? (
                             this.state.searchResult.map(item => (
                                 <a
-                                    disabled={true}
                                     key={item.email}
                                     href=""
                                     onClick={e => {
@@ -158,7 +157,8 @@ class SearchResultUI extends Component {
                                             last_name: item.last_name,
                                             profile_image: item.profile_image,
                                             posts: [],
-                                            isPostAvailabilityChecked: false
+                                            isPostAvailabilityChecked: false,
+                                            isFollowing: false
                                         });
                                     }}
                                     onMouseOver={() =>
