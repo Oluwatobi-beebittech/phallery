@@ -89,6 +89,6 @@ class NetworkController extends Controller
                     :response()->json(["isFollowing"=>true])
                     );
         }
-        return response()->json(["isFollowing"=>true]);
+        return response()->json(["isFollowing"=>false]);
     }
 }
