@@ -63,6 +63,9 @@ class ViewProfile extends Component {
         this.source.cancel("View Profile Component Unmounted");
     }
 
+    /**
+     * Load the posts of the viewed user
+     */
     loadPosts() {
         axios
             .get(
@@ -85,6 +88,9 @@ class ViewProfile extends Component {
             });
     }
 
+    /**
+     * Checks if the logged in user is following the usser whose profile is being viewed
+     */
     checkIfFollowed() {
         axios
             .get(
@@ -102,13 +108,14 @@ class ViewProfile extends Component {
                 if (axios.isCancel(error)) {
                     console.log("View Profile Component Unmounted");
                 }
-                // this.setState({
-                //     isPostAvailabilityChecked: true
-                // });
+                
                 console.log("Is following ", error);
             });
     }
 
+    /**
+     * Handles the creation of a following for the logged in user
+     */
     follow() {
         this.setState({
             isFollowingChecked: false
@@ -130,13 +137,14 @@ class ViewProfile extends Component {
                 if (axios.isCancel(error)) {
                     console.log("View Profile Component Unmounted");
                 }
-                // this.setState({
-                //     isPostAvailabilityChecked: true
-                // });
+                
                 console.log("Is following ", error);
             });
     }
 
+    /**
+     * Handles unfollowing the user whose profile is being viewed
+     */
     unfollow() {
         this.setState({
             isFollowingChecked: false

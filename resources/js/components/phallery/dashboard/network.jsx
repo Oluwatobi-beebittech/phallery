@@ -54,6 +54,10 @@ class Network extends Component {
             });
     }
 
+    /**
+     * Views the profile of the clicked user
+     * @param {Object} connection 
+     */
     viewProfile(connection) {
         const userObject = {
             email: connection.conn_email,
