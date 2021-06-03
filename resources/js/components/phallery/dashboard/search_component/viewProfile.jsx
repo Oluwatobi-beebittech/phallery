@@ -177,19 +177,19 @@ class ViewProfile extends Component {
                       followBtnClass: "btn-outline-danger",
                       followBtnText: "Unfollow",
                       followBtnIcon: "fa-times",
-                      onClickFunction: () => this.unfollow()
+                      onClickFunction: this.unfollow
                   }
                 : {
                       followBtnClass: "btn-success",
                       followBtnText: "Follow",
                       followBtnIcon: "fa-plus",
-                      onClickFunction: () => this.follow()
+                      onClickFunction: this.follow
                   }
             : {
                   followBtnClass: "btn-dark",
                   followBtnText: "Loading",
                   followBtnIcon: "fa-spinner fa-pulse",
-                  onClickFunction: () => null
+                  onClickFunction: null
               };
 
         return (

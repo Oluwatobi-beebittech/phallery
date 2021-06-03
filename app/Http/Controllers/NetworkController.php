@@ -33,6 +33,7 @@ class NetworkController extends Controller
             $followedCount = Following::where('follower', $followed_email)->count();
             array_push($result, array(
                 'conn_follow_id'=>$followed_id,
+                'conn_email'=>$followed_email,
                 'conn_first_name'=>$followed_first_name,
                 'conn_last_name'=>$followed_last_name,
                 'conn_count'=>$followedCount,

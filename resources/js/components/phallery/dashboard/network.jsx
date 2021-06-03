@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router";
 import Nav from "./nav";
 import Banner from "./banner";
 import SearchBar from "./search_component/searchBar";
@@ -21,6 +22,7 @@ class Network extends Component {
         this.configAxios = { cancelToken: this.source.token };
 
         this.loadConnection = this.loadConnection.bind(this);
+        this.viewProfile = this.viewProfile.bind(this);
     }
 
     componentDidMount() {
@@ -43,7 +45,6 @@ class Network extends Component {
                     connectionResult: res.data,
                     isNetworkChecked: true
                 });
-                
             })
             .catch(error => {
                 if (axios.isCancel(error)) {
@@ -52,6 +53,21 @@ class Network extends Component {
                 this.setState({ isNetworkChecked: true });
             });
     }
+
+    viewProfile(connection) {
+        const userObject = {
+            email: connection.conn_email,
+            first_name: connection.conn_first_name,
+            last_name: connection.conn_last_name,
+            profile_image: connection.conn_profile_image,
+            posts: [],
+            isPostAvailabilityChecked: false,
+            isFollowingChecked: false,
+            isFollowing: false
+        };
+        this.props.history.push("/dashboard/search", userObject);
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -73,14 +89,18 @@ class Network extends Component {
                     </div>
 
                     <div className="row justify-content-around text-center mt-2 link-card">
-                        {this.state.isNetworkChecked && this.state.connectionResult.length > 0 ? (
-                            this.state.connectionResult.map(
-                                connection => (
-                                    <a
-                                        key={connection.conn_follow_id}
-                                        className="col-md-3 rounded-lg bg-white shadow"
-                                    >
-                                        <div className="img-circle-wrapper">
+                        {this.state.isNetworkChecked &&
+                        this.state.connectionResult.length > 0 ? (
+                            this.state.connectionResult.map(connection => (
+                                <a
+                                    key={connection.conn_follow_id}
+                                    className="col-md-3 rounded-lg bg-white shadow"
+                                    onClick={e => {
+                                        e.preventDefault();
+                                        this.viewProfile(connection);
+                                    }}
+                                >
+                                    <div className="img-circle-wrapper">
                                         <img
                                             src={
                                                 "http://localhost:8000/" +
@@ -89,18 +109,17 @@ class Network extends Component {
                                             className="img-circle"
                                         />
                                     </div>
-                                        <p className="font-weight-bold">
-                                            {connection.conn_first_name +
-                                                " " +
-                                                connection.conn_last_name}
-                                        </p>
-                                        <p>
-                                            <span className="fas fa-link"></span>{" "}
-                                            {connection.conn_count} connections
-                                        </p>
-                                    </a>
-                                )
-                            )
+                                    <p className="font-weight-bold">
+                                        {connection.conn_first_name +
+                                            " " +
+                                            connection.conn_last_name}
+                                    </p>
+                                    <p>
+                                        <span className="fas fa-link"></span>{" "}
+                                        {connection.conn_count} connections
+                                    </p>
+                                </a>
+                            ))
                         ) : this.state.isNetworkChecked ? (
                             <p className="offset-md-4 font-weight-bold text-center text-muted">
                                 <span className="fab fa-searchengin fa-2x"></span>{" "}
@@ -223,4 +242,4 @@ class Network extends Component {
     }
 }
 
-export default Network;
+export default withRouter(Network);
