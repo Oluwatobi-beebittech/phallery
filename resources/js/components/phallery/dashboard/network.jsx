@@ -38,11 +38,12 @@ class Network extends Component {
         axios
             .get("http://localhost:8000/api/network/all", this.configAxios)
             .then(res => {
+                console.log(res.data);
                 this.setState({
                     connectionResult: res.data,
                     isNetworkChecked: true
                 });
-                console.log(res.data);
+                
             })
             .catch(error => {
                 if (axios.isCancel(error)) {
@@ -62,7 +63,7 @@ class Network extends Component {
                     <div className="rounded-lg bg-primary text-white col-md-1  py-1 mx-auto text-center my-2 shadow-lg">
                         <h4 className="font-weight-bold">
                             {this.state.isNetworkChecked ? (
-                                this.state.connectionResult.followingCount
+                                this.state.connectionResult.length
                             ) : (
                                 <span className="fa fa-spinner fa-pulse"></span>
                             )}
@@ -72,8 +73,8 @@ class Network extends Component {
                     </div>
 
                     <div className="row justify-content-around text-center mt-2 link-card">
-                        {this.state.connectionResult.connections > 0 ? (
-                            this.state.connectionResult.connections.map(
+                        {this.state.isNetworkChecked && this.state.connectionResult.length > 0 ? (
+                            this.state.connectionResult.map(
                                 connection => (
                                     <a
                                         key={connection.conn_follow_id}
@@ -89,9 +90,9 @@ class Network extends Component {
                                         />
                                     </div>
                                         <p className="font-weight-bold">
-                                            {connection.first_name +
+                                            {connection.conn_first_name +
                                                 " " +
-                                                connection.last_name}
+                                                connection.conn_last_name}
                                         </p>
                                         <p>
                                             <span className="fas fa-link"></span>{" "}

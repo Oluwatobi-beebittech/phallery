@@ -16,33 +16,28 @@ class NetworkController extends Controller
         $userEmail = $request->user()->email;
 
         $follows = Following::where('follower', $userEmail);
-        $followingCount = $follows->count();
 
-        $result = array('followingCount'=>$followingCount, 'connections'=>array());
-
-        foreach($follows as $follower){
+        $result = array();
+        
+        foreach($follows->get() as $follower){
 
             $followed_id = $follower->following_id;
             $followed_email = $follower->follows;
 
-            $followedUser = $follower->follows();
+            $followedUser = $follower->userFollows;
             
             $followed_first_name = $followedUser->first_name;
             $followed_last_name = $followedUser->last_name;
             $followed_profile_image = $followedUser->profile_image;
 
             $followedCount = Following::where('follower', $followed_email)->count();
-
-            $result['connections']
-            .push(
-                array(
-                    'conn_follow_id'=>$followed_id,
-                    'conn_first_name'=>$followed_first_name,
-                    'conn_last_name'=>$followed_last_name,
-                    'conn_count'=>$followedCount,
-                    'conn_profile_image'=>$followed_image
-                )
-            );
+            array_push($result, array(
+                'conn_follow_id'=>$followed_id,
+                'conn_first_name'=>$followed_first_name,
+                'conn_last_name'=>$followed_last_name,
+                'conn_count'=>$followedCount,
+                'conn_profile_image'=>$followed_profile_image
+            ));
 
         }
 

@@ -36,7 +36,7 @@ class Following extends Model
      * Gets the user's followers'
      * @return App\Model\User
      */
-    public function followers(){
+    public function userFollowers(){
         return $this->belongsTo(User::class,'follower');
     }
 
@@ -44,7 +44,7 @@ class Following extends Model
      * Gets the people that user follows
      * @return App\Model\User
      */
-    public function follows(){
+    public function userFollows(){
         return $this->belongsTo(User::class,'follows');
     }
 }
