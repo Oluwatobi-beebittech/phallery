@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 import Modal from "react-bootstrap/Modal";
 
+/**
+ * @props Function notificationCallBack 
+ * 
+ * @state Boolean notificationBoxDisplay
+ * 
+ * @method displayNotificationBox
+ */
+
 class NotificationModal extends Component {
     constructor(props) {
         super(props);
@@ -8,6 +16,13 @@ class NotificationModal extends Component {
         this.displayNotificationBox = this.displayNotificationBox.bind(this);
     }
 
+    /**
+     * Sets the current display choice for the notification box
+     * and calls the callback function with same value.
+     * This enables the to modal display on click of notification and
+     * on hide of modal
+     * @param {Boolean} value 
+     */
     displayNotificationBox(value) {
         this.setState({ notificationBoxDisplay: value });
         this.props.notificationCallback(value);

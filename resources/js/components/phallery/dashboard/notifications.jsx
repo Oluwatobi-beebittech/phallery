@@ -3,6 +3,15 @@ import Banner from "./banner";
 import Nav from "./nav";
 import Notification from "./notification/notification";
 
+
+/**
+ * Notifications
+ * 
+ * @props default
+ * 
+ * Page for notifications
+ */
+
 class Notifications extends Component {
     render() {
         return (

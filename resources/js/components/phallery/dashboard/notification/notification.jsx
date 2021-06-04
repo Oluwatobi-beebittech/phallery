@@ -1,6 +1,17 @@
 import React, { Component } from "react";
 import NotificationModal from "./notificationModal";
 
+/**
+ * Notification
+ * 
+ * @state boolean showModal - Receives the prompt to display notification modal
+ * 
+ * @props boolean read
+ * 
+ * @method displayNotificationCallback
+ *         displayNotificationModal
+ */
+
 class Notification extends Component {
     constructor(props) {
         super(props);
@@ -13,11 +24,20 @@ class Notification extends Component {
         );
     }
 
+    /**
+     * Sets the modal display to true
+     * @param {Event} e 
+     */
     displayNotificationModal(e) {
         e.preventDefault();
         this.displayNotificationCallback(true);
     }
 
+
+    /**
+     * Sets the state showModal to value
+     * @param {Boolean} value 
+     */
     displayNotificationCallback(value) {
         this.setState({ showModal: value });
     }
