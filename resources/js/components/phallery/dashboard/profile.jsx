@@ -88,6 +88,10 @@ class Profile extends Component {
                                         </li>
                                     </div>
                                 </ul>
+
+                                <button className="btn btn-primary font-weight-bold">
+                                    <span className="fa fa-save"></span> Save
+                                </button>
                             </div>
                         </form>
                     </div>
