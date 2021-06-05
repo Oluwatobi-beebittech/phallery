@@ -25,10 +25,12 @@ function Home(props) {
         axios
             .get("http://localhost:8000/api/feeds/all", configAxios)
             .then(response => {
+                console.log(response.data);
                 setFeeds(response.data);
                 setFeedsAvailabilityChecked(true);
             })
             .catch(error => {
+                
                 if (axios.isCancel(error)) {
                     console.log("Home component unmounted");
                 } else {
@@ -48,7 +50,7 @@ function Home(props) {
                 <SearchBar />
 
                 <div className="row">
-                {feeds.length > 0 ? (
+                    {feeds.length > 0 ? (
                         feeds.map(item => (
                             <PostContainer
                                 key={item.post_id}
@@ -73,42 +75,6 @@ function Home(props) {
                             <p className="text-center ">Loading</p>
                         </div>
                     )}
-                    <PostContainer
-                        imgUrl="../image/1a.jpg"
-                        text="This is a wider card with supporting text below as a
-                        natural lead-in to additional content. This content is a
-                        little bit longer."
-                        likes={0}
-                        hearts={0}
-                        comments={0}
-                    />
-                    <PostContainer
-                        imgUrl="../image/1a.jpg"
-                        text="This is a wider card with supporting text below as a
-                        natural lead-in to additional content. This content is a
-                        little bit longer."
-                        likes={0}
-                        hearts={0}
-                        comments={0}
-                    />
-                    <PostContainer
-                        imgUrl="../image/1a.jpg"
-                        text="This is a wider card with supporting text below as a
-                        natural lead-in to additional content. This content is a
-                        little bit longer."
-                        likes={0}
-                        hearts={0}
-                        comments={0}
-                    />
-                    <PostContainer
-                        imgUrl="../image/1a.jpg"
-                        text="This is a wider card with supporting text below as a
-                        natural lead-in to additional content. This content is a
-                        little bit longer."
-                        likes={0}
-                        hearts={0}
-                        comments={0}
-                    />
                 </div>
             </div>
         </React.Fragment>

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Post;
 
 class FeedsController extends Controller
 {
@@ -19,6 +21,26 @@ class FeedsController extends Controller
     }
 
     public function getFeeds(Request $request){
+        $user = $request->user();
+
+        $follows = $user->follows;
+        $result = array();
+
+        foreach($follows as $follow){
+            $followed_email = $follow->follows;
+            $posts = Post::select('post_id', 'post_text', 'post_image', 'likes','hearts','comments')->where('user_email', $followed_email);
+            $doesPostExist = $posts->exists();
+            
+            if($doesPostExist){
+                $posts = $posts->get();
+                foreach($posts as $post){
+                    array_push($result, $post);
+                }
+            }
+        }
+
+        return response()->json($result);
+        
 
     }
 
