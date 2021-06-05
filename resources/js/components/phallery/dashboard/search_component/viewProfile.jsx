@@ -94,8 +94,7 @@ class ViewProfile extends Component {
     checkIfFollowed() {
         axios
             .get(
-                "http://localhost:8000/api/isFollowing/" + this.state.email,
-                this.configAxios
+                "http://localhost:8000/api/isFollowing/" + this.state.email
             )
             .then(res => {
                 this.setState({
