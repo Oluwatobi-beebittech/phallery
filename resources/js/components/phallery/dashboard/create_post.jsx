@@ -24,8 +24,22 @@ class CreatePost extends Component {
         this.onFileChanged = this.onFileChanged.bind(this);
         this.getFileType = this.getFileType.bind(this);
         this.createPost = this.createPost.bind(this);
+
+        axios.defaults.headers.common = {
+            Authorization: "Bearer " + this.state.authToken
+        };
+        const cancelToken = axios.CancelToken;
+        this.source = cancelToken.source();
+        this.configAxios = { cancelToken: this.source.token };
     }
 
+    componentWillUnmount() {
+        this.source.cancel("Create post component unmounted");
+    }
+    /**
+     * Sets the display state of the modal
+     * @param {Boolean} value
+     */
     displayModal(value) {
         this.setState({ modalShow: value });
         if (!value) {
@@ -33,32 +47,48 @@ class CreatePost extends Component {
         }
     }
 
+    /**
+     * Sets the value of the post text from th epost text input field
+     * @param {Event} e
+     */
     postTextChanged(e) {
         this.setState({ postText: e.target.value });
     }
 
+    /**
+     * Sets the state of the file upload
+     * @param {Event} e
+     */
     onFileChanged(e) {
         this.setState({ file: e.target.files[0] });
     }
 
+    /**
+     * Gets the type of file uploaded
+     */
     getFileType() {
         const [fileType] = this.state.file.type.split("/");
         return fileType;
     }
 
+    /**
+     * Creates the post
+     * @param {Event} e
+     */
     createPost(e) {
         e.preventDefault();
         this.setState({ loading: true });
-        axios.defaults.headers.common = {
-            Authorization: "Bearer " + this.state.authToken
-        };
 
         const formData = new FormData();
         formData.append("post_text", this.state.postText);
         formData.append("post_image", this.state.file);
 
         axios
-            .post("http://localhost:8000/api/post/create", formData)
+            .post(
+                "http://localhost:8000/api/post/create",
+                formData,
+                this.configAxios
+            )
             .then(res => {
                 if (res.data.status === "success") {
                     this.setState({
@@ -154,11 +184,11 @@ class CreatePost extends Component {
                     size="lg"
                     show={this.state.modalShow}
                     onHide={() => this.displayModal(false)}
-                    aria-labelledby={"create-post-"+this.props.caller}
+                    aria-labelledby={"create-post-" + this.props.caller}
                     centered
                 >
                     <Modal.Header closeButton className="bg-dark text-white">
-                        <Modal.Title id={"create-post-"+this.props.caller}>
+                        <Modal.Title id={"create-post-" + this.props.caller}>
                             <span className="fa fa-edit"></span>&nbsp;Create a
                             post
                         </Modal.Title>
@@ -168,20 +198,32 @@ class CreatePost extends Component {
                         <form onSubmit={this.createPost}>
                             <div className="form-row">
                                 <div className="form-group col-md-12">
-                                    <label htmlFor={"card-post-"+this.props.caller}>Post</label>
+                                    <label
+                                        htmlFor={
+                                            "card-post-" + this.props.caller
+                                        }
+                                    >
+                                        Post
+                                    </label>
                                     <textarea
                                         type="text"
                                         className="form-control"
                                         rows="3"
-                                        id={"card-post-"+this.props.caller}
+                                        id={"card-post-" + this.props.caller}
                                         onChange={this.postTextChanged}
                                         value={this.state.postText}
                                         placeholder="Write the post"
                                         maxLength={300}
-                                        aria-describedby={"cardPostHelpText-"+this.props.caller}
+                                        aria-describedby={
+                                            "cardPostHelpText-" +
+                                            this.props.caller
+                                        }
                                     />
                                     <small
-                                        id={"cardPostHelpText-"+this.props.caller}
+                                        id={
+                                            "cardPostHelpText-" +
+                                            this.props.caller
+                                        }
                                         className="form-text text-muted float-right"
                                     >
                                         {this.state.postText.length}/300
@@ -191,7 +233,9 @@ class CreatePost extends Component {
                             <div className="form-row">
                                 <div className="form-group col-md-12">
                                     <label
-                                        htmlFor={"card-upload-"+this.props.caller}
+                                        htmlFor={
+                                            "card-upload-" + this.props.caller
+                                        }
                                         className="btn btn-primary"
                                     >
                                         <span className="fa fa-upload"></span>
@@ -201,7 +245,7 @@ class CreatePost extends Component {
                                     <input
                                         type="file"
                                         className="form-control"
-                                        id={"card-upload-"+this.props.caller}
+                                        id={"card-upload-" + this.props.caller}
                                         onChange={this.onFileChanged}
                                         hidden
                                     />

@@ -33,6 +33,10 @@ class Network extends Component {
         this.loadConnection();
     }
 
+    componentWillUnmount() {
+        this.source.cancel("Network Component Unmounted");
+    }
+
     /**
      * Loads all connections of the user
      */
@@ -50,13 +54,13 @@ class Network extends Component {
                 if (axios.isCancel(error)) {
                     console.log("My network component unmounted");
                 }
-                this.setState({ isNetworkChecked: true });
+                
             });
     }
 
     /**
      * Views the profile of the clicked user
-     * @param {Object} connection 
+     * @param {Object} connection
      */
     viewProfile(connection) {
         const userObject = {
