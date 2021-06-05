@@ -53,6 +53,10 @@ class Network extends Component {
             .catch(error => {
                 if (axios.isCancel(error)) {
                     console.log("My network component unmounted");
+                } else {
+                    this.setState({
+                        isNetworkChecked: true
+                    });
                 }
             });
     }

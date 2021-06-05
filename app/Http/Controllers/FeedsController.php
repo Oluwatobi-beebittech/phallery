@@ -18,6 +18,10 @@ class FeedsController extends Controller
         return response()->json(['status'=>'success', 'redirect'=>'/dashboard/feeds', 'user' => auth('sanctum')->user()->id]);
     }
 
+    public function getFeeds(Request $request){
+
+    }
+
     /**
      * Show the form for creating a new resource.
      *
