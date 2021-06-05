@@ -54,7 +54,6 @@ class Network extends Component {
                 if (axios.isCancel(error)) {
                     console.log("My network component unmounted");
                 }
-                
             });
     }
 
@@ -96,7 +95,7 @@ class Network extends Component {
                         <small className="font-weight-bold">Connections</small>
                     </div>
 
-                    <div className="row justify-content-around text-center mt-2 link-card">
+                    <div className="row text-center mt-2 link-card">
                         {this.state.isNetworkChecked &&
                         this.state.connectionResult.length > 0 ? (
                             this.state.connectionResult.map(connection => (
@@ -141,108 +140,6 @@ class Network extends Component {
                                 <p className="">Loading</p>
                             </div>
                         )}
-                        <a className="col-md-3 rounded-lg bg-white shadow">
-                            <p className="mt-2 fa-2x">
-                                <span className="fa fa-user-circle fa-2x "></span>
-                            </p>
-                            <p className="font-weight-bold">Adinoyi, Abraham</p>
-                            <p>
-                                <span className="fas fa-link"></span> 43
-                                connections
-                            </p>
-                        </a>
-
-                        <a className="col-md-3 rounded-lg bg-white shadow">
-                            <p className="mt-2 fa-2x">
-                                <span className="fa fa-user-circle fa-2x "></span>
-                            </p>
-                            <p className="font-weight-bold">Adinoyi, Abraham</p>
-                            <p>
-                                <span className="fas fa-link"></span> 43
-                                connections
-                            </p>
-                        </a>
-
-                        <a className="col-md-3 rounded-lg bg-white shadow">
-                            <p className="mt-2 fa-2x">
-                                <span className="fa fa-user-circle fa-2x "></span>
-                            </p>
-                            <p className="font-weight-bold">Adinoyi, Abraham</p>
-                            <p>
-                                <span className="fas fa-link"></span> 43
-                                connections
-                            </p>
-                        </a>
-                    </div>
-
-                    <div className="row justify-content-around text-center mt-2 link-card">
-                        <a className="col-md-3 rounded-lg bg-white shadow">
-                            <p className="mt-2 fa-2x">
-                                <span className="fa fa-user-circle fa-2x "></span>
-                            </p>
-                            <p className="font-weight-bold">Adinoyi, Abraham</p>
-                            <p>
-                                <span className="fas fa-link"></span> 43
-                                connections
-                            </p>
-                        </a>
-
-                        <a className="col-md-3 rounded-lg bg-white shadow">
-                            <p className="mt-2 fa-2x">
-                                <span className="fa fa-user-circle fa-2x "></span>
-                            </p>
-                            <p className="font-weight-bold">Adinoyi, Abraham</p>
-                            <p>
-                                <span className="fas fa-link"></span> 43
-                                connections
-                            </p>
-                        </a>
-
-                        <a className="col-md-3 rounded-lg bg-white shadow">
-                            <p className="mt-2 fa-2x">
-                                <span className="fa fa-user-circle fa-2x "></span>
-                            </p>
-                            <p className="font-weight-bold">Adinoyi, Abraham</p>
-                            <p>
-                                <span className="fas fa-link"></span> 43
-                                connections
-                            </p>
-                        </a>
-                    </div>
-
-                    <div className="row justify-content-around text-center mt-2 link-card">
-                        <a className="col-md-3 rounded-lg bg-white shadow">
-                            <p className="mt-2 fa-2x">
-                                <span className="fa fa-user-circle fa-2x "></span>
-                            </p>
-                            <p className="font-weight-bold">Adinoyi, Abraham</p>
-                            <p>
-                                <span className="fas fa-link"></span> 43
-                                connections
-                            </p>
-                        </a>
-
-                        <a className="col-md-3 rounded-lg bg-white shadow">
-                            <p className="mt-2 fa-2x">
-                                <span className="fa fa-user-circle fa-2x "></span>
-                            </p>
-                            <p className="font-weight-bold">Adinoyi, Abraham</p>
-                            <p>
-                                <span className="fas fa-link"></span> 43
-                                connections
-                            </p>
-                        </a>
-
-                        <a className="col-md-3 rounded-lg bg-white shadow">
-                            <p className="mt-2 fa-2x">
-                                <span className="fa fa-user-circle fa-2x "></span>
-                            </p>
-                            <p className="font-weight-bold">Adinoyi, Abraham</p>
-                            <p>
-                                <span className="fas fa-link"></span> 43
-                                connections
-                            </p>
-                        </a>
                     </div>
                 </div>
             </React.Fragment>
