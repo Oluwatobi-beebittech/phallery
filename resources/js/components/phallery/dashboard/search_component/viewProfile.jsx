@@ -81,10 +81,11 @@ class ViewProfile extends Component {
             .catch(error => {
                 if (axios.isCancel(error)) {
                     console.log("View Profile Component Unmounted");
+                } else {
+                    this.setState({
+                        isPostAvailabilityChecked: true
+                    });
                 }
-                this.setState({
-                    isPostAvailabilityChecked: true
-                });
             });
     }
 
@@ -93,9 +94,7 @@ class ViewProfile extends Component {
      */
     checkIfFollowed() {
         axios
-            .get(
-                "http://localhost:8000/api/isFollowing/" + this.state.email
-            )
+            .get("http://localhost:8000/api/isFollowing/" + this.state.email)
             .then(res => {
                 this.setState({
                     isFollowing: res.data.isFollowing,
@@ -107,7 +106,7 @@ class ViewProfile extends Component {
                 if (axios.isCancel(error)) {
                     console.log("View Profile Component Unmounted");
                 }
-                
+
                 console.log("Is following ", error);
             });
     }
@@ -136,7 +135,7 @@ class ViewProfile extends Component {
                 if (axios.isCancel(error)) {
                     console.log("View Profile Component Unmounted");
                 }
-                
+
                 console.log("Is following ", error);
             });
     }
