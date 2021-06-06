@@ -8,6 +8,7 @@ use App\Http\Controllers\URLLoginController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\FeedsController;
 use App\Http\Controllers\NetworkController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------

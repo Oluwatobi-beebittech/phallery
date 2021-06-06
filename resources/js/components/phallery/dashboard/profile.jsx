@@ -24,7 +24,7 @@ class Profile extends Component {
         this.getProfile();
     }
 
-    componentWillUpdate() {
+    componentDidUpdate() {
         this.getProfile();
     }
     componentWillUnmount() {
@@ -39,6 +39,7 @@ class Profile extends Component {
             )
             .then(response => {
                 console.log(response);
+                this.setState({ profile: response.data });
             })
             .catch(error => {
                 if (axios(error)) {
