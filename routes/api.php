@@ -25,6 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::middleware(['auth:sanctum'])->group(function(){
 
+    Route::get('profile/myprofile', [ProfileController::class, 'getMyProfile']);
     Route::get('feeds/all', [FeedsController::class, 'getFeeds']);
     Route::get('network/all',[NetworkController::class, 'getNetworkConnections']);
     Route::get('post/myposts',[PostController::class, 'getMyPosts']);

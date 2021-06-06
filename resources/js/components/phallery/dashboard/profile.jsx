@@ -1,8 +1,51 @@
 import React, { Component } from "react";
 import Nav from "./nav";
 import Banner from "./banner";
+import axios from "axios";
+import Cookies from "universal-cookie";
 
 class Profile extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { profile: {} };
+
+        const sanctumTokenCookie = new Cookies();
+        const sanctumToken = sanctumTokenCookie.get("sanctum_token");
+        axios.defaults.headers.common = {
+            Authorization: "Bearer " + sanctumToken
+        };
+
+        const cancelToken = axios.CancelToken;
+        this.source = cancelToken.source();
+        this.configAxios = { cancelToken: this.source.token };
+    }
+
+    componentDidMount() {
+        this.getProfile();
+    }
+
+    componentWillUpdate() {
+        this.getProfile();
+    }
+    componentWillUnmount() {
+        this.source.cancel("Profile component unmounted");
+    }
+
+    getProfile() {
+        axios
+            .get(
+                "http://localhost:8000/api/profile/myprofile",
+                this.configAxios
+            )
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                if (axios(error)) {
+                    console.log("Profile Unmounted");
+                }
+            });
+    }
     render() {
         return (
             <React.Fragment>
