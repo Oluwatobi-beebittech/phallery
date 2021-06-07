@@ -7,7 +7,7 @@ import Cookies from "universal-cookie";
 class Profile extends Component {
     constructor(props) {
         super(props);
-        this.state = { profile: {} };
+        this.state = { profile: {}, isProfileChecked: false };
 
         const sanctumTokenCookie = new Cookies();
         const sanctumToken = sanctumTokenCookie.get("sanctum_token");
@@ -39,11 +39,16 @@ class Profile extends Component {
             )
             .then(response => {
                 console.log(response);
-                this.setState({ profile: response.data });
+                this.setState({
+                    profile: response.data,
+                    isProfileChecked: true
+                });
             })
             .catch(error => {
-                if (axios(error)) {
+                if (axios.isCancel(error)) {
                     console.log("Profile Unmounted");
+                } else {
+                    this.setState({ isProfileChecked: true });
                 }
             });
     }
@@ -59,85 +64,100 @@ class Profile extends Component {
                         &nbsp;Logout
                     </button>
                     <div className="container rounded shadow-lg bg-white p-3 text-center mb-3">
-                        <form className="">
-                            <div className="form-group">
-                                <h1 className="mx-auto">
-                                    <span className="fa fa-user-circle fa-3x "></span>
-                                </h1>
-                                <input
-                                    type="file"
-                                    className="form-control-file"
-                                    id="photo-upload"
-                                    hidden
-                                />
-                                <label
-                                    className="btn btn-outline-success"
-                                    htmlFor="photo-upload"
-                                >
-                                    <i className="fa fa-edit"></i> Edit
-                                </label>
-                            </div>
-
-                            <div className="w-75 mx-auto">
-                                <ul className="list-group list-group-flush">
-                                    <div className="form-group ">
-                                        <li className="list-group-item border-left-0 border-right-0">
-                                            <div className="row">
-                                                <div className="col-sm-8 col-md-8">
-                                                    <input
-                                                        type="text"
-                                                        className="form-control"
-                                                    />
-                                                </div>
-                                                <div className="col-sm-4 col-md-4">
-                                                    <button className="btn btn-default">
-                                                        <span className="text-primary fa fa-pencil-alt"></span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </li>
-
-                                        <li className="list-group-item border-left-0 border-right-0">
-                                            <div className="row">
-                                                <div className="col-sm-8 col-md-8">
-                                                    <input
-                                                        type="text"
-                                                        className="form-control"
-                                                    />
-                                                </div>
-                                                <div className="col-sm-4 col-md-4">
-                                                    <button className="btn btn-default">
-                                                        <span className="text-primary fa fa-pencil-alt"></span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </li>
-
-                                        <li className="list-group-item border-left-0 border-right-0">
-                                            <div className="row">
-                                                <div className="col-sm-8 col-md-8">
-                                                    <input
-                                                        type="text"
-                                                        className="form-control"
-                                                        value="Test"
-                                                        disabled
-                                                    />
-                                                </div>
-                                                <div className="col-sm-4 col-md-4">
-                                                    <button className="btn btn-default">
-                                                        <span className="text-primary fa fa-pencil-alt"></span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </li>
+                        {this.state.isProfileChecked ? (
+                            !_.isEmpty(this.state.profile) ? (
+                                <form className="">
+                                    <div className="form-group">
+                                        <h1 className="mx-auto">
+                                            <span className="fa fa-user-circle fa-3x "></span>
+                                        </h1>
+                                        <input
+                                            type="file"
+                                            className="form-control-file"
+                                            id="photo-upload"
+                                            hidden
+                                        />
+                                        <label
+                                            className="btn btn-outline-success"
+                                            htmlFor="photo-upload"
+                                        >
+                                            <i className="fa fa-edit"></i> Edit
+                                        </label>
                                     </div>
-                                </ul>
 
-                                <button className="btn btn-primary font-weight-bold">
-                                    <span className="fa fa-save"></span> Save
-                                </button>
+                                    <div className="w-75 mx-auto">
+                                        <ul className="list-group list-group-flush">
+                                            <div className="form-group ">
+                                                <li className="list-group-item border-left-0 border-right-0">
+                                                    <div className="row">
+                                                        <div className="col-sm-8 col-md-8">
+                                                            <input
+                                                                type="text"
+                                                                className="form-control"
+                                                            />
+                                                        </div>
+                                                        <div className="col-sm-4 col-md-4">
+                                                            <button className="btn btn-default">
+                                                                <span className="text-primary fa fa-pencil-alt"></span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </li>
+
+                                                <li className="list-group-item border-left-0 border-right-0">
+                                                    <div className="row">
+                                                        <div className="col-sm-8 col-md-8">
+                                                            <input
+                                                                type="text"
+                                                                className="form-control"
+                                                            />
+                                                        </div>
+                                                        <div className="col-sm-4 col-md-4">
+                                                            <button className="btn btn-default">
+                                                                <span className="text-primary fa fa-pencil-alt"></span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </li>
+
+                                                <li className="list-group-item border-left-0 border-right-0">
+                                                    <div className="row">
+                                                        <div className="col-sm-8 col-md-8">
+                                                            <input
+                                                                type="text"
+                                                                className="form-control"
+                                                                value="Test"
+                                                                disabled
+                                                            />
+                                                        </div>
+                                                        <div className="col-sm-4 col-md-4">
+                                                            <button className="btn btn-default">
+                                                                <span className="text-primary fa fa-pencil-alt"></span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </div>
+                                        </ul>
+
+                                        <button className="btn btn-primary font-weight-bold">
+                                            <span className="fa fa-save"></span>{" "}
+                                            Save
+                                        </button>
+                                    </div>
+                                </form>
+                            ) : (
+                                <p className="font-weight-bold text-center text-muted">
+                                    <span className="fab fa-searchengin fa-2x"></span>{" "}
+                                    Oops. An error was encountered. Try again
+                                </p>
+                            )
+                        ) : (
+                            <div className="font-weight-bold text-center">
+                                <span className="fa fa-spinner fa-pulse fa-3x"></span>
+                                <p className="">Loading</p>
                             </div>
-                        </form>
+                        )}
                     </div>
                 </div>
             </React.Fragment>
