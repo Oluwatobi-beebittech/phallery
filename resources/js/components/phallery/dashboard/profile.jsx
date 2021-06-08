@@ -41,7 +41,9 @@ class Profile extends Component {
                 console.log(response);
                 this.setState({
                     profile: response.data,
-                    isProfileChecked: true
+                    isProfileChecked: true,
+                    firstNameDisabled: true,
+                    lastNameDisabled: true
                 });
             })
             .catch(error => {
@@ -94,6 +96,11 @@ class Profile extends Component {
                                                             <input
                                                                 type="text"
                                                                 className="form-control"
+                                                                value={
+                                                                    this.state
+                                                                        .profile
+                                                                        .first_name
+                                                                }
                                                             />
                                                         </div>
                                                         <div className="col-sm-4 col-md-4">
@@ -110,6 +117,11 @@ class Profile extends Component {
                                                             <input
                                                                 type="text"
                                                                 className="form-control"
+                                                                value={
+                                                                    this.state
+                                                                        .profile
+                                                                        .last_name
+                                                                }
                                                             />
                                                         </div>
                                                         <div className="col-sm-4 col-md-4">
@@ -126,7 +138,33 @@ class Profile extends Component {
                                                             <input
                                                                 type="text"
                                                                 className="form-control"
-                                                                value="Test"
+                                                                value={
+                                                                    this.state
+                                                                        .profile
+                                                                        .email
+                                                                }
+                                                                disabled
+                                                            />
+                                                        </div>
+                                                        <div className="col-sm-4 col-md-4">
+                                                            <button className="btn btn-default">
+                                                                <span className="text-primary fa fa-pencil-alt"></span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </li>
+
+                                                <li className="list-group-item border-left-0 border-right-0">
+                                                    <div className="row">
+                                                        <div className="col-sm-8 col-md-8">
+                                                            <input
+                                                                type="text"
+                                                                className="form-control"
+                                                                value={
+                                                                    this.state
+                                                                        .profile
+                                                                        .phone_number
+                                                                }
                                                                 disabled
                                                             />
                                                         </div>
