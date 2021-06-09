@@ -92,19 +92,19 @@ class Profile extends Component {
     setFirstName(e) {
         const profileCopy = { ...this.state.profile };
         profileCopy.first_name = e.target.value;
-        this.setState({ profile: profileCopy });
+        this.setState({ profile: profileCopy, isProfileUpdated: true });
     }
 
     setLastName(e) {
         const profileCopy = { ...this.state.profile };
         profileCopy.last_name = e.target.value;
-        this.setState({ profile: profileCopy });
+        this.setState({ profile: profileCopy, isProfileUpdated: true });
     }
 
     setPhoneNumber(e) {
         const profileCopy = { ...this.state.profile };
         profileCopy.phone_number = e.target.value;
-        this.setState({ profile: profileCopy });
+        this.setState({ profile: profileCopy, isProfileUpdated: true });
     }
 
     handleImageUpload(e) {
@@ -123,10 +123,18 @@ class Profile extends Component {
         const profileCopy = { ...this.state.profile };
         this.imgPreviewURL = URL.createObjectURL(file);
         profileCopy.profile_image = this.imgPreviewURL;
-        this.setState({ profile: profileCopy, imageFile: file });
+        this.setState({
+            profile: profileCopy,
+            imageFile: file,
+            isProfileUpdated: true
+        });
     }
 
     render() {
+        const imageURLPrefix = _.isEqual(this.state.imageFile, {})
+            ? "http://localhost:8000/"
+            : "";
+
         return (
             <React.Fragment>
                 <Nav hasNotification={true} count={9} />
@@ -146,14 +154,9 @@ class Profile extends Component {
                                             <div className="img-circle-wrapper-profile">
                                                 <img
                                                     src={
-                                                        !_.isEmpty(
-                                                            this.state.imageFile
-                                                        )
-                                                            ? this.state.profile
-                                                                  .profile_image
-                                                            : "http://localhost:8000/" +
-                                                              this.state.profile
-                                                                  .profile_image
+                                                        imageURLPrefix +
+                                                        this.state.profile
+                                                            .profile_image
                                                     }
                                                     className="img-circle"
                                                     alt="profile image"
@@ -321,7 +324,12 @@ class Profile extends Component {
                                             </div>
                                         </ul>
 
-                                        <button className="btn btn-primary font-weight-bold">
+                                        <button
+                                            className="btn btn-primary font-weight-bold"
+                                            disabled={
+                                                !this.state.isProfileUpdated
+                                            }
+                                        >
                                             <span className="fa fa-save"></span>{" "}
                                             Save
                                         </button>
