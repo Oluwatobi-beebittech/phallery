@@ -7,7 +7,13 @@ import Cookies from "universal-cookie";
 class Profile extends Component {
     constructor(props) {
         super(props);
-        this.state = { profile: {}, isProfileChecked: false };
+        this.state = {
+            profile: {},
+            isProfileChecked: false,
+            firstNameDisabled: true,
+            lastNameDisabled: true,
+            phoneNumberDisabled: true
+        };
 
         const sanctumTokenCookie = new Cookies();
         const sanctumToken = sanctumTokenCookie.get("sanctum_token");
@@ -18,15 +24,17 @@ class Profile extends Component {
         const cancelToken = axios.CancelToken;
         this.source = cancelToken.source();
         this.configAxios = { cancelToken: this.source.token };
+
+        this.enableEdit = this.enableEdit.bind(this);
+        this.setFirstName = this.setFirstName.bind(this);
+        this.setLastName = this.setLastName.bind(this);
+        this.setPhoneNumber = this.setPhoneNumber.bind(this);
     }
 
     componentDidMount() {
         this.getProfile();
     }
 
-    componentDidUpdate() {
-        this.getProfile();
-    }
     componentWillUnmount() {
         this.source.cancel("Profile component unmounted");
     }
@@ -41,9 +49,7 @@ class Profile extends Component {
                 console.log(response);
                 this.setState({
                     profile: response.data,
-                    isProfileChecked: true,
-                    firstNameDisabled: true,
-                    lastNameDisabled: true
+                    isProfileChecked: true
                 });
             })
             .catch(error => {
@@ -54,6 +60,43 @@ class Profile extends Component {
                 }
             });
     }
+
+    enableEdit(e) {
+        e.preventDefault();
+        
+        switch (e.target.title) {
+            case "firstNameDisabled":
+                this.setState({ firstNameDisabled: false });
+                break;
+            case "lastNameDisabled":
+                this.setState({ lastNameDisabled: false });
+                break;
+            case "phoneNumberDisabled":
+                this.setState({ phoneNumberDisabled: false });
+                break;
+            default:
+                break;
+        }
+    }
+
+    setFirstName(e) {
+        const profileCopy = { ...this.state.profile };
+        profileCopy.first_name = e.target.value;
+        this.setState({ profile: profileCopy });
+    }
+
+    setLastName(e) {
+        const profileCopy = { ...this.state.profile };
+        profileCopy.last_name = e.target.value;
+        this.setState({ profile: profileCopy });
+    }
+
+    setPhoneNumber(e) {
+        const profileCopy = { ...this.state.profile };
+        profileCopy.phone_number = e.target.value;
+        this.setState({ profile: profileCopy });
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -70,9 +113,19 @@ class Profile extends Component {
                             !_.isEmpty(this.state.profile) ? (
                                 <form className="">
                                     <div className="form-group">
-                                        <h1 className="mx-auto">
-                                            <span className="fa fa-user-circle fa-3x "></span>
-                                        </h1>
+                                        <div className=" d-flex justify-content-center">
+                                            <div className="img-circle-wrapper-profile">
+                                                <img
+                                                    src={
+                                                        "http://localhost:8000/" +
+                                                        this.state.profile
+                                                            .profile_image
+                                                    }
+                                                    className="img-circle"
+                                                    alt="profile image"
+                                                />
+                                            </div>
+                                        </div>
                                         <input
                                             type="file"
                                             className="form-control-file"
@@ -80,7 +133,7 @@ class Profile extends Component {
                                             hidden
                                         />
                                         <label
-                                            className="btn btn-outline-success"
+                                            className="btn btn-outline-success mt-2"
                                             htmlFor="photo-upload"
                                         >
                                             <i className="fa fa-edit"></i> Edit
@@ -96,16 +149,35 @@ class Profile extends Component {
                                                             <input
                                                                 type="text"
                                                                 className="form-control"
+                                                                
+                                                                disabled={
+                                                                    this.state
+                                                                        .firstNameDisabled
+                                                                }
                                                                 value={
                                                                     this.state
                                                                         .profile
                                                                         .first_name
                                                                 }
+                                                                onChange={
+                                                                    this
+                                                                        .setFirstName
+                                                                }
                                                             />
                                                         </div>
                                                         <div className="col-sm-4 col-md-4">
-                                                            <button className="btn btn-default">
-                                                                <span className="text-primary fa fa-pencil-alt"></span>
+                                                            <button
+                                                                title="firstNameDisabled"
+                                                                className="btn btn-default"
+                                                                onClick={
+                                                                    this
+                                                                        .enableEdit
+                                                                }
+                                                            >
+                                                                <span
+                                                                    className="text-primary fa fa-pencil-alt"
+                                                                    title="firstNameDisabled"
+                                                                ></span>
                                                             </button>
                                                         </div>
                                                     </div>
@@ -122,11 +194,29 @@ class Profile extends Component {
                                                                         .profile
                                                                         .last_name
                                                                 }
+                                                                onChange={
+                                                                    this
+                                                                        .setLastName
+                                                                }
+                                                                disabled={
+                                                                    this.state
+                                                                        .lastNameDisabled
+                                                                }
                                                             />
                                                         </div>
                                                         <div className="col-sm-4 col-md-4">
-                                                            <button className="btn btn-default">
-                                                                <span className="text-primary fa fa-pencil-alt"></span>
+                                                            <button
+                                                                title="lastNameDisabled"
+                                                                className="btn btn-default"
+                                                                onClick={
+                                                                    this
+                                                                        .enableEdit
+                                                                }
+                                                            >
+                                                                <span
+                                                                    className="text-primary fa fa-pencil-alt"
+                                                                    title="lastNameDisabled"
+                                                                ></span>
                                                             </button>
                                                         </div>
                                                     </div>
@@ -138,18 +228,13 @@ class Profile extends Component {
                                                             <input
                                                                 type="text"
                                                                 className="form-control"
-                                                                value={
+                                                                defaultValue={
                                                                     this.state
                                                                         .profile
                                                                         .email
                                                                 }
                                                                 disabled
                                                             />
-                                                        </div>
-                                                        <div className="col-sm-4 col-md-4">
-                                                            <button className="btn btn-default">
-                                                                <span className="text-primary fa fa-pencil-alt"></span>
-                                                            </button>
                                                         </div>
                                                     </div>
                                                 </li>
@@ -165,12 +250,29 @@ class Profile extends Component {
                                                                         .profile
                                                                         .phone_number
                                                                 }
-                                                                disabled
+                                                                disabled={
+                                                                    this.state
+                                                                        .phoneNumberDisabled
+                                                                }
+                                                                onChange={
+                                                                    this
+                                                                        .setPhoneNumber
+                                                                }
                                                             />
                                                         </div>
                                                         <div className="col-sm-4 col-md-4">
-                                                            <button className="btn btn-default">
-                                                                <span className="text-primary fa fa-pencil-alt"></span>
+                                                            <button
+                                                                title="phoneNumberDisabled"
+                                                                className="btn btn-default"
+                                                                onClick={
+                                                                    this
+                                                                        .enableEdit
+                                                                }
+                                                            >
+                                                                <span
+                                                                    className="text-primary fa fa-pencil-alt"
+                                                                    title="phoneNumberDisabled"
+                                                                ></span>
                                                             </button>
                                                         </div>
                                                     </div>
