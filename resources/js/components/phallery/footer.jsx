@@ -32,7 +32,7 @@ function Footer() {
                                 <span className="fab fa-instagram fa-2x"></span>
                             </a>
                             <a
-                                href=""
+                                href="https://github.com/Oluwatobi-beebittech"
                                 className="btn btn-lg text-white"
                                 rel="noopener"
                                 target="_blank"

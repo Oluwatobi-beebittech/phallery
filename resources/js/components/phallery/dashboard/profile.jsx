@@ -10,6 +10,7 @@ class Profile extends Component {
         this.state = {
             profile: {},
             isProfileChecked: false,
+            isProfileUpdated: false,
             firstNameDisabled: true,
             lastNameDisabled: true,
             phoneNumberDisabled: true,
@@ -33,6 +34,8 @@ class Profile extends Component {
         this.setPhoneNumber = this.setPhoneNumber.bind(this);
         this.handleImageUpload = this.handleImageUpload.bind(this);
         this.setFileImage = this.setFileImage.bind(this);
+
+        this.imgPreviewURL = null;
     }
 
     componentDidMount() {
@@ -41,6 +44,9 @@ class Profile extends Component {
 
     componentWillUnmount() {
         this.source.cancel("Profile component unmounted");
+        if (this.imgPreviewURL != null) {
+            URL.revokeObjectURL(this.imgPreviewURL);
+        }
     }
 
     getProfile() {
@@ -101,12 +107,6 @@ class Profile extends Component {
         this.setState({ profile: profileCopy });
     }
 
-    setFileImage(file) {
-        const profileCopy = { ...this.state.profile };
-        profileCopy.profile_image = file.name;
-        this.setState({ profile: profileCopy, imageFile: file });
-    }
-
     handleImageUpload(e) {
         const imageFile = e.target.files[0];
         const [fileType] = imageFile.type.split("/");
@@ -117,6 +117,13 @@ class Profile extends Component {
         } else {
             this.setState({ fileUploadError: true });
         }
+    }
+
+    setFileImage(file) {
+        const profileCopy = { ...this.state.profile };
+        this.imgPreviewURL = URL.createObjectURL(file);
+        profileCopy.profile_image = this.imgPreviewURL;
+        this.setState({ profile: profileCopy, imageFile: file });
     }
 
     render() {
@@ -139,9 +146,14 @@ class Profile extends Component {
                                             <div className="img-circle-wrapper-profile">
                                                 <img
                                                     src={
-                                                        "http://localhost:8000/" +
-                                                        this.state.profile
-                                                            .profile_image
+                                                        !_.isEmpty(
+                                                            this.state.imageFile
+                                                        )
+                                                            ? this.state.profile
+                                                                  .profile_image
+                                                            : "http://localhost:8000/" +
+                                                              this.state.profile
+                                                                  .profile_image
                                                     }
                                                     className="img-circle"
                                                     alt="profile image"
