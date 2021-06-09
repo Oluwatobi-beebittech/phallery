@@ -3,6 +3,7 @@ import Nav from "./nav";
 import Banner from "./banner";
 import axios from "axios";
 import Cookies from "universal-cookie";
+import { Prompt } from "react-router";
 
 class Profile extends Component {
     constructor(props) {
@@ -139,7 +140,10 @@ class Profile extends Component {
             <React.Fragment>
                 <Nav hasNotification={true} count={9} />
                 <Banner text="Profile" />
-
+                <Prompt
+                    when={this.state.isProfileUpdated}
+                    message="You have unsaved changes on your profile. Are you sure you want to leave?"
+                />
                 <div className="container">
                     <button className="btn btn-outline-danger my-3">
                         <span className="fa fa-plus-square"></span>
