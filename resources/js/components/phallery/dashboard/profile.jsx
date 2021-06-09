@@ -12,7 +12,9 @@ class Profile extends Component {
             isProfileChecked: false,
             firstNameDisabled: true,
             lastNameDisabled: true,
-            phoneNumberDisabled: true
+            phoneNumberDisabled: true,
+            fileUploadError: false,
+            imageFile: {}
         };
 
         const sanctumTokenCookie = new Cookies();
@@ -29,6 +31,8 @@ class Profile extends Component {
         this.setFirstName = this.setFirstName.bind(this);
         this.setLastName = this.setLastName.bind(this);
         this.setPhoneNumber = this.setPhoneNumber.bind(this);
+        this.handleImageUpload = this.handleImageUpload.bind(this);
+        this.setFileImage = this.setFileImage.bind(this);
     }
 
     componentDidMount() {
@@ -63,7 +67,7 @@ class Profile extends Component {
 
     enableEdit(e) {
         e.preventDefault();
-        
+
         switch (e.target.title) {
             case "firstNameDisabled":
                 this.setState({ firstNameDisabled: false });
@@ -95,6 +99,24 @@ class Profile extends Component {
         const profileCopy = { ...this.state.profile };
         profileCopy.phone_number = e.target.value;
         this.setState({ profile: profileCopy });
+    }
+
+    setFileImage(file) {
+        const profileCopy = { ...this.state.profile };
+        profileCopy.profile_image = file.name;
+        this.setState({ profile: profileCopy, imageFile: file });
+    }
+
+    handleImageUpload(e) {
+        const imageFile = e.target.files[0];
+        const [fileType] = imageFile.type.split("/");
+
+        if (fileType === "image") {
+            this.setFileImage(imageFile);
+            this.setState({ fileUploadError: false });
+        } else {
+            this.setState({ fileUploadError: true });
+        }
     }
 
     render() {
@@ -130,10 +152,18 @@ class Profile extends Component {
                                             type="file"
                                             className="form-control-file"
                                             id="photo-upload"
+                                            onChange={this.handleImageUpload}
                                             hidden
                                         />
+                                        {this.state.fileUploadError ? (
+                                            <span className=" font-weight-bold text-danger d-block">
+                                                Upload an image
+                                            </span>
+                                        ) : (
+                                            ""
+                                        )}
                                         <label
-                                            className="btn btn-outline-success mt-2"
+                                            className="btn btn-outline-success mt-1"
                                             htmlFor="photo-upload"
                                         >
                                             <i className="fa fa-edit"></i> Edit
@@ -149,7 +179,6 @@ class Profile extends Component {
                                                             <input
                                                                 type="text"
                                                                 className="form-control"
-                                                                
                                                                 disabled={
                                                                     this.state
                                                                         .firstNameDisabled
