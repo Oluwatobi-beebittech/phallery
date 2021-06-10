@@ -26,6 +26,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::middleware(['auth:sanctum'])->group(function(){
 
+    Route::post('profile/update', [ProfileController::class, 'update']);
     Route::get('profile/myprofile', [ProfileController::class, 'getMyProfile']);
     Route::get('feeds/all', [FeedsController::class, 'getFeeds']);
     Route::get('network/all',[NetworkController::class, 'getNetworkConnections']);

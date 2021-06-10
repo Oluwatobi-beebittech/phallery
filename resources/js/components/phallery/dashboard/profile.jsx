@@ -11,7 +11,8 @@ class Profile extends Component {
         this.state = {
             profile: {},
             isProfileChecked: false,
-            isProfileUpdated: false,
+            isUpdateUnsaved: false,
+            isProfileUpdateSuccess: false,
             firstNameDisabled: true,
             lastNameDisabled: true,
             phoneNumberDisabled: true,
@@ -35,6 +36,7 @@ class Profile extends Component {
         this.setPhoneNumber = this.setPhoneNumber.bind(this);
         this.handleImageUpload = this.handleImageUpload.bind(this);
         this.setFileImage = this.setFileImage.bind(this);
+        this.updateProfile = this.updateProfile.bind(this);
 
         this.imgPreviewURL = null;
     }
@@ -93,19 +95,19 @@ class Profile extends Component {
     setFirstName(e) {
         const profileCopy = { ...this.state.profile };
         profileCopy.first_name = e.target.value;
-        this.setState({ profile: profileCopy, isProfileUpdated: true });
+        this.setState({ profile: profileCopy, isUpdateUnsaved: true });
     }
 
     setLastName(e) {
         const profileCopy = { ...this.state.profile };
         profileCopy.last_name = e.target.value;
-        this.setState({ profile: profileCopy, isProfileUpdated: true });
+        this.setState({ profile: profileCopy, isUpdateUnsaved: true });
     }
 
     setPhoneNumber(e) {
         const profileCopy = { ...this.state.profile };
         profileCopy.phone_number = e.target.value;
-        this.setState({ profile: profileCopy, isProfileUpdated: true });
+        this.setState({ profile: profileCopy, isUpdateUnsaved: true });
     }
 
     handleImageUpload(e) {
@@ -127,10 +129,32 @@ class Profile extends Component {
         this.setState({
             profile: profileCopy,
             imageFile: file,
-            isProfileUpdated: true
+            isUpdateUnsaved: true
         });
     }
 
+    updateProfile(e) {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append("first_name", this.state.profile.first_name);
+        formData.append("last_name", this.state.profile.last_name);
+        formData.append("phone_number", this.state.profile.phone_number);
+        formData.append("profile_image", this.state.imageFile);
+
+        axios
+            .post(
+                "http://localhost:8000/api/profile/update",
+                formData,
+                this.configAxios
+            )
+            .then(result => {
+                console.log(result);
+                this.setState({ isProfileUpdateSuccess: true, isUpdateUnsaved:false });
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
     render() {
         const imageURLPrefix = _.isEqual(this.state.imageFile, {})
             ? "http://localhost:8000/"
@@ -141,7 +165,7 @@ class Profile extends Component {
                 <Nav hasNotification={true} count={9} />
                 <Banner text="Profile" />
                 <Prompt
-                    when={this.state.isProfileUpdated}
+                    when={this.state.isUpdateUnsaved}
                     message="You have unsaved changes on your profile. Are you sure you want to leave?"
                 />
                 <div className="container">
@@ -333,6 +357,7 @@ class Profile extends Component {
                                             disabled={
                                                 !this.state.isProfileUpdated
                                             }
+                                            onClick={this.updateProfile}
                                         >
                                             <span className="fa fa-save"></span>{" "}
                                             Save
