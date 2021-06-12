@@ -12,12 +12,13 @@ class Profile extends Component {
             profile: {},
             isProfileChecked: false,
             isUpdateUnsaved: false,
-            isProfileUpdateSuccess: false,
+            isProfileUpdateSuccess: null,
             firstNameDisabled: true,
             lastNameDisabled: true,
             phoneNumberDisabled: true,
             fileUploadError: false,
-            imageFile: {}
+            imageFile: {},
+            updateResult: {}
         };
 
         const sanctumTokenCookie = new Cookies();
@@ -79,13 +80,25 @@ class Profile extends Component {
 
         switch (e.target.title) {
             case "firstNameDisabled":
-                this.setState({ firstNameDisabled: false });
+                this.setState({
+                    firstNameDisabled: false,
+                    isProfileUpdateSuccess: null,
+                    updateResult: {}
+                });
                 break;
             case "lastNameDisabled":
-                this.setState({ lastNameDisabled: false });
+                this.setState({
+                    lastNameDisabled: false,
+                    isProfileUpdateSuccess: null,
+                    updateResult: {}
+                });
                 break;
             case "phoneNumberDisabled":
-                this.setState({ phoneNumberDisabled: false });
+                this.setState({
+                    phoneNumberDisabled: false,
+                    isProfileUpdateSuccess: null,
+                    updateResult: {}
+                });
                 break;
             default:
                 break;
@@ -95,19 +108,28 @@ class Profile extends Component {
     setFirstName(e) {
         const profileCopy = { ...this.state.profile };
         profileCopy.first_name = e.target.value;
-        this.setState({ profile: profileCopy, isUpdateUnsaved: true });
+        this.setState({
+            profile: profileCopy,
+            isUpdateUnsaved: true
+        });
     }
 
     setLastName(e) {
         const profileCopy = { ...this.state.profile };
         profileCopy.last_name = e.target.value;
-        this.setState({ profile: profileCopy, isUpdateUnsaved: true });
+        this.setState({
+            profile: profileCopy,
+            isUpdateUnsaved: true
+        });
     }
 
     setPhoneNumber(e) {
         const profileCopy = { ...this.state.profile };
         profileCopy.phone_number = e.target.value;
-        this.setState({ profile: profileCopy, isUpdateUnsaved: true });
+        this.setState({
+            profile: profileCopy,
+            isUpdateUnsaved: true
+        });
     }
 
     handleImageUpload(e) {
@@ -116,9 +138,17 @@ class Profile extends Component {
 
         if (fileType === "image") {
             this.setFileImage(imageFile);
-            this.setState({ fileUploadError: false });
+            this.setState({
+                fileUploadError: false,
+                isProfileUpdateSuccess: null,
+                updateResult: {}
+            });
         } else {
-            this.setState({ fileUploadError: true });
+            this.setState({
+                fileUploadError: true,
+                isProfileUpdateSuccess: null,
+                updateResult: {}
+            });
         }
     }
 
@@ -129,7 +159,9 @@ class Profile extends Component {
         this.setState({
             profile: profileCopy,
             imageFile: file,
-            isUpdateUnsaved: true
+            isUpdateUnsaved: true,
+            isProfileUpdateSuccess: null,
+            updateResult: {}
         });
     }
 
@@ -139,7 +171,9 @@ class Profile extends Component {
         formData.append("first_name", this.state.profile.first_name);
         formData.append("last_name", this.state.profile.last_name);
         formData.append("phone_number", this.state.profile.phone_number);
-        formData.append("profile_image", this.state.imageFile);
+        if (!_.isEqual(this.state.imageFile, {})) {
+            formData.append("profile_image", this.state.imageFile);
+        }
 
         axios
             .post(
@@ -149,19 +183,45 @@ class Profile extends Component {
             )
             .then(result => {
                 console.log(result);
+
                 this.setState({
                     isProfileUpdateSuccess: true,
-                    isUpdateUnsaved: false
+                    isUpdateUnsaved: false,
+                    updateResult: result.data
                 });
             })
             .catch(error => {
                 console.log(error);
+                this.setState({
+                    isProfileUpdateSuccess: false,
+                    isUpdateUnsaved: true,
+                    updateResult: error.response.data
+                });
             });
     }
     render() {
         const imageURLPrefix = _.isEqual(this.state.imageFile, {})
             ? "http://localhost:8000/"
             : "";
+        const isProfileUpdateSuccess = this.state.isProfileUpdateSuccess;
+
+        const alertClass =
+            isProfileUpdateSuccess != null && isProfileUpdateSuccess
+                ? "alert-success"
+                : "alert-danger";
+        const bannerAlert =
+            isProfileUpdateSuccess != null ? (
+                <div
+                    className={
+                        "alert " + alertClass + " alert-dismissible fade show"
+                    }
+                    role="alert"
+                >
+                    <strong>{this.state.updateResult.message}</strong>
+                </div>
+            ) : (
+                ""
+            );
 
         return (
             <React.Fragment>
@@ -176,10 +236,12 @@ class Profile extends Component {
                         <span className="fa fa-plus-square"></span>
                         &nbsp;Logout
                     </button>
+
                     <div className="container rounded shadow-lg bg-white p-3 text-center mb-3">
                         {this.state.isProfileChecked ? (
                             !_.isEmpty(this.state.profile) ? (
                                 <form className="">
+                                    {bannerAlert}
                                     <div className="form-group">
                                         <div className=" d-flex justify-content-center">
                                             <div className="img-circle-wrapper-profile">
@@ -365,6 +427,21 @@ class Profile extends Component {
                                             <span className="fa fa-save"></span>{" "}
                                             Save
                                         </button>
+                                        {isProfileUpdateSuccess != null ? (
+                                            isProfileUpdateSuccess ? (
+                                                <p className="text-success font-weight-bold">
+                                                    <span className="fa fa-check"></span>{" "}
+                                                    Profile Saved
+                                                </p>
+                                            ) : (
+                                                <p className="text-danger font-weight-bold">
+                                                    <span className="fa fa-times"></span>{" "}
+                                                    Unable to save
+                                                </p>
+                                            )
+                                        ) : (
+                                            ""
+                                        )}
                                     </div>
                                 </form>
                             ) : (
