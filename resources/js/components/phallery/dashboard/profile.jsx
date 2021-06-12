@@ -149,7 +149,10 @@ class Profile extends Component {
             )
             .then(result => {
                 console.log(result);
-                this.setState({ isProfileUpdateSuccess: true, isUpdateUnsaved:false });
+                this.setState({
+                    isProfileUpdateSuccess: true,
+                    isUpdateUnsaved: false
+                });
             })
             .catch(error => {
                 console.log(error);
@@ -355,7 +358,7 @@ class Profile extends Component {
                                         <button
                                             className="btn btn-primary font-weight-bold"
                                             disabled={
-                                                !this.state.isProfileUpdated
+                                                !this.state.isUpdateUnsaved
                                             }
                                             onClick={this.updateProfile}
                                         >
