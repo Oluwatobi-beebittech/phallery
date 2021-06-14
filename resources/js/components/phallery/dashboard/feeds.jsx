@@ -63,6 +63,9 @@ function Feeds() {
                                 hearts={item.hearts}
                                 comments={item.comments}
                                 postId={item.post_id}
+                                self_like={item.self_like}
+                                self_heart={item.self_heart}
+                                self_comment={item.self_comment}
                             />
                         ))
                     ) : isPostAvailabilityChecked ? (

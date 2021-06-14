@@ -5,7 +5,10 @@ import Cookies from "universal-cookie";
 class Like extends Component {
     constructor(props) {
         super(props);
-        this.state = { isClicked: false, count: this.props.count };
+        this.state = {
+            isClicked: this.props.self_like,
+            count: this.props.count
+        };
         this.onLikeClicked = this.onLikeClicked.bind(this);
         this.processLike = this.processLike.bind(this);
 

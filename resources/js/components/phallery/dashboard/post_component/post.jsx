@@ -21,15 +21,18 @@ class Post extends Component {
                         <Heart
                             count={this.props.hearts}
                             postId={this.props.postId}
+                            self_heart={this.props.self_heart}
                         />
                         <Like
                             count={this.props.likes}
                             postId={this.props.postId}
+                            self_like={this.props.self_like}
                         />
                         <Comment
                             count={this.props.comments}
                             caller={this.props.imgUrl}
                             postId={this.props.postId}
+                            self_comment={this.props.self_comment}
                         />
                     </div>
                 </div>

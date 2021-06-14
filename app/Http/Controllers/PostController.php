@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Post;
+use App\Models\Like;
 
 class PostController extends Controller
 {
@@ -12,6 +13,11 @@ class PostController extends Controller
 
         $userEmail =  $request->user()->email;
         $posts = Post::select('post_id', 'post_text', 'post_image', 'likes','hearts','comments')->where('user_email', $userEmail)->get();
+        foreach($posts as $post){
+            $post->self_like=true;
+            
+        }
+        
         return $posts;
     }
 
@@ -20,7 +26,14 @@ class PostController extends Controller
         $post = Post::where('post_id',$postId)->first();
         $postLike = $post->likes;
         $post->likes = $postLike+1;
+
+        $like = new Like;
+        $like->post_id = $post->post_id;
+        $like->user_email = $userEmail;
+
+        $like->save();
         $post->save();
+
         return response()->json(["message"=>"Post liked"]);
     }
 
@@ -29,6 +42,10 @@ class PostController extends Controller
         $post = Post::where('post_id',$postId)->first();
         $postLike = $post->likes;
         $post->likes = $postLike-1;
+
+        $like = Like::where('post_id', $post->post_id)->where('user_email',$userEmail);
+        
+        $like->delete();
         $post->save();
         return response()->json(["message"=>"Post unliked"]);
     }

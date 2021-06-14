@@ -37,6 +37,13 @@ class Post extends Model
                             'hearts'=>0, 
                             'comments'=>0
                         ];
+
+    /**
+     * The assessors to append to the model's array form
+     * @var array
+     */
+    protected $appends=['self_like', 'self_heart', 'self_comment'];
+
     /**
      * Get user that owns the post
      * @return App\User
@@ -46,6 +53,33 @@ class Post extends Model
     }
 
     public function likes(){
-        return $this.hasMany(Like::class, 'post_id');
+        return $this->hasMany(Like::class, 'post_id');
+    }
+
+    /**
+     * Determines if user liked the post
+     * 
+     * @return boolean
+     */
+    public function getSelfLikeAttribute(){
+        return $this->likes()->exists();
+    }
+
+    /**
+     * Determines if user hearts the post
+     * 
+     * @return boolean
+     */
+    public function getSelfHeartAttribute(){
+        return false;
+    }
+
+    /**
+     * Determines if user commented on the post
+     * 
+     * @return boolean
+     */
+    public function getSelfCommentAttribute(){
+        return false;
     }
 }
