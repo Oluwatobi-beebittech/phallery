@@ -20,6 +20,7 @@ class PostContainer extends Component {
                     likes={this.props.likes}
                     hearts={this.props.hearts}
                     comments={this.props.comments}
+                    postId = {this.props.postId}
                 />
             </div>
         );

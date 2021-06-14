@@ -14,6 +14,24 @@ class PostController extends Controller
         $posts = Post::select('post_id', 'post_text', 'post_image', 'likes','hearts','comments')->where('user_email', $userEmail)->get();
         return $posts;
     }
+
+    public function likePost(Request $request, $postId){
+        $userEmail = $request->user()->email;
+        $post = Post::where('post_id',$postId)->first();
+        $postLike = $post->likes;
+        $post->likes = $postLike+1;
+        $post->save();
+        return response()->json(["message"=>"Post liked"]);
+    }
+
+    public function unLikePost(Request $request, $postId){
+        $userEmail = $request->user()->email;
+        $post = Post::where('post_id',$postId)->first();
+        $postLike = $post->likes;
+        $post->likes = $postLike-1;
+        $post->save();
+        return response()->json(["message"=>"Post unliked"]);
+    }
     /**
      * Store a newly created resource in storage.
      *

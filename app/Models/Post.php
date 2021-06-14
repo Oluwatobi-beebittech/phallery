@@ -33,6 +33,10 @@ class Post extends Model
      */
     public $incrementing = false;
 
+    protected $attributes=['likes'=>0, 
+                            'hearts'=>0, 
+                            'comments'=>0
+                        ];
     /**
      * Get user that owns the post
      * @return App\User
@@ -41,4 +45,7 @@ class Post extends Model
         return $this->belongsTo(User::class, 'user_email');
     }
 
+    public function likes(){
+        return $this.hasMany(Like::class, 'post_id');
+    }
 }

@@ -1,9 +1,51 @@
 import React, { Component } from "react";
+import axios from "axios";
+import Cookies from "universal-cookie";
+
 class Like extends Component {
     constructor(props) {
         super(props);
         this.state = { isClicked: false, count: this.props.count };
         this.onLikeClicked = this.onLikeClicked.bind(this);
+        this.processLike = this.processLike.bind(this);
+
+        const sanctumTokenCookie = new Cookies();
+        const sanctumToken = sanctumTokenCookie.get("sanctum_token");
+        axios.defaults.headers.common = {
+            Authorization: "Bearer " + sanctumToken
+        };
+
+        const cancelToken = axios.CancelToken;
+        this.source = cancelToken.source();
+        this.configAxios = { cancelToken: this.source.token };
+    }
+
+    processLike() {
+        axios
+            .get(
+                "http://localhost:8000/api/post/like/" + this.props.postId,
+                this.configAxios
+            )
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+    processUnLike() {
+        axios
+            .get(
+                "http://localhost:8000/api/post/unlike/" + this.props.postId,
+                this.configAxios
+            )
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.log(error);
+            });
     }
 
     onLikeClicked(e) {
@@ -13,6 +55,15 @@ class Like extends Component {
             ? this.state.count - 1
             : this.state.count + 1;
         this.setState({ isClicked: !previousClick, count: countAdjust });
+        if (previousClick) {
+            this.processUnLike();
+        } else {
+            this.processLike();
+        }
+    }
+
+    componentWillUnmount() {
+        this.source.cancel();
     }
 
     render() {
@@ -23,7 +74,11 @@ class Like extends Component {
         return (
             <React.Fragment>
                 <p className="h5 font-weight-bold">{this.state.count}</p>
-                <a href="" className={classText} onClick={this.onLikeClicked}></a>
+                <a
+                    href=""
+                    className={classText}
+                    onClick={this.onLikeClicked}
+                ></a>
             </React.Fragment>
         );
     }
