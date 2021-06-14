@@ -31,6 +31,8 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::get('feeds/all', [FeedsController::class, 'getFeeds']);
     Route::get('network/all',[NetworkController::class, 'getNetworkConnections']);
     
+    Route::get('post/unheart/{postId}',[PostController::class, 'unHeartPost']);
+    Route::get('post/heart/{postId}',[PostController::class, 'heartPost']);
     Route::get('post/unlike/{postId}',[PostController::class, 'unLikePost']);
     Route::get('post/like/{postId}',[PostController::class, 'likePost']);
     Route::get('post/myposts',[PostController::class, 'getMyPosts']);

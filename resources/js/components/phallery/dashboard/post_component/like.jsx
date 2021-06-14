@@ -11,6 +11,7 @@ class Like extends Component {
         };
         this.onLikeClicked = this.onLikeClicked.bind(this);
         this.processLike = this.processLike.bind(this);
+        this.processUnlike = this.processUnlike.bind(this);
 
         const sanctumTokenCookie = new Cookies();
         const sanctumToken = sanctumTokenCookie.get("sanctum_token");
@@ -37,7 +38,7 @@ class Like extends Component {
             });
     }
 
-    processUnLike() {
+    processUnlike() {
         axios
             .get(
                 "http://localhost:8000/api/post/unlike/" + this.props.postId,
@@ -59,7 +60,7 @@ class Like extends Component {
             : this.state.count + 1;
         this.setState({ isClicked: !previousClick, count: countAdjust });
         if (previousClick) {
-            this.processUnLike();
+            this.processUnlike();
         } else {
             this.processLike();
         }

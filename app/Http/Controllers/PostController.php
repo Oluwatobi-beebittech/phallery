@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Post;
 use App\Models\Like;
+use App\Models\Heart;
 
 class PostController extends Controller
 {
@@ -48,6 +49,35 @@ class PostController extends Controller
         $like->delete();
         $post->save();
         return response()->json(["message"=>"Post unliked"]);
+    }
+
+    public function heartPost(Request $request, $postId){
+        $userEmail = $request->user()->email;
+        $post = Post::where('post_id',$postId)->first();
+        $postHeart = $post->hearts;
+        $post->hearts = $postHeart+1;
+
+        $heart = new Heart;
+        $heart->post_id = $post->post_id;
+        $heart->user_email = $userEmail;
+
+        $heart->save();
+        $post->save();
+
+        return response()->json(["message"=>"Post hearted"]);
+    }
+
+    public function unHeartPost(Request $request, $postId){
+        $userEmail = $request->user()->email;
+        $post = Post::where('post_id',$postId)->first();
+        $postHeart = $post->hearts;
+        $post->hearts = $postHeart-1;
+
+        $heart = Heart::where('post_id', $post->post_id)->where('user_email',$userEmail);
+        
+        $heart->delete();
+        $post->save();
+        return response()->json(["message"=>"Post unhearted"]);
     }
     /**
      * Store a newly created resource in storage.

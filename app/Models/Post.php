@@ -56,6 +56,10 @@ class Post extends Model
         return $this->hasMany(Like::class, 'post_id');
     }
 
+    public function hearts(){
+        return $this->hasMany(Heart::class, 'post_id');
+    }
+
     /**
      * Determines if user liked the post
      * 
@@ -71,7 +75,7 @@ class Post extends Model
      * @return boolean
      */
     public function getSelfHeartAttribute(){
-        return false;
+        return $this->hearts()->exists();
     }
 
     /**
