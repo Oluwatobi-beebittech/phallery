@@ -30,6 +30,6 @@ class Like extends Model
     public $incrementing = false;
 
     public function post(){
-        return $this.belongsTo(Post::class,'post_id');
+        return $this->belongsTo(Post::class,'post_id');
     }
 }

@@ -60,6 +60,9 @@ class Post extends Model
         return $this->hasMany(Heart::class, 'post_id');
     }
 
+    public function comments(){
+        return $this->hasMany(Comment::class, 'post_id');
+    }
     /**
      * Determines if user liked the post
      * 
@@ -84,6 +87,6 @@ class Post extends Model
      * @return boolean
      */
     public function getSelfCommentAttribute(){
-        return false;
+        return $this->comments()->exists();
     }
 }

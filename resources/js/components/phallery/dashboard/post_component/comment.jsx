@@ -1,25 +1,40 @@
 import React, { Component } from "react";
 import Modal from "react-bootstrap/Modal";
+import axios from "axios";
+import Cookies from "universal-cookie";
+
 class Comment extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isClicked: this.props.self_comment,
+            hasCommented: this.props.self_comment,
             count: this.props.count,
             commentBoxDisplay: false,
-            commentText: ""
+            commentText: "",
+            comments: []
         };
+
+        const sanctumTokenCookie = new Cookies();
+        const sanctumToken = sanctumTokenCookie.get("sanctum_token");
+        axios.defaults.headers.common = {
+            Authorization: "Bearer " + sanctumToken
+        };
+
+        const cancelToken = axios.CancelToken;
+        this.source = cancelToken.source();
+        this.configAxios = { cancelToken: this.source.token };
+
         this.onCommentClicked = this.onCommentClicked.bind(this);
         this.commentTextChanged = this.commentTextChanged.bind(this);
+        this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
     }
+
     onCommentClicked(e) {
         e.preventDefault();
         this.displayCommentBox(true);
-        // const previousClick = this.state.isClicked;
-        // const countAdjust = previousClick
-        //     ? this.state.count - 1
-        //     : this.state.count + 1;
-        // this.setState({ isClicked: !previousClick, count: countAdjust });
+        const previouslyCommented = this.state.hasCommented;
+
+        this.setState({ hasCommented: !previouslyCommented });
     }
 
     displayCommentBox(value) {
@@ -30,8 +45,28 @@ class Comment extends Component {
         this.setState({ commentText: e.target.value });
     }
 
+    handleCommentSubmit(e) {
+        e.preventDefault();
+        const data = {
+            post_id: this.props.postId,
+            comment: this.state.commentText
+        };
+        axios
+            .post(
+                "http://localhost:8000/api/post/comment",
+                data,
+                this.configAxios
+            )
+            .then(result => {
+                console.log(result);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
     render() {
-        const color = this.state.isClicked
+        const color = this.state.hasCommented
             ? "fa fa-comment-dots text-success"
             : "far fa-comment-dots";
         const classText = color + " fa-2x text-decoration-none";
@@ -137,6 +172,7 @@ class Comment extends Component {
                                     <button
                                         className="btn btn-primary"
                                         disabled={isDisabled}
+                                        onClick={this.handleCommentSubmit}
                                     >
                                         Send{" "}
                                         <span className="fa fa-chevron-right"></span>

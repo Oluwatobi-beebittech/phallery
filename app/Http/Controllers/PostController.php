@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Post;
 use App\Models\Like;
 use App\Models\Heart;
+use App\Models\Comment;
 
 class PostController extends Controller
 {
@@ -139,6 +140,31 @@ class PostController extends Controller
         return $posts;
     }
 
+    public function commentOnPost(Request $request){
+        
+        $validatedData = Validator::make($request->all(),
+                                        [
+                                            'post_id'=>'required|uuid|exists:posts',
+                                            'comment'=>'required|string'
+                                        ]);
+        if($validatedData->fails()){
+            return response()->json(["message"=>"Comment creation failed", "errors"=>$validatedData->errors(),"status"=>"failed"], 422);
+        }
+
+        $userEmail = $request->user()->email;
+        $comment = Comment::create([
+                                'user_email'=>$userEmail,
+                                'post_id'=>$request->post_id,
+                                'comment'=>$request->comment
+                                ]);
+        $post = $comment->post;
+        $post_comment_count = $post->comments;
+        $post->comments = $post_comment_count + 1;
+        $post->save();
+
+        return response()->json(["message"=>"Comment created","status"=>"success"], 201);
+
+    }
     /**
      * Update the specified resource in storage.
      *

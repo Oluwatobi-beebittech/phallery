@@ -73,6 +73,7 @@ class ViewProfile extends Component {
                 this.configAxios
             )
             .then(res => {
+                console.log(res.data);
                 this.setState({
                     posts: res.data,
                     isPostAvailabilityChecked: true
