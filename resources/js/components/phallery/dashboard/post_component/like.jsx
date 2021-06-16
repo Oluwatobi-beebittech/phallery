@@ -24,6 +24,9 @@ class Like extends Component {
         this.configAxios = { cancelToken: this.source.token };
     }
 
+    /**
+     * Handles the liking of a post
+     */
     processLike() {
         axios
             .get(
@@ -38,6 +41,9 @@ class Like extends Component {
             });
     }
 
+    /**
+     * Handles the unliking of a post
+     */
     processUnlike() {
         axios
             .get(
@@ -52,6 +58,9 @@ class Like extends Component {
             });
     }
 
+    /**
+     * Handles the click of a like button
+     */
     onLikeClicked(e) {
         e.preventDefault();
         const previousClick = this.state.isClicked;

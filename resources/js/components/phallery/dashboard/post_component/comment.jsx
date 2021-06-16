@@ -4,7 +4,7 @@ class Comment extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isClicked: false,
+            isClicked: this.props.self_comment,
             count: this.props.count,
             commentBoxDisplay: false,
             commentText: ""
@@ -35,7 +35,7 @@ class Comment extends Component {
             ? "fa fa-comment-dots text-success"
             : "far fa-comment-dots";
         const classText = color + " fa-2x text-decoration-none";
-        const isDisabled = this.state.commentText.trim() !="" ? false : true;
+        const isDisabled = this.state.commentText.trim() != "" ? false : true;
         return (
             <React.Fragment>
                 <p className="h5 font-weight-bold">{this.state.count}</p>
@@ -49,11 +49,11 @@ class Comment extends Component {
                     size="md"
                     show={this.state.commentBoxDisplay}
                     onHide={() => this.displayCommentBox(false)}
-                    aria-labelledby={"create-comment-"+this.props.caller}
+                    aria-labelledby={"create-comment-" + this.props.caller}
                     centered
                 >
                     <Modal.Header closeButton className="bg-dark text-white">
-                        <Modal.Title id={"create-comment-"+this.props.caller}>
+                        <Modal.Title id={"create-comment-" + this.props.caller}>
                             <span className="fa fa-comment-dots"></span>
                             &nbsp;Comments
                         </Modal.Title>
@@ -65,7 +65,10 @@ class Comment extends Component {
                             </p>
                             <div className="d-flex flex-column">
                                 <div className="col-md-6 p-2 rounded-15 chat-box my-1">
-                                    <a className="font-weight-bold text-decoration-none text-primary" href="">
+                                    <a
+                                        className="font-weight-bold text-decoration-none text-primary"
+                                        href=""
+                                    >
                                         Oluwatobi Akanji
                                     </a>
                                     <p>gffj</p>
@@ -110,22 +113,31 @@ class Comment extends Component {
                                         type="text"
                                         className="form-control"
                                         rows="3"
-                                        id={"card-comment-"+this.props.caller}
+                                        id={"card-comment-" + this.props.caller}
                                         onChange={this.commentTextChanged}
                                         value={this.state.commentText}
                                         placeholder="Your comment"
                                         maxLength={100}
-                                        aria-describedby={"cardCommentHelpText-"+this.props.caller}
+                                        aria-describedby={
+                                            "cardCommentHelpText-" +
+                                            this.props.caller
+                                        }
                                     />
                                     <small
-                                        id={"cardCommentHelpText-"+this.props.caller}
+                                        id={
+                                            "cardCommentHelpText-" +
+                                            this.props.caller
+                                        }
                                         className="form-text text-muted float-right"
                                     >
                                         {this.state.commentText.length}/100
                                     </small>
                                 </div>
                                 <div className=" d-flex flex-column justify-content-around text-center text-primary col-md-3">
-                                    <button className="btn btn-primary" disabled={isDisabled}>
+                                    <button
+                                        className="btn btn-primary"
+                                        disabled={isDisabled}
+                                    >
                                         Send{" "}
                                         <span className="fa fa-chevron-right"></span>
                                     </button>

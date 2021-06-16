@@ -24,6 +24,9 @@ class Heart extends Component {
         this.configAxios = { cancelToken: this.source.token };
     }
 
+    /**
+     * Handles the hearting of a post
+     */
     processHeart() {
         axios
             .get(
@@ -38,6 +41,9 @@ class Heart extends Component {
             });
     }
 
+    /**
+     * Handles the unhearting of a post
+     */
     processUnheart() {
         axios
             .get(
@@ -52,6 +58,9 @@ class Heart extends Component {
             });
     }
 
+    /**
+     * Handles the click of a heart
+     */
     onHeartClicked(e) {
         e.preventDefault();
         const previousClick = this.state.isClicked;

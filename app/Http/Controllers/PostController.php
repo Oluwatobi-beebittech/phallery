@@ -10,6 +10,11 @@ use App\Models\Heart;
 
 class PostController extends Controller
 {
+    /**
+     * Gets all the post of the signed in user
+     * @param \Illuminate\Http\Request $request
+     * @return JSON
+     */
     public function getMyPosts(Request $request){
 
         $userEmail =  $request->user()->email;
@@ -22,6 +27,11 @@ class PostController extends Controller
         return $posts;
     }
 
+    /**
+     * Handles the liking of a post 
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function likePost(Request $request, $postId){
         $userEmail = $request->user()->email;
         $post = Post::where('post_id',$postId)->first();
@@ -35,6 +45,11 @@ class PostController extends Controller
         return response()->json(["message"=>"Post liked"]);
     }
 
+    /**
+     * Handles the unliking of a post
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function unLikePost(Request $request, $postId){
         $userEmail = $request->user()->email;
         $post = Post::where('post_id',$postId)->first();
@@ -48,6 +63,11 @@ class PostController extends Controller
         return response()->json(["message"=>"Post unliked"]);
     }
 
+    /**
+     * Handles the hearting of a post
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function heartPost(Request $request, $postId){
         $userEmail = $request->user()->email;
         $post = Post::where('post_id',$postId)->first();
@@ -60,6 +80,11 @@ class PostController extends Controller
         return response()->json(["message"=>"Post hearted"]);
     }
 
+    /**
+     * Handles the unhearting of a post
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function unHeartPost(Request $request, $postId){
         $userEmail = $request->user()->email;
         $post = Post::where('post_id',$postId)->first();
