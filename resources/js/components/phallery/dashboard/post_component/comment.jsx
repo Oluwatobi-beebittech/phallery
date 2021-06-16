@@ -27,6 +27,7 @@ class Comment extends Component {
         this.onCommentClicked = this.onCommentClicked.bind(this);
         this.commentTextChanged = this.commentTextChanged.bind(this);
         this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
+        this.loadComments = this.loadComments.bind(this);
     }
 
     onCommentClicked(e) {
@@ -58,11 +59,47 @@ class Comment extends Component {
                 this.configAxios
             )
             .then(result => {
-                console.log(result);
+                let currentCount = this.state.count;
+                this.setState({ count: currentCount + 1, hasCommented: true });
             })
             .catch(error => {
-                console.log(error);
+                if (axios.isCancel(error)) {
+                    console.log("Coomment component unmounted");
+                } else {
+                    console.log(error);
+                }
             });
+    }
+
+    loadComments() {
+        axios
+            .get(
+                "http://localhost:8000/api/post/comment/" + this.props.postId,
+                this.configAxios
+            )
+            .then(result => {
+                console.log(result);
+                this.setState({ comment: result.data });
+            })
+            .catch(error => {
+                if (axios.isCancel(error)) {
+                    console.log("Comment unmounted");
+                } else {
+                    console.log(error);
+                }
+            });
+    }
+
+    componentDidMount() {
+        this.loadComments();
+    }
+
+    componentDidUpdate() {
+        this.loadComments();
+    }
+
+    componentWillUnmount() {
+        this.source.cancel();
     }
 
     render() {

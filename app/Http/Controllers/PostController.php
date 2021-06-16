@@ -141,7 +141,7 @@ class PostController extends Controller
     }
 
     public function commentOnPost(Request $request){
-        
+
         $validatedData = Validator::make($request->all(),
                                         [
                                             'post_id'=>'required|uuid|exists:posts',
@@ -165,6 +165,11 @@ class PostController extends Controller
         return response()->json(["message"=>"Comment created","status"=>"success"], 201);
 
     }
+
+    public function getCommentsOnPost(Request $request, $postId){
+        return Comment::where('post_id', $postId)->get();
+    }
+
     /**
      * Update the specified resource in storage.
      *
