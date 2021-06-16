@@ -1,8 +1,14 @@
 import React, { Component } from "react";
+import Cookies from "universal-cookie";
+import axios from "axios";
+
 class Heart extends Component {
     constructor(props) {
         super(props);
-        this.state = { isClicked: this.props.self_heart, count: this.props.count };
+        this.state = {
+            isClicked: this.props.self_heart,
+            count: this.props.count
+        };
         this.onHeartClicked = this.onHeartClicked.bind(this);
         this.processHeart = this.processHeart.bind(this);
         this.processUnheart = this.processUnheart.bind(this);

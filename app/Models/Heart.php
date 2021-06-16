@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\Uuid;
 
 class Heart extends Model
 {
-    use HasFactory;
+    use HasFactory, Uuid;
 
     /**
-     * Set the primary key to 'post_id' instead of default'id'
+     * Set the primary key to 'heart_id' instead of default'id'
      * @var String
      */
     protected $primaryKey='heart_id';

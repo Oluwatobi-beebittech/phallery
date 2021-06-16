@@ -28,11 +28,8 @@ class PostController extends Controller
         $postLike = $post->likes;
         $post->likes = $postLike+1;
 
-        $like = new Like;
-        $like->post_id = $post->post_id;
-        $like->user_email = $userEmail;
-
-        $like->save();
+        Like::create(['post_id'=>$post->post_id, 'user_email'=>$userEmail]);
+        
         $post->save();
 
         return response()->json(["message"=>"Post liked"]);
@@ -57,11 +54,7 @@ class PostController extends Controller
         $postHeart = $post->hearts;
         $post->hearts = $postHeart+1;
 
-        $heart = new Heart;
-        $heart->post_id = $post->post_id;
-        $heart->user_email = $userEmail;
-
-        $heart->save();
+        Heart::create(['post_id'=>$post->post_id, 'user_email'=>$userEmail]);
         $post->save();
 
         return response()->json(["message"=>"Post hearted"]);
