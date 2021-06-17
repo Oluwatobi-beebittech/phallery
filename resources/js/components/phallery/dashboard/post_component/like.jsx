@@ -37,7 +37,11 @@ class Like extends Component {
                 console.log(response);
             })
             .catch(error => {
-                console.log(error);
+                if (axios.isCancel(error)) {
+                    console.log("Unlike unmounted");
+                } else {
+                    console.log(error);
+                }
             });
     }
 
@@ -54,7 +58,11 @@ class Like extends Component {
                 console.log(response);
             })
             .catch(error => {
-                console.log(error);
+                if (axios.isCancel(error)) {
+                    console.log("Unlike unmounted");
+                } else {
+                    console.log(error);
+                }
             });
     }
 

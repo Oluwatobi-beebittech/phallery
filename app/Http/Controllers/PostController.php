@@ -167,7 +167,36 @@ class PostController extends Controller
     }
 
     public function getCommentsOnPost(Request $request, $postId){
-        return Comment::where('post_id', $postId)->get();
+        $comments = Comment::where('post_id', $postId)->get();
+        $currentUserEmail = $request->user()->email;
+        $result = array();
+        foreach($comments as $comment){
+            $commenter_first_name = $comment->user->first_name;
+            $commenter_last_name = $comment->user->last_name;
+            $commenter_profile_image = $comment->user->profile_image;
+
+            $comment_timestamp = strtotime($comment->created_at);
+            $comment_date = date("d M y",$comment_timestamp);
+            $comment_time = date("h:ia", $comment_timestamp);
+            $isOwnComment = $currentUserEmail == $comment->user_email 
+                            ? true 
+                            : false;
+            
+            array_push($result, array(
+                "comment_id"=>$comment->comment_id,
+                "post_id"=>$comment->post_id,
+                "email"=>$comment->user_email,
+                "comment"=>$comment->comment,
+                "first_name"=>$commenter_first_name,
+                "last_name"=>$commenter_last_name,
+                "profile_image"=>$commenter_profile_image,
+                "date"=>$comment_date,
+                "time"=>$comment_time,
+                "isOwnComment"=>$isOwnComment
+            ));
+        }
+
+        return $result;
     }
 
     /**

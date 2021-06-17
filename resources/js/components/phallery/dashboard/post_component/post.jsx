@@ -33,6 +33,7 @@ class Post extends Component {
                             caller={this.props.imgUrl}
                             postId={this.props.postId}
                             self_comment={this.props.self_comment}
+                            postText={this.props.text}
                         />
                     </div>
                 </div>

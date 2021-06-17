@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 import Cookies from "universal-cookie";
+import { withRouter } from "react-router";
 
 class Comment extends Component {
     constructor(props) {
@@ -28,6 +29,8 @@ class Comment extends Component {
         this.commentTextChanged = this.commentTextChanged.bind(this);
         this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
         this.loadComments = this.loadComments.bind(this);
+        this.viewUserProfile = this.viewUserProfile.bind(this);
+        
     }
 
     onCommentClicked(e) {
@@ -79,7 +82,7 @@ class Comment extends Component {
             )
             .then(result => {
                 console.log(result);
-                this.setState({ comment: result.data });
+                this.setState({ comments: result.data });
             })
             .catch(error => {
                 if (axios.isCancel(error)) {
@@ -90,12 +93,18 @@ class Comment extends Component {
             });
     }
 
+    viewUserProfile(userObject) {
+        userObject.email === "unknown@xyz.com"
+            ? ""
+            : this.props.history.push("/dashboard/search", userObject);
+    }
+
     componentDidMount() {
         this.loadComments();
     }
 
     componentDidUpdate() {
-        this.loadComments();
+        //this.loadComments();
     }
 
     componentWillUnmount() {
@@ -132,49 +141,71 @@ class Comment extends Component {
                     </Modal.Header>
                     <Modal.Body>
                         <div className="comment-box p-2 rounded-15 mb-1">
-                            <p>
-                                This is a wider card with supporting text below
-                            </p>
+                            <p>{this.props.postText}</p>
                             <div className="d-flex flex-column">
-                                <div className="col-md-6 p-2 rounded-15 chat-box my-1">
-                                    <a
-                                        className="font-weight-bold text-decoration-none text-primary"
-                                        href=""
-                                    >
-                                        Oluwatobi Akanji
-                                    </a>
-                                    <p>gffj</p>
-                                    <small className="float-right font-weight-light">
-                                        24 June 2021
-                                    </small>
-                                </div>
-                                <div className="col-md-6 p-2 rounded-15 chat-box my-1">
-                                    <p className="font-weight-bold">
-                                        Oluwatobi Akanji
-                                    </p>
-                                    <p>gffj</p>
-                                    <small className="float-right font-weight-light">
-                                        24 June 2021
-                                    </small>
-                                </div>
-                                <div className="col-md-6 p-2 rounded-15 chat-box my-1">
-                                    <p className="font-weight-bold">
-                                        Oluwatobi Akanji
-                                    </p>
-                                    <p>gffj</p>
-                                    <small className="float-right font-weight-light">
-                                        24 June 2021
-                                    </small>
-                                </div>
-                                <div>
-                                    <div className="col-md-6 p-2 rounded-15 chat-box float-right my-1">
-                                        <p className="font-weight-bold">You</p>
-                                        <p>gffj</p>
-                                        <small className="float-right font-weight-light">
-                                            24 June 2021
-                                        </small>
-                                    </div>
-                                </div>
+                                {this.state.comments.map(item =>
+                                    !item.isOwnComment ? (
+                                        <div
+                                            className="col-md-6 p-2 rounded-15 chat-box my-1"
+                                            key={item.comment_id}
+                                        >
+                                            <a
+                                                className="font-weight-bold text-decoration-none text-primary"
+                                                href=""
+                                                onClick={e => {
+                                                    e.preventDefault();
+                                                    this.viewUserProfile({
+                                                        email: item.email,
+                                                        first_name:
+                                                            item.first_name,
+                                                        last_name:
+                                                            item.last_name,
+                                                        profile_image:
+                                                            item.profile_image,
+                                                        posts: [],
+                                                        isPostAvailabilityChecked: false,
+                                                        isFollowingChecked: false,
+                                                        isFollowing: false
+                                                    });
+                                                }}
+                                            >
+                                                {item.first_name +
+                                                    " " +
+                                                    item.last_name}
+                                            </a>
+                                            <p>{item.comment}</p>
+                                            <small className="float-right font-weight-light">
+                                                {item.time + " | " + item.date}
+                                            </small>
+                                        </div>
+                                    ) : (
+                                        <div key={item.comment_id}>
+                                            <div className="col-md-6 p-2 rounded-15 chat-box float-right my-1">
+                                                <a
+                                                    className="font-weight-bold text-decoration-none text-primary"
+                                                    href=""
+                                                    onClick={e => {
+                                                        e.preventDefault();
+                                                        this.props.history.push(
+                                                            "/dashboard/profile"
+                                                        );
+                                                    }}
+                                                >
+                                                    {item.first_name +
+                                                        " " +
+                                                        item.last_name +
+                                                        " (You)"}
+                                                </a>
+                                                <p>{item.comment}</p>
+                                                <small className="float-right font-weight-light">
+                                                    {item.time +
+                                                        " | " +
+                                                        item.date}
+                                                </small>
+                                            </div>
+                                        </div>
+                                    )
+                                )}
                             </div>
                         </div>
 
@@ -224,4 +255,4 @@ class Comment extends Component {
     }
 }
 
-export default Comment;
+export default withRouter(Comment);
