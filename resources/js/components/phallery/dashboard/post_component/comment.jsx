@@ -108,7 +108,7 @@ class Comment extends Component {
     }
 
     componentDidUpdate() {
-        //this.loadComments();
+        this.loadComments();
     }
 
     componentWillUnmount() {
