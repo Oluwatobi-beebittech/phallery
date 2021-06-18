@@ -12,7 +12,8 @@ class Comment extends Component {
             count: this.props.count,
             commentBoxDisplay: false,
             commentText: "",
-            comments: []
+            comments: [],
+            isSendClicked: false
         };
 
         const sanctumTokenCookie = new Cookies();
@@ -30,15 +31,11 @@ class Comment extends Component {
         this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
         this.loadComments = this.loadComments.bind(this);
         this.viewUserProfile = this.viewUserProfile.bind(this);
-        
     }
 
     onCommentClicked(e) {
         e.preventDefault();
         this.displayCommentBox(true);
-        const previouslyCommented = this.state.hasCommented;
-
-        this.setState({ hasCommented: !previouslyCommented });
     }
 
     displayCommentBox(value) {
@@ -51,6 +48,7 @@ class Comment extends Component {
 
     handleCommentSubmit(e) {
         e.preventDefault();
+        this.setState({ isSendClicked: true });
         const data = {
             post_id: this.props.postId,
             comment: this.state.commentText
@@ -63,13 +61,19 @@ class Comment extends Component {
             )
             .then(result => {
                 let currentCount = this.state.count;
-                this.setState({ count: currentCount + 1, hasCommented: true });
+                this.setState({
+                    count: currentCount + 1,
+                    hasCommented: true,
+                    commentText: "",
+                    isSendClicked: false
+                });
             })
             .catch(error => {
                 if (axios.isCancel(error)) {
                     console.log("Coomment component unmounted");
                 } else {
                     console.log(error);
+                    this.setState({ isSendClicked: false });
                 }
             });
     }
@@ -112,11 +116,17 @@ class Comment extends Component {
     }
 
     render() {
+        const { btnClassText, btnIcon } = this.state.isSendClicked
+            ? { btnClassText: "btn-dark", btnIcon: "fa-spinner pulse" }
+            : { btnClassText: "btn-primary", btnIcon: "fa-chevron-right" };
         const color = this.state.hasCommented
             ? "fa fa-comment-dots text-success"
             : "far fa-comment-dots";
         const classText = color + " fa-2x text-decoration-none";
-        const isDisabled = this.state.commentText.trim() != "" ? false : true;
+        const isDisabled =
+            this.state.commentText.trim() != "" && !this.state.isSendClicked
+                ? false
+                : true;
         return (
             <React.Fragment>
                 <p className="h5 font-weight-bold">{this.state.count}</p>
@@ -238,12 +248,14 @@ class Comment extends Component {
                                 </div>
                                 <div className=" d-flex flex-column justify-content-around text-center text-primary col-md-3">
                                     <button
-                                        className="btn btn-primary"
+                                        className={"btn " + btnClassText}
                                         disabled={isDisabled}
                                         onClick={this.handleCommentSubmit}
                                     >
                                         Send{" "}
-                                        <span className="fa fa-chevron-right"></span>
+                                        <span
+                                            className={"fa " + btnIcon}
+                                        ></span>
                                     </button>
                                 </div>
                             </div>
