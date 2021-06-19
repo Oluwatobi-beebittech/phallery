@@ -5,6 +5,8 @@ import PostContainer from "../post_component/postContainer";
 import { withRouter } from "react-router";
 import axios from "axios";
 import Cookies from "universal-cookie";
+import Tabs from "react-bootstrap/Tabs";
+import Tab from "react-bootstrap/Tab";
 
 /**
  * View Profile Component displays profile of searched user
@@ -217,9 +219,10 @@ class ViewProfile extends Component {
                         </div>
                     </div>
                     <div className="text-center">
+                        <h5 className="font-weight-bold mt-1">{this.name}</h5>
                         <button
                             className={
-                                "mx-auto btn my-3 font-weight-bold " +
+                                "mx-auto btn my-2 font-weight-bold " +
                                 followBtnClass
                             }
                             onClick={onClickFunction}
@@ -228,39 +231,56 @@ class ViewProfile extends Component {
                             <span className={"fa " + followBtnIcon}></span>
                             &nbsp;{followBtnText}
                         </button>
-                        <h5 className="font-weight-bold">{this.name}</h5>
                     </div>
-                    <div className="row">
-                        {this.state.posts.length > 0 ? (
-                            this.state.posts.map(item => (
-                                <PostContainer
-                                    key={item.post_id}
-                                    imgUrl={
-                                        "http://localhost:8000/" +
-                                        item.post_image
-                                    }
-                                    text={item.post_text}
-                                    likes={item.likes}
-                                    hearts={item.hearts}
-                                    comments={item.comments}
-                                    postId={item.post_id}
-                                    self_like={item.self_like}
-                                    self_heart={item.self_heart}
-                                    self_comment={item.self_comment}
-                                />
-                            ))
-                        ) : this.state.isPostAvailabilityChecked ? (
-                            <p className="offset-md-4 font-weight-bold text-center text-muted">
-                                <span className="fab fa-searchengin fa-2x"></span>{" "}
-                                Seems like {this.name} has no posts yet.
-                            </p>
-                        ) : (
-                            <div className="font-weight-bold offset-md-6 text-center">
-                                <span className="fa fa-spinner fa-pulse fa-3x"></span>
-                                <p className="">Loading</p>
+                    <Tabs defaultActiveKey="posts" id="view-profile-tabs">
+                        <Tab
+                            eventKey="posts"
+                            title="Posts"
+                            tabClassName="font-weight-bold"
+                        >
+                            <div className="row">
+                                {this.state.posts.length > 0 ? (
+                                    this.state.posts.map(item => (
+                                        <PostContainer
+                                            key={item.post_id}
+                                            imgUrl={
+                                                "http://localhost:8000/" +
+                                                item.post_image
+                                            }
+                                            text={item.post_text}
+                                            likes={item.likes}
+                                            hearts={item.hearts}
+                                            comments={item.comments}
+                                            postId={item.post_id}
+                                            self_like={item.self_like}
+                                            self_heart={item.self_heart}
+                                            self_comment={item.self_comment}
+                                        />
+                                    ))
+                                ) : this.state.isPostAvailabilityChecked ? (
+                                    <p className="offset-md-4 font-weight-bold text-center text-muted">
+                                        <span className="fab fa-searchengin fa-2x"></span>{" "}
+                                        Seems like {this.name} has no posts yet.
+                                    </p>
+                                ) : (
+                                    <div className="font-weight-bold offset-md-6 text-center">
+                                        <span className="fa fa-spinner fa-pulse fa-3x"></span>
+                                        <p className="">Loading</p>
+                                    </div>
+                                )}
                             </div>
-                        )}
-                    </div>
+                        </Tab>
+                        <Tab
+                            eventKey="following"
+                            title="Following "
+                            tabClassName="font-weight-bold"
+                        ></Tab>
+                        <Tab
+                            eventKey="followers"
+                            title="Followers "
+                            tabClassName="font-weight-bold"
+                        ></Tab>
+                    </Tabs>
                 </div>
             </React.Fragment>
         );
