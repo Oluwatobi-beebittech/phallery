@@ -8,11 +8,11 @@ use App\Models\Following;
 class NetworkController extends Controller
 {
     /**
-     * Gets all the network connections of the logged in user
+     * Gets all the followings of the logged in user
      * @param Request $request
      * @return 
      */
-    public function getNetworkConnections(Request $request){
+    public function getFollowings(Request $request){
         $userEmail = $request->user()->email;
 
         $follows = Following::where('follower', $userEmail);
@@ -38,6 +38,44 @@ class NetworkController extends Controller
                 'conn_last_name'=>$followed_last_name,
                 'conn_count'=>$followedCount,
                 'conn_profile_image'=>$followed_profile_image
+            ));
+
+        }
+
+        return response()->json($result); 
+    }
+
+    /**
+     * Gets all the followers of the logged in user
+     * @param Request $request
+     * @return 
+     */
+    public function getFollowers(Request $request){
+        $userEmail = $request->user()->email;
+
+        $followers = Following::where('follows', $userEmail);
+
+        $result = array();
+        
+        foreach($followers->get() as $follower){
+
+            $following_id = $follower->following_id;
+            $following_email = $follower->follower;
+
+            $followingUser = $follower->userFollowers;
+            
+            $following_first_name = $followingUser->first_name;
+            $following_last_name = $followingUser->last_name;
+            $following_profile_image = $followingUser->profile_image;
+
+            $followingCount = Following::where('follows', $following_email)->count();
+            array_push($result, array(
+                'conn_follow_id'=>$following_id,
+                'conn_email'=>$following_email,
+                'conn_first_name'=>$following_first_name,
+                'conn_last_name'=>$following_last_name,
+                'conn_count'=>$followingCount,
+                'conn_profile_image'=>$following_profile_image
             ));
 
         }

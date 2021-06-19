@@ -30,6 +30,7 @@ class Redirect extends Component {
         axios.defaults.headers.common = { Authorization: "Bearer " + token };
         axios.get("/api/dashboard").then(res => {
             console.log(res);
+            console.log("Redirection", res.data.redirect);
             this.setState({
                 status: res.data.status,
                 redirect: res.data.redirect,
@@ -46,8 +47,12 @@ class Redirect extends Component {
                 secure: true,
                 sameSite: "lax"
             });
+
             return <Redirector to={this.state.redirect} />;
         } else if (typeof this.state.status === "undefined") {
+            if (cookies.get("sanctum_token")) {
+                cookies.remove("sanctum_token");
+            }
             return <Redirector to="/" />;
         } else {
             return (
