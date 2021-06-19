@@ -264,8 +264,17 @@ class Network extends Component {
                                                 </p>
                                                 <p>
                                                     <span className="fas fa-link"></span>{" "}
-                                                    {connection.conn_count}{" "}
-                                                    connections
+                                                    {
+                                                        connection.conn_following_count
+                                                    }{" "}
+                                                    following
+                                                </p>
+                                                <p>
+                                                    <span className="fas fa-link"></span>{" "}
+                                                    {
+                                                        connection.conn_follower_count
+                                                    }{" "}
+                                                    follower
                                                 </p>
                                             </a>
                                         )
