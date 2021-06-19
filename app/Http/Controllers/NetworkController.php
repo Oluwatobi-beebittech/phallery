@@ -12,8 +12,10 @@ class NetworkController extends Controller
      * @param Request $request
      * @return 
      */
-    public function getFollowings(Request $request){
-        $userEmail = $request->user()->email;
+    public function getFollowings(Request $request, $email = null){
+        $userEmail = $email == null 
+                     ? $request->user()->email 
+                     : $email;
 
         $follows = Following::where('follower', $userEmail);
 
@@ -30,13 +32,15 @@ class NetworkController extends Controller
             $followed_last_name = $followedUser->last_name;
             $followed_profile_image = $followedUser->profile_image;
 
-            $followedCount = Following::where('follower', $followed_email)->count();
+            $followingCount = Following::where('follower', $followed_email)->count();
+            $followerCount = Following::where('follows', $followed_email)->count();
             array_push($result, array(
                 'conn_follow_id'=>$followed_id,
                 'conn_email'=>$followed_email,
                 'conn_first_name'=>$followed_first_name,
                 'conn_last_name'=>$followed_last_name,
-                'conn_count'=>$followedCount,
+                'conn_following_count'=>$followingCount,
+                'conn_follower_count'=>$followerCount,
                 'conn_profile_image'=>$followed_profile_image
             ));
 
@@ -50,8 +54,10 @@ class NetworkController extends Controller
      * @param Request $request
      * @return 
      */
-    public function getFollowers(Request $request){
-        $userEmail = $request->user()->email;
+    public function getFollowers(Request $request, $email = null){
+        $userEmail = $email == null 
+                    ? $request->user()->email 
+                    : $email;
 
         $followers = Following::where('follows', $userEmail);
 
@@ -68,15 +74,18 @@ class NetworkController extends Controller
             $following_last_name = $followingUser->last_name;
             $following_profile_image = $followingUser->profile_image;
 
-            $followingCount = Following::where('follows', $following_email)->count();
+            $followingCount = Following::where('follower', $following_email)->count();
+            $followerCount = Following::where('follows', $following_email)->count();
             array_push($result, array(
                 'conn_follow_id'=>$following_id,
                 'conn_email'=>$following_email,
                 'conn_first_name'=>$following_first_name,
                 'conn_last_name'=>$following_last_name,
-                'conn_count'=>$followingCount,
+                'conn_following_count'=>$followingCount,
+                'conn_follower_count'=>$followerCount,
                 'conn_profile_image'=>$following_profile_image
             ));
+
 
         }
 

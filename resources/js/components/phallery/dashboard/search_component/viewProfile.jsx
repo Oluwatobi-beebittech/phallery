@@ -33,7 +33,13 @@ class ViewProfile extends Component {
         if (typeof this.props.location.state === "undefined") {
             this.props.history.goBack();
         } else {
-            this.state = { ...this.props.location.state };
+            this.state = {
+                ...this.props.location.state,
+                followingConnectionResult: [],
+                followerConnectionResult: [],
+                isFollowingNetworkChecked: false,
+                isFollowerNetworkChecked: false
+            };
             this.name = this.state.first_name + " " + this.state.last_name;
 
             const sanctumTokenCookie = new Cookies();
@@ -49,12 +55,20 @@ class ViewProfile extends Component {
             this.checkIfFollowed = this.checkIfFollowed.bind(this);
             this.follow = this.follow.bind(this);
             this.unfollow = this.unfollow.bind(this);
+            this.loadFollowingConnection = this.loadFollowingConnection.bind(
+                this
+            );
+            this.loadFollowerConnection = this.loadFollowerConnection.bind(
+                this
+            );
         }
     }
 
     componentDidMount() {
         this.loadPosts();
         this.checkIfFollowed();
+        this.loadFollowingConnection();
+        this.loadFollowerConnection();
     }
 
     componentDidUpdate() {
@@ -93,7 +107,63 @@ class ViewProfile extends Component {
     }
 
     /**
-     * Checks if the logged in user is following the usser whose profile is being viewed
+     * Loads all connections that the user follows
+     */
+    loadFollowingConnection() {
+        axios
+            .get(
+                "http://localhost:8000/api/network/followings/" +
+                    this.state.email,
+                this.configAxios
+            )
+            .then(res => {
+                console.log(res.data);
+                this.setState({
+                    followingConnectionResult: res.data,
+                    isFollowingNetworkChecked: true
+                });
+            })
+            .catch(error => {
+                if (axios.isCancel(error)) {
+                    console.log("view profile component unmounted");
+                } else {
+                    this.setState({
+                        isFollowingNetworkChecked: true
+                    });
+                }
+            });
+    }
+
+    /**
+     * Loads all connections that the user follows
+     */
+    loadFollowerConnection() {
+        axios
+            .get(
+                "http://localhost:8000/api/network/followers/" +
+                    this.state.email,
+                this.configAxios
+            )
+            .then(res => {
+                console.log(res.data);
+                this.setState({
+                    followerConnectionResult: res.data,
+                    isFollowerNetworkChecked: true
+                });
+            })
+            .catch(error => {
+                if (axios.isCancel(error)) {
+                    console.log("View profile component unmounted");
+                } else {
+                    this.setState({
+                        isFollowerNetworkChecked: true
+                    });
+                }
+            });
+    }
+
+    /**
+     * Checks if the logged in user is following the user whose profile is being viewed
      */
     checkIfFollowed() {
         axios
@@ -274,12 +344,139 @@ class ViewProfile extends Component {
                             eventKey="following"
                             title="Following "
                             tabClassName="font-weight-bold"
-                        ></Tab>
+                        >
+                            <div className="row text-center mt-2 link-card">
+                                {this.state.isFollowingNetworkChecked &&
+                                this.state.followingConnectionResult.length >
+                                    0 ? (
+                                    this.state.followingConnectionResult.map(
+                                        connection => (
+                                            <a
+                                                key={connection.conn_follow_id}
+                                                className="col-md-3 rounded-lg bg-white shadow"
+                                                onClick={e => {
+                                                    e.preventDefault();
+                                                    this.viewProfile(
+                                                        connection
+                                                    );
+                                                }}
+                                            >
+                                                <div className="img-circle-wrapper">
+                                                    <img
+                                                        src={
+                                                            "http://localhost:8000/" +
+                                                            connection.conn_profile_image
+                                                        }
+                                                        className="img-circle"
+                                                    />
+                                                </div>
+                                                <p className="font-weight-bold">
+                                                    {connection.conn_first_name +
+                                                        " " +
+                                                        connection.conn_last_name}
+                                                </p>
+                                                <p>
+                                                    <span className="fas fa-link"></span>{" "}
+                                                    {
+                                                        connection.conn_following_count
+                                                    }{" "}
+                                                    following
+                                                </p>
+                                                <p>
+                                                    <span className="fas fa-link"></span>{" "}
+                                                    {
+                                                        connection.conn_follower_count
+                                                    }{" "}
+                                                    follower
+                                                </p>
+                                            </a>
+                                        )
+                                    )
+                                ) : this.state.isFollowingNetworkChecked ? (
+                                    <p className="offset-md-4 font-weight-bold text-center text-muted">
+                                        <span className="fab fa-searchengin fa-2x"></span>{" "}
+                                        Seems like you have not made connections
+                                        yet.
+                                        <br />
+                                        Search and start making connections
+                                    </p>
+                                ) : (
+                                    <div className="font-weight-bold offset-md-6 text-center">
+                                        <span className="fa fa-spinner fa-pulse fa-3x"></span>
+                                        <p className="">Loading</p>
+                                    </div>
+                                )}
+                            </div>
+                            <div className="px-4"> </div>
+                        </Tab>
                         <Tab
                             eventKey="followers"
                             title="Followers "
                             tabClassName="font-weight-bold"
-                        ></Tab>
+                        >
+                            <div className="row text-center mt-2 link-card">
+                                {this.state.isFollowerNetworkChecked &&
+                                this.state.followerConnectionResult.length >
+                                    0 ? (
+                                    this.state.followerConnectionResult.map(
+                                        connection => (
+                                            <a
+                                                key={connection.conn_follow_id}
+                                                className="col-md-3 rounded-lg bg-white shadow"
+                                                onClick={e => {
+                                                    e.preventDefault();
+                                                    this.viewProfile(
+                                                        connection
+                                                    );
+                                                }}
+                                            >
+                                                <div className="img-circle-wrapper">
+                                                    <img
+                                                        src={
+                                                            "http://localhost:8000/" +
+                                                            connection.conn_profile_image
+                                                        }
+                                                        className="img-circle"
+                                                    />
+                                                </div>
+                                                <p className="font-weight-bold">
+                                                    {connection.conn_first_name +
+                                                        " " +
+                                                        connection.conn_last_name}
+                                                </p>
+                                                <p>
+                                                    <span className="fas fa-link"></span>{" "}
+                                                    {
+                                                        connection.conn_following_count
+                                                    }{" "}
+                                                    following
+                                                </p>
+                                                <p>
+                                                    <span className="fas fa-link"></span>{" "}
+                                                    {
+                                                        connection.conn_follower_count
+                                                    }{" "}
+                                                    follower
+                                                </p>
+                                            </a>
+                                        )
+                                    )
+                                ) : this.state.isFollowerNetworkChecked ? (
+                                    <p className="offset-md-4 font-weight-bold text-center text-muted">
+                                        <span className="fab fa-searchengin fa-2x"></span>{" "}
+                                        Seems like you have not made connections
+                                        yet.
+                                        <br />
+                                        Search and start making connections
+                                    </p>
+                                ) : (
+                                    <div className="font-weight-bold offset-md-6 text-center">
+                                        <span className="fa fa-spinner fa-pulse fa-3x"></span>
+                                        <p className="">Loading</p>
+                                    </div>
+                                )}
+                            </div>
+                        </Tab>
                     </Tabs>
                 </div>
             </React.Fragment>

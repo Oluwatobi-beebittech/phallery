@@ -29,8 +29,8 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::post('profile/update', [ProfileController::class, 'update']);
     Route::get('profile/myprofile', [ProfileController::class, 'getMyProfile']);
     Route::get('feeds/all', [FeedsController::class, 'getFeeds']);
-    Route::get('network/followings',[NetworkController::class, 'getFollowings']);
-    Route::get('network/followers',[NetworkController::class, 'getFollowers']);
+    Route::get('network/followings/{email?}',[NetworkController::class, 'getFollowings']);
+    Route::get('network/followers/{email?}',[NetworkController::class, 'getFollowers']);
     
     Route::get('post/comment/{postId}',[PostController::class, 'getCommentsOnPost']);
     Route::post('post/comment',[PostController::class, 'commentOnPost']);
