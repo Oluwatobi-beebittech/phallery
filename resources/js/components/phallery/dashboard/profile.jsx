@@ -3,7 +3,8 @@ import Nav from "./nav";
 import Banner from "./banner";
 import axios from "axios";
 import Cookies from "universal-cookie";
-import { Prompt } from "react-router";
+import { Prompt, withRouter } from "react-router";
+import { Redirect } from "react-router-dom";
 
 class Profile extends Component {
     constructor(props) {
@@ -38,6 +39,7 @@ class Profile extends Component {
         this.handleImageUpload = this.handleImageUpload.bind(this);
         this.setFileImage = this.setFileImage.bind(this);
         this.updateProfile = this.updateProfile.bind(this);
+        this.logout = this.logout.bind(this);
 
         this.imgPreviewURL = null;
     }
@@ -53,6 +55,29 @@ class Profile extends Component {
         }
     }
 
+    logout(e) {
+        e.preventDefault();
+        axios
+            .get("http://localhost:8000/api/logout", this.configAxios)
+            .then(result => {
+                console.log(result);
+                if (result.data.status == "success") {
+                    console.log("redirect");
+                    const cookie = new Cookies();
+                    if (cookie.get("sanctum_token")) {
+                        cookie.remove("sanctum_token");
+                    }
+                    return <Redirect to="/" />;
+                }
+            })
+            .catch(error => {
+                if (axios.isCancel(error)) {
+                    console.log("Profile unmounted");
+                } else {
+                    console.log(error);
+                }
+            });
+    }
     getProfile() {
         axios
             .get(
@@ -232,7 +257,10 @@ class Profile extends Component {
                     message="You have unsaved changes on your profile. Are you sure you want to leave?"
                 />
                 <div className="container">
-                    <button className="btn btn-outline-danger my-3">
+                    <button
+                        className="btn btn-outline-danger my-3"
+                        onClick={this.logout}
+                    >
                         <span className="fa fa-plus-square"></span>
                         &nbsp;Logout
                     </button>

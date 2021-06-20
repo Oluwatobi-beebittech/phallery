@@ -83,6 +83,7 @@ class URLLoginController extends Controller
         }
         return response()->view("invalidLogin");
     }
+
     /**
      * Display the specified resource.
      *
