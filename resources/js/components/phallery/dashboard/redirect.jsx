@@ -31,6 +31,20 @@ class Redirect extends Component {
         axios.get("/api/dashboard").then(res => {
             console.log(res);
             console.log("Redirection", res.data.redirect);
+            console.log("Redirection", res.data.status);
+            // if (res.data.status != "success") {
+            //     this.setState({
+            //         status: res.data.status,
+            //         redirect: "/",
+            //         token: ""
+            //     });
+            // } else {
+            //     this.setState({
+            //         status: res.data.status,
+            //         redirect: res.data.redirect,
+            //         token: token
+            //     });
+            // }
             this.setState({
                 status: res.data.status,
                 redirect: res.data.redirect,
@@ -52,6 +66,7 @@ class Redirect extends Component {
         } else if (typeof this.state.status === "undefined") {
             if (cookies.get("sanctum_token")) {
                 cookies.remove("sanctum_token");
+                console.log("Remove");
             }
             return <Redirector to="/" />;
         } else {

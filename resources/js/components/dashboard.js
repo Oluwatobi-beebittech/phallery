@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import Index from "./index";
 import Redirect from "./phallery/dashboard/redirect";
 import Home from "./phallery/dashboard/home";
 import Feeds from "./phallery/dashboard/feeds";
@@ -36,6 +37,7 @@ function Dashboard() {
                     />
                     <Route exact path="/dashboard/myposts" component={Feeds} />
                     <Route exact path="/dashboard/feeds" component={Home} />
+                    <Route exact path="/xyz" component={Index} />
                     <Redirect />
                 </Switch>
             </Router>

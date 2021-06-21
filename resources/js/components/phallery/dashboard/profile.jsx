@@ -19,7 +19,8 @@ class Profile extends Component {
             phoneNumberDisabled: true,
             fileUploadError: false,
             imageFile: {},
-            updateResult: {}
+            updateResult: {},
+            logoutClicked: false
         };
 
         const sanctumTokenCookie = new Cookies();
@@ -62,12 +63,8 @@ class Profile extends Component {
             .then(result => {
                 console.log(result);
                 if (result.data.status == "success") {
-                    console.log("redirect");
-                    const cookie = new Cookies();
-                    if (cookie.get("sanctum_token")) {
-                        cookie.remove("sanctum_token");
-                    }
-                    return <Redirect to="/" />;
+                    console.log("result");
+                    this.setState({ logoutClicked: true });
                 }
             })
             .catch(error => {
@@ -248,7 +245,9 @@ class Profile extends Component {
                 ""
             );
 
-        return (
+        return this.state.logoutClicked ? (
+            <Redirect to="/" />
+        ) : (
             <React.Fragment>
                 <Nav hasNotification={true} count={9} />
                 <Banner text="Profile" />
