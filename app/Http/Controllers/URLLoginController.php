@@ -75,8 +75,12 @@ class URLLoginController extends Controller
     {
         if($request->hasValidSignature()){
             if(Auth::loginUsingId($user)){
-                $token = $request->token;
-                return response()->view("dashboard.index");
+                $user_obj = User::where('email',$user)->first();
+                  
+                if(count($user_obj->tokens)>0){
+                    return response()->view("dashboard.index");
+                }
+                
             }
             return response()->view("invalidLogin");
             

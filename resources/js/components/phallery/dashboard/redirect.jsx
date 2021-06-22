@@ -3,6 +3,7 @@ import queryString from "query-string";
 import axios from "axios";
 import { Redirect as Redirector } from "react-router-dom";
 import Cookies from "universal-cookie";
+import Index from "../../index";
 
 class Redirect extends Component {
     constructor(props) {
@@ -64,10 +65,15 @@ class Redirect extends Component {
 
             return <Redirector to={this.state.redirect} />;
         } else if (typeof this.state.status === "undefined") {
-            if (cookies.get("sanctum_token")) {
-                cookies.remove("sanctum_token");
-                console.log("Remove");
-            }
+            // if (cookies.get("sanctum_token")) {
+            //     cookies.remove("sanctum_token",{
+            //         path: "/",
+            //         secure: true,
+            //         sameSite: "lax"
+            //     });
+            console.log("Remove");
+            // }
+            
             return <Redirector to="/" />;
         } else {
             return (

@@ -19,8 +19,7 @@ class Profile extends Component {
             phoneNumberDisabled: true,
             fileUploadError: false,
             imageFile: {},
-            updateResult: {},
-            logoutClicked: false
+            updateResult: {}
         };
 
         const sanctumTokenCookie = new Cookies();
@@ -64,7 +63,17 @@ class Profile extends Component {
                 console.log(result);
                 if (result.data.status == "success") {
                     console.log("result");
-                    this.setState({ logoutClicked: true });
+                    const cookies = new Cookies();
+                    if (cookies.get("sanctum_token")) {
+                        cookies.remove("sanctum_token", {
+                            path: "/",
+                            secure: true,
+                            sameSite: "lax"
+                        });
+                    }
+
+                    this.props.history.push("/signin");
+                    window.location.reload();
                 }
             })
             .catch(error => {
@@ -245,9 +254,7 @@ class Profile extends Component {
                 ""
             );
 
-        return this.state.logoutClicked ? (
-            <Redirect to="/" />
-        ) : (
+        return (
             <React.Fragment>
                 <Nav hasNotification={true} count={9} />
                 <Banner text="Profile" />
@@ -490,4 +497,4 @@ class Profile extends Component {
     }
 }
 
-export default Profile;
+export default withRouter(Profile);
