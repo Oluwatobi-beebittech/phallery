@@ -19,11 +19,8 @@ class PostController extends Controller
     public function getMyPosts(Request $request){
 
         $userEmail =  $request->user()->email;
-        $posts = Post::select('post_id', 'post_text', 'post_image', 'likes','hearts','comments')->where('user_email', $userEmail)->get();
-        foreach($posts as $post){
-            $post->self_like=true;
-            
-        }
+        $posts = Post::select('post_id', 'user_email','post_text', 'post_image', 'likes','hearts','comments')->where('user_email', $userEmail)->get();
+        
         
         return $posts;
     }
@@ -136,7 +133,7 @@ class PostController extends Controller
      */
     public function show($email)
     {
-        $posts = Post::select('post_id', 'post_text', 'post_image', 'likes','hearts','comments')->where('user_email', $email)->get();
+        $posts = Post::select('post_id', 'user_email','post_text', 'post_image', 'likes','hearts','comments')->where('user_email', $email)->get();
         return $posts;
     }
 

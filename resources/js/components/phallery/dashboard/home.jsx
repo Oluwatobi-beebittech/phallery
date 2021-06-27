@@ -30,7 +30,6 @@ function Home(props) {
                 setFeedsAvailabilityChecked(true);
             })
             .catch(error => {
-                
                 if (axios.isCancel(error)) {
                     console.log("Home component unmounted");
                 } else {
@@ -57,14 +56,18 @@ function Home(props) {
                                 imgUrl={
                                     "http://localhost:8000/" + item.post_image
                                 }
+                                poster_first_name={item.poster_first_name}
+                                poster_last_name={item.poster_last_name}
+                                poster_profile_image={item.poster_profile_image}
                                 text={item.post_text}
+                                poster_email={item.user_email}
                                 likes={item.likes}
                                 hearts={item.hearts}
                                 comments={item.comments}
                                 postId={item.post_id}
-                                self_like = {item.self_like}
-                                self_heart = {item.self_heart}
-                                self_comment = {item.self_comment}
+                                self_like={item.self_like}
+                                self_heart={item.self_heart}
+                                self_comment={item.self_comment}
                             />
                         ))
                     ) : isFeedsAvailabilityChecked ? (

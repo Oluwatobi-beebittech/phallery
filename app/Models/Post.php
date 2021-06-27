@@ -42,7 +42,8 @@ class Post extends Model
      * The assessors to append to the model's array form
      * @var array
      */
-    protected $appends=['self_like', 'self_heart', 'self_comment'];
+    protected $appends=['self_like', 'self_heart', 'self_comment', 
+    'poster_first_name', 'poster_last_name', 'poster_profile_image'];
 
     /**
      * Get user that owns the post
@@ -88,5 +89,17 @@ class Post extends Model
      */
     public function getSelfCommentAttribute(){
         return $this->comments()->exists();
+    }
+
+    public function getPosterFirstNameAttribute(){
+        return User::find($this->attributes['user_email'])->first_name;
+    }
+
+    public function getPosterLastNameAttribute(){
+        return User::find($this->attributes['user_email'])->last_name;
+    }
+
+    public function getPosterProfileImageAttribute(){
+        return User::find($this->attributes['user_email'])->profile_image;
     }
 }

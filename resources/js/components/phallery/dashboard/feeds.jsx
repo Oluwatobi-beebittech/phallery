@@ -34,7 +34,6 @@ function Feeds() {
                     console.log("Feeds component unmounted");
                 } else {
                     setIsPostAvailabilityChecked(true);
-                    console.log(true);
                 }
             });
 
@@ -58,6 +57,9 @@ function Feeds() {
                                 imgUrl={
                                     "http://localhost:8000/" + item.post_image
                                 }
+                                poster_first_name={item.poster_first_name}
+                                poster_last_name={item.poster_last_name}
+                                poster_profile_image={item.poster_profile_image}
                                 text={item.post_text}
                                 likes={item.likes}
                                 hearts={item.hearts}
@@ -66,6 +68,7 @@ function Feeds() {
                                 self_like={item.self_like}
                                 self_heart={item.self_heart}
                                 self_comment={item.self_comment}
+                                poster_email="self"
                             />
                         ))
                     ) : isPostAvailabilityChecked ? (

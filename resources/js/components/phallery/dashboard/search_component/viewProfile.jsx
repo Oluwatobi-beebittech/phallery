@@ -317,7 +317,17 @@ class ViewProfile extends Component {
                                                 "http://localhost:8000/" +
                                                 item.post_image
                                             }
+                                            poster_first_name={
+                                                item.poster_first_name
+                                            }
+                                            poster_last_name={
+                                                item.poster_last_name
+                                            }
+                                            poster_profile_image={
+                                                item.poster_profile_image
+                                            }
                                             text={item.post_text}
+                                            poster_email={item.user_email}
                                             likes={item.likes}
                                             hearts={item.hearts}
                                             comments={item.comments}

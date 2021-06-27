@@ -28,7 +28,7 @@ class FeedsController extends Controller
 
         foreach($follows as $follow){
             $followed_email = $follow->follows;
-            $posts = Post::select('post_id', 'post_text', 'post_image', 'likes','hearts','comments')->where('user_email', $followed_email);
+            $posts = Post::select('post_id', 'user_email', 'post_text', 'post_image', 'likes','hearts','comments')->where('user_email', $followed_email);
             $doesPostExist = $posts->exists();
             
             if($doesPostExist){

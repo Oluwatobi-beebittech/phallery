@@ -15,6 +15,10 @@ class PostContainer extends Component {
         return (
             <div className="col-md-4">
                 <Post
+                    poster_first_name={this.props.poster_first_name}
+                    poster_last_name={this.props.poster_last_name}
+                    poster_email={this.props.poster_email}
+                    poster_profile_image={this.props.poster_profile_image}
                     imgUrl={this.props.imgUrl}
                     text={this.props.text}
                     likes={this.props.likes}
