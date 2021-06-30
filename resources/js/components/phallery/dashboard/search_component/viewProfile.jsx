@@ -61,7 +61,6 @@ class ViewProfile extends Component {
             this.loadFollowerConnection = this.loadFollowerConnection.bind(
                 this
             );
-            this.viewProfile = this.viewProfile.bind(this);
         }
     }
 
@@ -74,8 +73,6 @@ class ViewProfile extends Component {
 
     componentDidUpdate() {
         this.loadPosts();
-        this.loadFollowingConnection();
-        this.loadFollowerConnection();
     }
 
     componentWillUnmount() {
@@ -247,22 +244,6 @@ class ViewProfile extends Component {
             });
     }
 
-    viewProfile(userObject) {
-        this.setState({
-            email: userObject.email,
-            first_name: userObject.first_name,
-            last_name: userObject.last_name,
-            profile_image: userObject.profile_image,
-            isFollowingNetworkChecked: false,
-            isFollowerNetworkChecked: false,
-            posts: [],
-            isPostAvailabilityChecked: false,
-            isFollowingChecked: false,
-            isFollowing: false
-        });
-        this.name = this.state.first_name + " " + this.state.last_name;
-    }
-
     render() {
         const {
             followBtnClass,
@@ -385,16 +366,6 @@ class ViewProfile extends Component {
                                                 className="col-md-3 rounded-lg bg-white shadow"
                                                 onClick={e => {
                                                     e.preventDefault();
-                                                    this.viewProfile({
-                                                        email:
-                                                            connection.conn_email,
-                                                        first_name:
-                                                            connection.conn_first_name,
-                                                        last_name:
-                                                            connection.conn_last_name,
-                                                        profile_image:
-                                                            connection.conn_profile_image
-                                                    });
                                                 }}
                                             >
                                                 <div className="img-circle-wrapper">
