@@ -19,8 +19,39 @@ class PostController extends Controller
     public function getMyPosts(Request $request){
 
         $userEmail =  $request->user()->email;
-        $posts = Post::select('post_id', 'user_email','post_text', 'post_image', 'likes','hearts','comments')->where('user_email', $userEmail)->get();
+        $posts = Post::select('post_id', 'user_email','post_text', 'post_image', 'likes','hearts','comments')
+                        ->where('user_email', $userEmail)
+                        ->get()
+                        ->map(
+                            function($post,$key) use ($userEmail){ 
+                                $self_comment = Comment::where('post_id',$post->post_id)->where('user_email',$userEmail)->exists();
+                                $self_like = Like::where('post_id',$post->post_id)->where('user_email',$userEmail)->exists();
+                                $self_heart = Heart::where('post_id',$post->post_id)->where('user_email',$userEmail)->exists();
+                                return [
+                                    'post_id'=>$post->post_id,
+                                    'post_image'=>$post->post_image,
+                                    'user_email'=>$post->user_email,
+                                    'poster_first_name'=>$post->poster_first_name,
+                                    'poster_last_name'=>$post->poster_last_name,
+                                    'poster_profile_image'=>$post->poster_profile_image,
+                                    'post_text'=>$post->post_text,
+                                    'comments'=>$post->comments,
+                                    'hearts'=>$post->hearts,
+                                    'likes'=>$post->likes,
+                                    'self_comment'=>$self_comment,
+                                    'self_heart'=>$self_heart,
+                                    'self_like'=>$self_like
+                                ];
+                            })
+                        ->all();
         
+        // foreach($posts as $post){
+        //     if($post->email === $userEmail){
+        //         array_push($post->get(),['cap'=>true]);
+        //     }
+        //     // array_push($post->get(),['map'=>true]);
+        //     $post['poster_last_name'] = "tweaked";
+        // }
         
         return $posts;
     }

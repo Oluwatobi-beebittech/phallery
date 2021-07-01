@@ -65,8 +65,8 @@ class ViewProfile extends Component {
     }
 
     componentDidMount() {
-        this.loadPosts();
         this.checkIfFollowed();
+        this.loadPosts();
         this.loadFollowingConnection();
         this.loadFollowerConnection();
     }

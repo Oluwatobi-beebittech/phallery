@@ -117,7 +117,7 @@ class Comment extends Component {
 
     render() {
         const { btnClassText, btnIcon } = this.state.isSendClicked
-            ? { btnClassText: "btn-dark", btnIcon: "fa-spinner pulse" }
+            ? { btnClassText: "btn-dark", btnIcon: "fa-spinner fa-pulse" }
             : { btnClassText: "btn-primary", btnIcon: "fa-chevron-right" };
         const color = this.state.hasCommented
             ? "fa fa-comment-dots text-success"

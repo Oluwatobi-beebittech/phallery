@@ -28,6 +28,7 @@ function Feeds() {
             .then(res => {
                 setIsPostAvailabilityChecked(true);
                 setMyPosts(res.data);
+                console.log(res.data);
             })
             .catch(error => {
                 if (axios.isCancel(error)) {

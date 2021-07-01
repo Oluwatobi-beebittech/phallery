@@ -13,23 +13,15 @@ function Footer() {
                                 rel="noopener"
                                 target="_blank"
                             >
-                                <span className="fab fa-twitter fa-2x"></span>
-                            </a>
-                            <a
-                                href=""
-                                className="btn btn-lg text-white"
-                                rel="noopener"
-                                target="_blank"
-                            >
                                 <span className="fab fa-facebook fa-2x"></span>
                             </a>
                             <a
-                                href=""
+                                href="https://www.linkedin.com/in/oluwatobiakanji/"
                                 className="btn btn-lg text-white"
                                 rel="noopener"
                                 target="_blank"
                             >
-                                <span className="fab fa-instagram fa-2x"></span>
+                                <span className="fab fa-linkedin fa-2x"></span>
                             </a>
                             <a
                                 href="https://github.com/Oluwatobi-beebittech"
