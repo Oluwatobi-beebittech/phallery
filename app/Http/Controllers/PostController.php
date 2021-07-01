@@ -19,8 +19,9 @@ class PostController extends Controller
     public function getMyPosts(Request $request){
 
         $userEmail =  $request->user()->email;
-        $posts = Post::select('post_id', 'user_email','post_text', 'post_image', 'likes','hearts','comments')
+        $posts = Post::select('post_id', 'user_email','post_text', 'post_image', 'likes','hearts','comments','created_at')
                         ->where('user_email', $userEmail)
+                        ->orderBy('created_at','desc')
                         ->get()
                         ->map(
                             function($post,$key) use ($userEmail){ 
@@ -45,13 +46,6 @@ class PostController extends Controller
                             })
                         ->all();
         
-        // foreach($posts as $post){
-        //     if($post->email === $userEmail){
-        //         array_push($post->get(),['cap'=>true]);
-        //     }
-        //     // array_push($post->get(),['map'=>true]);
-        //     $post['poster_last_name'] = "tweaked";
-        // }
         
         return $posts;
     }

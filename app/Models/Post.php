@@ -70,7 +70,7 @@ class Post extends Model
      * @return boolean
      */
     public function getSelfLikeAttribute(){
-        return $this->likes()->exists();
+        return false;
     }
 
     /**
@@ -79,7 +79,7 @@ class Post extends Model
      * @return boolean
      */
     public function getSelfHeartAttribute(){
-        return $this->hearts()->exists();
+        return false;
     }
 
     /**
@@ -88,7 +88,7 @@ class Post extends Model
      * @return boolean
      */
     public function getSelfCommentAttribute(){
-        return $this->comments()->exists();
+        return false;
     }
 
     public function getPosterFirstNameAttribute(){
