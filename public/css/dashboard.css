@@ -1,0 +1,96 @@
+body {
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: rgba(211, 211, 211, 0.1);
+}
+.bg-none {
+    background-color: rgba(255, 255, 255, 0) !important;
+}
+.bg-dark-trans {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.bg-orange-img {
+    background-image: url("../image/canvas-orange.jpg");
+}
+.bg-kente {
+    background-image: url("../image/kente.jpg");
+}
+.font-s-title {
+    font-size: 400%;
+    font-weight: 700;
+    text-shadow: 1px 1px 0px #000;
+}
+.font-s-200 {
+    font-size: 200%;
+}
+.viewport-80 {
+    height: 80vh;
+}
+.h-9 {
+    height: 11.5vh;
+}
+.text-shadow {
+    text-shadow: 1px 1px 0px #000;
+}
+.link-card > a {
+    transition: all 0.5s ease-in-out;
+}
+.link-card > a:hover {
+    text-decoration: none;
+    color: #298a53;
+    transition: linear;
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+.search-result {
+    height: auto;
+    width: 90%;
+    position: absolute;
+    z-index: 100;
+    background-color: #fff;
+}
+.img-circle-wrapper {
+    display: inline-block;
+    position: relative;
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.img-circle-wrapper-profile {
+    display: inline-block;
+    position: relative;
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.img-circle {
+    width: auto;
+    height: 100%;
+}
+
+.comment-box {
+    background-color: rgba(211, 211, 211, 0.25);
+    max-height: 25em;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+}
+
+.comment-box::-webkit-scrollbar {
+    width: thin;
+}
+.rounded-15 {
+    border-radius: 1.5rem !important;
+}
+.chat-box {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+a.text-decoration-none {
+    text-decoration: none;
+}

@@ -1,0 +1,137 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Post;
+use App\Models\Comment;
+use App\Models\Like;
+use App\Models\Heart;
+
+class FeedsController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        //
+
+        return response()->json(['status'=>'success', 'redirect'=>'/dashboard/feeds', 'user' => auth('sanctum')->user()->id]);
+    }
+
+    public function getFeeds(Request $request){
+        $user = $request->user();
+
+        $follows = $user->follows;
+        $result = array();
+        $userEmail = $user->email;
+
+        foreach($follows as $follow){
+            $followed_email = $follow->follows;
+            $posts = Post::select('post_id', 'user_email', 'post_text', 'post_image', 'likes','hearts','comments','created_at')->where('user_email', $followed_email)->orderBy('created_at','desc');
+            $doesPostExist = $posts->exists();
+            
+            if($doesPostExist){
+                $posts = $posts->get()->map(
+                    function($post,$key) use ($userEmail){ 
+                        $self_comment = Comment::where('post_id',$post->post_id)->where('user_email',$userEmail)->exists();
+                        $self_like = Like::where('post_id',$post->post_id)->where('user_email',$userEmail)->exists();
+                        $self_heart = Heart::where('post_id',$post->post_id)->where('user_email',$userEmail)->exists();
+                        return [
+                            'post_id'=>$post->post_id,
+                            'post_image'=>$post->post_image,
+                            'user_email'=>$post->user_email,
+                            'poster_first_name'=>$post->poster_first_name,
+                            'poster_last_name'=>$post->poster_last_name,
+                            'poster_profile_image'=>$post->poster_profile_image,
+                            'post_text'=>$post->post_text,
+                            'comments'=>$post->comments,
+                            'hearts'=>$post->hearts,
+                            'likes'=>$post->likes,
+                            'self_comment'=>$self_comment,
+                            'self_heart'=>$self_heart,
+                            'self_like'=>$self_like
+                        ];
+                    })
+                ->all();;
+                foreach($posts as $post){
+                    array_push($result, $post);
+                }
+            }
+        }
+
+        return response()->json($result);
+        
+
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
+}
