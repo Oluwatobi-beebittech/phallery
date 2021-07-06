@@ -156,9 +156,37 @@ class PostController extends Controller
      * @param  string  $email
      * @return \Illuminate\Http\Response
      */
-    public function show($email)
+    public function show(Request $request, $email)
     {
-        $posts = Post::select('post_id', 'user_email','post_text', 'post_image', 'likes','hearts','comments')->where('user_email', $email)->get();
+        $viewerEmail =  $request->user()->email;
+        $posts = Post::select('post_id', 'user_email','post_text', 'post_image', 'likes','hearts','comments','created_at')
+                        ->where('user_email', $email)
+                        ->orderBy('created_at','desc')
+                        ->get()
+                        ->map(
+                            function($post,$key) use ($viewerEmail){ 
+                                $self_comment = Comment::where('post_id',$post->post_id)->where('user_email',$viewerEmail)->exists();
+                                $self_like = Like::where('post_id',$post->post_id)->where('user_email',$viewerEmail)->exists();
+                                $self_heart = Heart::where('post_id',$post->post_id)->where('user_email',$viewerEmail)->exists();
+                                return [
+                                    'post_id'=>$post->post_id,
+                                    'post_image'=>$post->post_image,
+                                    'user_email'=>$post->user_email,
+                                    'poster_first_name'=>$post->poster_first_name,
+                                    'poster_last_name'=>$post->poster_last_name,
+                                    'poster_profile_image'=>$post->poster_profile_image,
+                                    'post_text'=>$post->post_text,
+                                    'comments'=>$post->comments,
+                                    'hearts'=>$post->hearts,
+                                    'likes'=>$post->likes,
+                                    'self_comment'=>$self_comment,
+                                    'self_heart'=>$self_heart,
+                                    'self_like'=>$self_like
+                                ];
+                            })
+                        ->all();
+        
+        
         return $posts;
     }
 
