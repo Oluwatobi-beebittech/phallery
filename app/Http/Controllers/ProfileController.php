@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Events\ProfileUpdateProcessed;
 
 class ProfileController extends Controller
 {
@@ -43,6 +44,7 @@ class ProfileController extends Controller
         }
 
         $user->save();
+        ProfileUpdateProcessed::dispatch($user);
         return response()->json(["message"=>"Profile updated successfully", "status"=> "success"]);
     }
 }

@@ -54,6 +54,7 @@ class SearchResultUI extends Component {
                 this.configAxios
             )
             .then(res => {
+                console.log(res);
                 let result =
                     res.data.length > 0 ? res.data : [this.getUnknownState()];
 
