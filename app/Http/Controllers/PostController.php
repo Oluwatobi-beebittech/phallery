@@ -18,16 +18,16 @@ class PostController extends Controller
      */
     public function getMyPosts(Request $request){
 
-        $userEmail =  $request->user()->email;
+        $signedInUserEmail =  $request->user()->email;
         $posts = Post::select('post_id', 'user_email','post_text', 'post_image', 'likes','hearts','comments','created_at')
-                        ->where('user_email', $userEmail)
+                        ->where('user_email', $signedInUserEmail)
                         ->orderBy('created_at','desc')
                         ->get()
                         ->map(
-                            function($post,$key) use ($userEmail){ 
-                                $self_comment = Comment::where('post_id',$post->post_id)->where('user_email',$userEmail)->exists();
-                                $self_like = Like::where('post_id',$post->post_id)->where('user_email',$userEmail)->exists();
-                                $self_heart = Heart::where('post_id',$post->post_id)->where('user_email',$userEmail)->exists();
+                            function($post,$key) use ($signedInUserEmail){ 
+                                $self_comment = Comment::where('post_id',$post->post_id)->where('user_email',$signedInUserEmail)->exists();
+                                $self_like = Like::where('post_id',$post->post_id)->where('user_email',$signedInUserEmail)->exists();
+                                $self_heart = Heart::where('post_id',$post->post_id)->where('user_email',$signedInUserEmail)->exists();
                                 return [
                                     'post_id'=>$post->post_id,
                                     'post_image'=>$post->post_image,
@@ -56,12 +56,12 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function likePost(Request $request, $postId){
-        $userEmail = $request->user()->email;
+        $signedInUserEmail = $request->user()->email;
         $post = Post::where('post_id',$postId)->first();
         $postLike = $post->likes;
         $post->likes = $postLike+1;
 
-        Like::create(['post_id'=>$post->post_id, 'user_email'=>$userEmail]);
+        Like::create(['post_id'=>$post->post_id, 'user_email'=>$signedInUserEmail]);
         
         $post->save();
 
@@ -74,12 +74,12 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function unLikePost(Request $request, $postId){
-        $userEmail = $request->user()->email;
+        $signedInUserEmail = $request->user()->email;
         $post = Post::where('post_id',$postId)->first();
         $postLike = $post->likes;
         $post->likes = $postLike-1;
 
-        $like = Like::where('post_id', $post->post_id)->where('user_email',$userEmail);
+        $like = Like::where('post_id', $post->post_id)->where('user_email',$signedInUserEmail);
         
         $like->delete();
         $post->save();
@@ -92,12 +92,12 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function heartPost(Request $request, $postId){
-        $userEmail = $request->user()->email;
+        $signedInUserEmail = $request->user()->email;
         $post = Post::where('post_id',$postId)->first();
         $postHeart = $post->hearts;
         $post->hearts = $postHeart+1;
 
-        Heart::create(['post_id'=>$post->post_id, 'user_email'=>$userEmail]);
+        Heart::create(['post_id'=>$post->post_id, 'user_email'=>$signedInUserEmail]);
         $post->save();
 
         return response()->json(["message"=>"Post hearted"]);
@@ -109,12 +109,12 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function unHeartPost(Request $request, $postId){
-        $userEmail = $request->user()->email;
+        $signedInUserEmail = $request->user()->email;
         $post = Post::where('post_id',$postId)->first();
         $postHeart = $post->hearts;
         $post->hearts = $postHeart-1;
 
-        $heart = Heart::where('post_id', $post->post_id)->where('user_email',$userEmail);
+        $heart = Heart::where('post_id', $post->post_id)->where('user_email',$signedInUserEmail);
         
         $heart->delete();
         $post->save();
@@ -158,16 +158,16 @@ class PostController extends Controller
      */
     public function show(Request $request, $email)
     {
-        $viewerEmail =  $request->user()->email;
+        $signedInUserEmail =  $request->user()->email;
         $posts = Post::select('post_id', 'user_email','post_text', 'post_image', 'likes','hearts','comments','created_at')
                         ->where('user_email', $email)
                         ->orderBy('created_at','desc')
                         ->get()
                         ->map(
-                            function($post,$key) use ($viewerEmail){ 
-                                $self_comment = Comment::where('post_id',$post->post_id)->where('user_email',$viewerEmail)->exists();
-                                $self_like = Like::where('post_id',$post->post_id)->where('user_email',$viewerEmail)->exists();
-                                $self_heart = Heart::where('post_id',$post->post_id)->where('user_email',$viewerEmail)->exists();
+                            function($post,$key) use ($signedInUserEmail){ 
+                                $self_comment = Comment::where('post_id',$post->post_id)->where('user_email',$signedInUserEmail)->exists();
+                                $self_like = Like::where('post_id',$post->post_id)->where('user_email',$signedInUserEmail)->exists();
+                                $self_heart = Heart::where('post_id',$post->post_id)->where('user_email',$signedInUserEmail)->exists();
                                 return [
                                     'post_id'=>$post->post_id,
                                     'post_image'=>$post->post_image,
@@ -201,9 +201,9 @@ class PostController extends Controller
             return response()->json(["message"=>"Comment creation failed", "errors"=>$validatedData->errors(),"status"=>"failed"], 422);
         }
 
-        $userEmail = $request->user()->email;
+        $signedInUserEmail = $request->user()->email;
         $comment = Comment::create([
-                                'user_email'=>$userEmail,
+                                'user_email'=>$signedInUserEmail,
                                 'post_id'=>$request->post_id,
                                 'comment'=>$request->comment
                                 ]);
@@ -218,7 +218,7 @@ class PostController extends Controller
 
     public function getCommentsOnPost(Request $request, $postId){
         $comments = Comment::where('post_id', $postId)->get();
-        $currentUserEmail = $request->user()->email;
+        $signedInUserEmail = $request->user()->email;
         $result = array();
         foreach($comments as $comment){
             $commenter_first_name = $comment->user->first_name;
@@ -228,7 +228,7 @@ class PostController extends Controller
             $comment_timestamp = strtotime($comment->created_at);
             $comment_date = date("d M y",$comment_timestamp);
             $comment_time = date("h:ia", $comment_timestamp);
-            $isOwnComment = $currentUserEmail == $comment->user_email 
+            $isOwnComment = $signedInUserEmail == $comment->user_email 
                             ? true 
                             : false;
             
