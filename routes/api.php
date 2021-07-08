@@ -8,6 +8,7 @@ use App\Http\Controllers\URLLoginController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\FeedsController;
 use App\Http\Controllers\NetworkController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LogoutController;
 
@@ -27,7 +28,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::middleware(['auth:sanctum'])->group(function(){
 
-    Route::get('/logout', [LogoutController::class,'logout']);
+    Route::get('logout', [LogoutController::class,'logout']);
+
+    Route::get('notification/count', [NotificationController::class,'getNotificationCount']);
 
     Route::post('profile/update', [ProfileController::class, 'update']);
     Route::get('profile/myprofile', [ProfileController::class, 'getMyProfile']);

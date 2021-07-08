@@ -1,21 +1,76 @@
 import React, { Component } from "react";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+import Cookies from "universal-cookie";
+import axios from "axios";
+import { DOMAIN_NAME } from "../env";
 
 class Nav extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            hasNotification: this.props.hasNotification,
-            count: this.props.count
+
+        const sanctumCookie = new Cookies();
+        const sanctumToken = sanctumCookie.get("sanctum_token");
+        axios.defaults.headers.common = {
+            Authorization: "Bearer " + sanctumToken
         };
+
+        const cancelToken = axios.CancelToken;
+        this.source = cancelToken.source();
+        this.configAxios = { cancelToken: this.source.token };
+
+        this.state = {
+            hasNotification: false,
+            notificationCount: 0
+        };
+        this.setUnreadNotification = this.setUnreadNotification.bind(this);
     }
+
+    componentDidMount() {
+        this.setUnreadNotification();
+    }
+
+
+    setUnreadNotification() {
+        let notifyCount = 0;
+        axios
+            .get(`${DOMAIN_NAME}/api/notification/count`)
+            .then(res => {
+                console.log(res);
+                console.log(res.data.notificationCount);
+                notifyCount = res.data.notificationCount;
+                let notificationPresent = notifyCount > 0;
+                this.setState({
+                    notificationCount: notifyCount,
+                    hasNotification: notificationPresent
+                });
+            })
+            .catch(error => {
+                if (axios.isCancel(error)) {
+                    console.log("Nav unmounted");
+                } else {
+                    console.log(error);
+                    notifyCount = 0;
+                    this.setState({
+                        notificationCount: notifyCount,
+                        hasNotification: false
+                    });
+                }
+            });
+        
+    }
+
     render() {
         const notifyIcon = this.state.hasNotification
             ? "text-warning fa fa-bell"
             : "far fa-bell";
         const notifyBadge =
-            this.state.count > 0 ? "badge badge-pill badge-warning" : "";
-        const notifyCount = this.state.count > 0 ? this.state.count : "";
+            this.state.notificationCount > 0
+                ? "badge badge-pill badge-warning"
+                : "";
+        const notifyCount =
+            this.state.notificationCount > 0
+                ? this.state.notificationCount
+                : "";
         return (
             <React.Fragment>
                 <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">

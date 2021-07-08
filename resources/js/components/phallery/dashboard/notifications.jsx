@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import Banner from "./banner";
 import Nav from "./nav";
 import Notification from "./notification/notification";
-
+import axios from "axios";
+import Cookies from "universal-cookie";
 
 /**
  * Notifications
@@ -13,6 +14,23 @@ import Notification from "./notification/notification";
  */
 
 class Notifications extends Component {
+
+    constructor(props){
+        super(props);
+
+        const sanctumCookie = new Cookies();
+        const sanctumToken = sanctumCookie.get("sanctum_token");
+
+        const cancelToken = axios.CancelToken;
+        this.source = cancelToken.source();
+        this.configAxios = { cancelToken: this.source.token };
+
+    }
+
+    getUnReadNotifications(){
+
+    }
+
     render() {
         return (
             <React.Fragment>
