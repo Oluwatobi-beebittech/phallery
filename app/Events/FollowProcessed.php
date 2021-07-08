@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\Following;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -14,14 +15,15 @@ class FollowProcessed
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $following;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Following $following)
     {
-        //
+        $this->following = $following;
     }
 
     /**

@@ -8,6 +8,9 @@ use App\Models\Post;
 use App\Models\Like;
 use App\Models\Heart;
 use App\Models\Comment;
+use App\Events\CommentProcessed;
+use App\Events\LikeProcessed;
+use App\Events\HeartProcessed;
 
 class PostController extends Controller
 {
@@ -61,10 +64,12 @@ class PostController extends Controller
         $postLike = $post->likes;
         $post->likes = $postLike+1;
 
-        Like::create(['post_id'=>$post->post_id, 'user_email'=>$signedInUserEmail]);
+        $like = Like::create(['post_id'=>$post->post_id, 'user_email'=>$signedInUserEmail]);
         
         $post->save();
 
+        LikeProcessed::dispatch($like);
+        
         return response()->json(["message"=>"Post liked"]);
     }
 
@@ -97,8 +102,10 @@ class PostController extends Controller
         $postHeart = $post->hearts;
         $post->hearts = $postHeart+1;
 
-        Heart::create(['post_id'=>$post->post_id, 'user_email'=>$signedInUserEmail]);
+        $heart = Heart::create(['post_id'=>$post->post_id, 'user_email'=>$signedInUserEmail]);
         $post->save();
+
+        HeartProcessed::dispatch($heart);
 
         return response()->json(["message"=>"Post hearted"]);
     }
@@ -211,6 +218,8 @@ class PostController extends Controller
         $post_comment_count = $post->comments;
         $post->comments = $post_comment_count + 1;
         $post->save();
+
+        CommentProcessed::dispatch($comment);
 
         return response()->json(["message"=>"Comment created","status"=>"success"], 201);
 

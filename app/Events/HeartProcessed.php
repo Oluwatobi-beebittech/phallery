@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\Heart;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -14,14 +15,15 @@ class HeartProcessed
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $heart;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Heart $heart)
     {
-        //
+        $this->heart = $heart;
     }
 
     /**

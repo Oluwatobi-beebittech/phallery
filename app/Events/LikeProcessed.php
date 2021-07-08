@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\Like;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -14,14 +15,15 @@ class LikeProcessed
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $like;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Like $like)
     {
-        //
+        $this->like = $like;
     }
 
     /**
