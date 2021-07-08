@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\ViewProfileProcessed;
+use App\Models\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -26,6 +27,13 @@ class SendViewProfileNotification
      */
     public function handle(ViewProfileProcessed $event)
     {
-        //
+        $user = $event->user;
+        $first_name = $user->first_name;
+        $last_name = $user->last_name;
+
+        $recipient = $event->email;
+        $message = $first_name." ".$last_name." viewed your profile";
+
+        Notification::create(['recipient'=>$recipient, 'message'=>$message]);
     }
 }

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Events\FollowProcessed;
+use App\Events\ViewProfileProcessed;
 use App\Models\Following;
 
 class NetworkController extends Controller
@@ -93,10 +95,14 @@ class NetworkController extends Controller
     }
 
     public function isFollowing(Request $request, $email){
-        $userEmail = $request->user()->email;
+        $user = $request->user();
+        $userEmail = $user->email;
         $viewedEmail = $email;
 
         $isFollowing = Following::where('follower', $userEmail)->where('follows', $email)->exists();
+        
+        ViewProfileProcessed::dispatch($user, $viewedEmail);
+        
         if($isFollowing){
             return response()->json(["isFollowing"=>true]);
         }
@@ -110,8 +116,10 @@ class NetworkController extends Controller
         $isNotFollowing = Following::where('follower', $userEmail)->where('follows', $email)->doesntExist();
         if($isNotFollowing){
 
-            $newFollowing = Following::create(['follower'=>$userEmail, 'follows'=>$viewedEmail]);
-            return ($newFollowing 
+            $following = Following::create(['follower'=>$userEmail, 'follows'=>$viewedEmail]);
+            
+            FollowProcessed::dispatch($following);
+            return ($following 
                     ? response()->json(["isFollowing"=>true])
                     :response()->json(["isFollowing"=>false])
                     );
