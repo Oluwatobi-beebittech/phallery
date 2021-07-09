@@ -11,6 +11,7 @@ use App\Models\Comment;
 use App\Events\CommentProcessed;
 use App\Events\LikeProcessed;
 use App\Events\HeartProcessed;
+use Carbon\Carbon;
 
 class PostController extends Controller
 {
@@ -234,9 +235,9 @@ class PostController extends Controller
             $commenter_last_name = $comment->user->last_name;
             $commenter_profile_image = $comment->user->profile_image;
 
-            $comment_timestamp = strtotime($comment->created_at);
-            $comment_date = date("d M y",$comment_timestamp);
-            $comment_time = date("h:ia", $comment_timestamp);
+            $comment_timestamp = Carbon::parse($comment->created_at);
+            $comment_time_elapsed = $comment_timestamp->diffForHumans();
+            
             $isOwnComment = $signedInUserEmail == $comment->user_email 
                             ? true 
                             : false;
@@ -249,8 +250,7 @@ class PostController extends Controller
                 "first_name"=>$commenter_first_name,
                 "last_name"=>$commenter_last_name,
                 "profile_image"=>$commenter_profile_image,
-                "date"=>$comment_date,
-                "time"=>$comment_time,
+                "time_elapsed"=>$comment_time_elapsed,
                 "isOwnComment"=>$isOwnComment
             ));
         }

@@ -55,11 +55,7 @@ class Comment extends Component {
             comment: this.state.commentText
         };
         axios
-            .post(
-                `${DOMAIN_NAME}/api/post/comment`,
-                data,
-                this.configAxios
-            )
+            .post(`${DOMAIN_NAME}/api/post/comment`, data, this.configAxios)
             .then(result => {
                 let currentCount = this.state.count;
                 this.setState({
@@ -186,7 +182,7 @@ class Comment extends Component {
                                             </a>
                                             <p>{item.comment}</p>
                                             <small className="float-right font-weight-light">
-                                                {item.time + " | " + item.date}
+                                                {item.time_elapsed}
                                             </small>
                                         </div>
                                     ) : (
@@ -209,9 +205,7 @@ class Comment extends Component {
                                                 </a>
                                                 <p>{item.comment}</p>
                                                 <small className="float-right font-weight-light">
-                                                    {item.time +
-                                                        " | " +
-                                                        item.date}
+                                                    {item.time_elapsed}
                                                 </small>
                                             </div>
                                         </div>
