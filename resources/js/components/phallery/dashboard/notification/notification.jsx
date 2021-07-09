@@ -46,9 +46,7 @@ class Notification extends Component {
         const notificationModal = this.state.showModal ? (
             <NotificationModal
                 notificationCallback={this.displayNotificationCallback}
-                message="Test Donec
-                id elit non mi porta gravida at eget metus. Maecenas sed
-                diam eget risus varius blandit."
+                message={this.props.message}
             />
         ) : (
             ""
@@ -65,12 +63,10 @@ class Notification extends Component {
                     className="list-group-item list-group-item-action flex-column align-items-start"
                     onClick={this.displayNotificationModal}
                 >
-                    <small className="float-right">3 days ago</small>
+                    <small className="float-right">{this.props.time_elapsed}</small>
 
                     <p className="mb-1">
-                        <span className={readClass}></span>&nbsp; Test Donec id
-                        elit non mi porta gravida at eget metus. Maecenas sed
-                        diam eget risus varius blandit.
+                        <span className={readClass}></span>&nbsp; {this.props.message}
                     </p>
                 </a>
 

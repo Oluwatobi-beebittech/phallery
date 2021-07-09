@@ -37,18 +37,26 @@ class Notifications extends Component {
         this.getUnReadNotifications();
     }
 
+    componentWillUnmount() {
+        this.source.cancel("Notification component unmounted");
+    }
+
     getUnReadNotifications() {
         axios
             .get(`${DOMAIN_NAME}/api/notification`)
             .then(res => {
                 console.log(res);
-                this.setState({ notfications: res.data });
+                this.setState({
+                    notifications: res.data,
+                    isNotificationChecked: true
+                });
             })
             .catch(error => {
                 if (axios.isCancel(error)) {
                     console.log("Notification component Unmounted");
                 } else {
                     console.log(error);
+                    this.setState({ isNotificationChecked: true });
                 }
             });
     }
@@ -67,9 +75,28 @@ class Notifications extends Component {
                         </button>
                     </div>
                     <div className="list-group">
-                        <Notification />
-                        <Notification />
-                        <Notification read={true} />
+                        {this.state.isNotificationChecked ? (
+                            !_.isEmpty(this.state.notifications) ? (
+                                this.state.notifications.map(item => (
+                                    <Notification
+                                        key={item.notification_id}
+                                        message={item.message}
+                                        read={item.was_read}
+                                        time_elapsed={item.time_elapsed}
+                                        notification_id={item.notification_id}
+                                    />
+                                ))
+                            ) : (
+                                <p className="text-muted font-weight-bold">
+                                    You have no notifications to show
+                                </p>
+                            )
+                        ) : (
+                            <div className="font-weight-bold text-center">
+                                <span className="fa fa-spinner fa-pulse fa-2x"></span>
+                                <p className="">Loading</p>
+                            </div>
+                        )}
                     </div>
                 </div>
             </React.Fragment>
