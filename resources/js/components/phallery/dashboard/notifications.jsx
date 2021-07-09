@@ -4,37 +4,59 @@ import Nav from "./nav";
 import Notification from "./notification/notification";
 import axios from "axios";
 import Cookies from "universal-cookie";
+import { DOMAIN_NAME } from "../env";
 
 /**
  * Notifications
- * 
+ *
  * @props default
- * 
+ *
  * Page for notifications
  */
 
 class Notifications extends Component {
-
-    constructor(props){
+    constructor(props) {
         super(props);
 
         const sanctumCookie = new Cookies();
         const sanctumToken = sanctumCookie.get("sanctum_token");
+        axios.defaults.headers.common = {
+            Authorization: "Bearer " + sanctumToken
+        };
 
         const cancelToken = axios.CancelToken;
         this.source = cancelToken.source();
         this.configAxios = { cancelToken: this.source.token };
 
+        this.state = { notifications: [], isNotificationChecked: false };
+
+        this.getUnReadNotifications = this.getUnReadNotifications.bind(this);
     }
 
-    getUnReadNotifications(){
+    componentDidMount() {
+        this.getUnReadNotifications();
+    }
 
+    getUnReadNotifications() {
+        axios
+            .get(`${DOMAIN_NAME}/api/notification`)
+            .then(res => {
+                console.log(res);
+                this.setState({ notfications: res.data });
+            })
+            .catch(error => {
+                if (axios.isCancel(error)) {
+                    console.log("Notification component Unmounted");
+                } else {
+                    console.log(error);
+                }
+            });
     }
 
     render() {
         return (
             <React.Fragment>
-                <Nav hasNotification={true} count={9} />
+                <Nav />
                 <Banner text="Notifications" />
 
                 <div className="container my-3">

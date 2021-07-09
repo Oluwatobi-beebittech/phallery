@@ -29,6 +29,9 @@ class Nav extends Component {
         this.setUnreadNotification();
     }
 
+    componentWillUnmount(){
+        this.source.cancel("Nav component unmounted");
+    }
 
     setUnreadNotification() {
         let notifyCount = 0;

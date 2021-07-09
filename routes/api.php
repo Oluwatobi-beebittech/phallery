@@ -31,6 +31,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::get('logout', [LogoutController::class,'logout']);
 
     Route::get('notification/count', [NotificationController::class,'getNotificationCount']);
+    Route::get('notification', [NotificationController::class,'getNotifications']);
 
     Route::post('profile/update', [ProfileController::class, 'update']);
     Route::get('profile/myprofile', [ProfileController::class, 'getMyProfile']);
