@@ -43,7 +43,7 @@ class Notifications extends Component {
 
     getUnReadNotifications() {
         axios
-            .get(`${DOMAIN_NAME}/api/notification`)
+            .get(`${DOMAIN_NAME}/api/notification`, this.configAxios)
             .then(res => {
                 console.log(res);
                 this.setState({
@@ -61,6 +61,14 @@ class Notifications extends Component {
             });
     }
 
+    markAllAsRead(e) {
+        e.preventDefault();
+        axios
+            .get(`${DOMAIN_NAME}/api/notification/read/all`)
+            .then(res => {})
+            .catch(error => {});
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -69,7 +77,10 @@ class Notifications extends Component {
 
                 <div className="container my-3">
                     <div className="text-center bg-white py-2">
-                        <button className="btn btn-outline-success">
+                        <button
+                            className="btn btn-outline-success"
+                            onClick={this.markAllAsRead}
+                        >
                             <span className="fa fa-tasks fa-1x"> </span>
                             <span className="h5"> Mark all as read</span>
                         </button>

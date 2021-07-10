@@ -61,7 +61,8 @@ class Notification extends Component {
     markNotificationAsRead() {
         axios
             .get(
-                `${DOMAIN_NAME}/api/notification/read/${this.props.notification_id}`
+                `${DOMAIN_NAME}/api/notification/read/${this.props.notification_id}`,
+                this.configAxios
             )
             .then(res => {
                 console.log(res);
