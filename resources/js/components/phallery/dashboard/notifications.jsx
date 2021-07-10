@@ -31,6 +31,7 @@ class Notifications extends Component {
         this.state = { notifications: [], isNotificationChecked: false };
 
         this.getUnReadNotifications = this.getUnReadNotifications.bind(this);
+        this.markAllAsRead = this.markAllAsRead.bind(this);
     }
 
     componentDidMount() {
@@ -65,8 +66,21 @@ class Notifications extends Component {
         e.preventDefault();
         axios
             .get(`${DOMAIN_NAME}/api/notification/read/all`)
-            .then(res => {})
-            .catch(error => {});
+            .then(res => {
+                console.log(res);
+                if (res.data.status === "success") {
+                    const allReadNotify = [...this.state.notifications];
+                    allReadNotify.map(item => (item.was_read = true));
+                    this.setState({ notifications: allReadNotify });
+                }
+            })
+            .catch(error => {
+                if (axios.isCancel(error)) {
+                    console.log("Notifiction unmounted");
+                } else {
+                    console.log(error);
+                }
+            });
     }
 
     render() {

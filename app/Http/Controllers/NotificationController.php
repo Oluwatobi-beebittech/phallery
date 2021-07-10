@@ -31,7 +31,8 @@ class NotificationController extends Controller
                                             return [
                                                 'notification_id'=>$notify->notification_id,
                                                 'message'=>$notify->message,
-                                                'time_elapsed'=>$time_elapsed
+                                                'time_elapsed'=>$time_elapsed,
+                                                'was_read'=>$notify->was_read
                                             ];
                                           }
                                         )
@@ -49,5 +50,14 @@ class NotificationController extends Controller
         $notification->save();
 
         return response()->json(["message"=>"Marked as read successfully", "status"=>"success"],200);
+    }
+
+    public function markAllAsRead(Request $request){
+        $signedInUserEmail = $request->user()->email;
+        $notification = Notification::where('recipient',$signedInUserEmail)
+                    ->where('was_read',false)
+                    ->update(['was_read'=>true]);
+
+        return response()->json(["message"=>"All marked as read successfully", "status"=>"success"],200);
     }
 }

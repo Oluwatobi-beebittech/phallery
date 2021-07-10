@@ -30,6 +30,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
 
     Route::get('logout', [LogoutController::class,'logout']);
 
+    Route::get('notification/read/all', [NotificationController::class,'markAllAsRead']);
     Route::get('notification/read/{notifyId}', [NotificationController::class,'markAsRead']);
     Route::get('notification/count', [NotificationController::class,'getNotificationCount']);
     Route::get('notification', [NotificationController::class,'getNotifications']);

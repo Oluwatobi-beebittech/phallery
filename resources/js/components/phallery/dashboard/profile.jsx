@@ -86,10 +86,7 @@ class Profile extends Component {
     }
     getProfile() {
         axios
-            .get(
-                `${DOMAIN_NAME}/api/profile/myprofile`,
-                this.configAxios
-            )
+            .get(`${DOMAIN_NAME}/api/profile/myprofile`, this.configAxios)
             .then(response => {
                 console.log(response);
                 this.setState({
@@ -222,12 +219,16 @@ class Profile extends Component {
                 });
             })
             .catch(error => {
-                console.log(error);
-                this.setState({
-                    isProfileUpdateSuccess: false,
-                    isUpdateUnsaved: true,
-                    updateResult: error.response.data
-                });
+                if (axios.isCancel(error)) {
+                    console.log("Profile component unmounted");
+                } else {
+                    console.log(error);
+                    this.setState({
+                        isProfileUpdateSuccess: false,
+                        isUpdateUnsaved: true,
+                        updateResult: error.response.data
+                    });
+                }
             });
     }
     render() {
