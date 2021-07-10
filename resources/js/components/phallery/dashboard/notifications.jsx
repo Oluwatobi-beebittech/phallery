@@ -87,7 +87,7 @@ class Notifications extends Component {
                                     />
                                 ))
                             ) : (
-                                <p className="text-muted font-weight-bold">
+                                <p className="text-muted font-weight-bold text-center">
                                     You have no notifications to show
                                 </p>
                             )

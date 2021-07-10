@@ -39,4 +39,15 @@ class NotificationController extends Controller
     
         return $notification;
     }
+
+    public function markAsRead(Request $request, $notifyId){
+        $signedInUserEmail = $request->user()->email;
+        $notification = Notification::where('recipient',$signedInUserEmail)
+                    ->where('notification_id',$notifyId)
+                    ->first();
+        $notification->was_read = true;
+        $notification->save();
+
+        return response()->json(["message"=>"Marked as read successfully", "status"=>"success"],200);
+    }
 }
