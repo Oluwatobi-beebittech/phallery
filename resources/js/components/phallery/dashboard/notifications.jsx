@@ -86,6 +86,8 @@ class Notifications extends Component {
     }
 
     render() {
+
+        const markBtnDisabled = _.isEmpty(this.state.notifications);
         return (
             <React.Fragment>
                 <Nav />
@@ -96,6 +98,7 @@ class Notifications extends Component {
                         <button
                             className="btn btn-outline-success"
                             onClick={this.markAllAsRead}
+                            disabled = {markBtnDisabled}
                         >
                             <span className="fa fa-tasks fa-1x"> </span>
                             <span className="h5"> Mark all as read</span>
@@ -108,8 +111,8 @@ class Notifications extends Component {
                                     <Notification
                                         key={item.notification_id}
                                         message={item.message}
-                                        read={item.was_read}
-                                        time_elapsed={item.time_elapsed}
+                                        read={item.wasRead}
+                                        time_elapsed={item.timeElapsed}
                                         notification_id={item.notification_id}
                                     />
                                 ))
@@ -120,7 +123,7 @@ class Notifications extends Component {
                             )
                         ) : (
                             <div className="font-weight-bold text-center">
-                                <span className="fa fa-spinner fa-pulse fa-2x"></span>
+                                <span className="fa fa-spinner fa-pulse fa-3x"></span>
                                 <p className="">Loading</p>
                             </div>
                         )}

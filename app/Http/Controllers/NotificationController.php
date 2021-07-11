@@ -31,8 +31,8 @@ class NotificationController extends Controller
                                             return [
                                                 'notification_id'=>$notify->notification_id,
                                                 'message'=>$notify->message,
-                                                'time_elapsed'=>$time_elapsed,
-                                                'was_read'=>$notify->was_read
+                                                'timeElapsed'=>$time_elapsed,
+                                                'wasRead'=>$notify->was_read
                                             ];
                                           }
                                         )
