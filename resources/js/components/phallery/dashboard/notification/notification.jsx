@@ -18,7 +18,7 @@ import { DOMAIN_NAME } from "../../env";
 class Notification extends Component {
     constructor(props) {
         super(props);
-        this.state = { showModal: false, was_read: this.props.read };
+        this.state = { showModal: false, wasRead: this.props.read };
 
         const sanctumTokenCookie = new Cookies();
         const sanctumToken = sanctumTokenCookie.get("sanctum_token");
@@ -67,7 +67,7 @@ class Notification extends Component {
             .then(res => {
                 console.log(res);
                 if (res.data.status === "success") {
-                    this.setState({ was_read: true });
+                    this.setState({ wasRead: true });
                 }
             })
             .catch(error => {
@@ -94,7 +94,7 @@ class Notification extends Component {
         );
 
         const readClass =
-            this.state.was_read || this.props.read
+            this.state.wasRead || this.props.read
                 ? "fa fa-check text-success"
                 : "fa fa-check";
 

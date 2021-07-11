@@ -71,7 +71,7 @@ class Notifications extends Component {
                 if (res.data.status === "success") {
                     const allReadNotify = [...this.state.notifications];
                     allReadNotify.map(item => {
-                        item.was_read = true;
+                        item.wasRead = true;
                     });
                     this.setState({ notifications: allReadNotify });
                 }
