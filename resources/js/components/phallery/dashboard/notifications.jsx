@@ -70,13 +70,15 @@ class Notifications extends Component {
                 console.log(res);
                 if (res.data.status === "success") {
                     const allReadNotify = [...this.state.notifications];
-                    allReadNotify.map(item => (item.was_read = true));
+                    allReadNotify.map(item => {
+                        item.was_read = true;
+                    });
                     this.setState({ notifications: allReadNotify });
                 }
             })
             .catch(error => {
                 if (axios.isCancel(error)) {
-                    console.log("Notifiction unmounted");
+                    console.log("Notification unmounted");
                 } else {
                     console.log(error);
                 }

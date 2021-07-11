@@ -93,9 +93,10 @@ class Notification extends Component {
             ""
         );
 
-        const readClass = this.state.was_read
-            ? "fa fa-check text-success"
-            : "fa fa-check";
+        const readClass =
+            this.state.was_read || this.props.read
+                ? "fa fa-check text-success"
+                : "fa fa-check";
 
         return (
             <React.Fragment>
