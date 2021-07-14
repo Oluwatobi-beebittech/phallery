@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Component } from "react";
+import React, { useEffect, useState} from "react";
 import Nav from "./nav";
 import Banner from "./banner";
 import CreatePost from "./create_post";

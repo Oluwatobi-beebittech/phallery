@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
+import Modal from "react-bootstrap/Modal";
 
 function Footer() {
+    const [showModal, setShowModal] = useState(false);
     return (
         <section className="h-9 bg-orange-img">
             <div className="bg-dark-trans h-9">
@@ -8,12 +10,12 @@ function Footer() {
                     <div className="row">
                         <div className="col-12 text-center">
                             <a
-                                href=""
+                                href="mailto:akanjioluwatobishadrach@yahoo.com"
                                 className="btn btn-lg text-white"
                                 rel="noopener"
                                 target="_blank"
                             >
-                                <span className="fab fa-facebook fa-2x"></span>
+                                <span className="fas fa-envelope fa-2x"></span>
                             </a>
                             <a
                                 href="https://www.linkedin.com/in/oluwatobiakanji/"
@@ -36,6 +38,10 @@ function Footer() {
                                 className="btn btn-sm btn-outline-dark text-white"
                                 rel="noopener"
                                 target="_blank"
+                                onClick={e => {
+                                    e.preventDefault();
+                                    setShowModal(true);
+                                }}
                             >
                                 <span className="fa fa-info-circle"> </span>
                                 &nbsp;Image Credits
@@ -44,6 +50,21 @@ function Footer() {
                     </div>
                 </div>
             </div>
+
+            <Modal
+                size="lg"
+                show={showModal}
+                onHide={() => setShowModal(false)}
+                aria-labelledby="image-credits"
+                centered
+            >
+                <Modal.Header closeButton className="bg-dark text-white">
+                    <Modal.Title id="image-credits">
+                        <span className="fa fa-image"></span>&nbsp;Image Credits
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body></Modal.Body>
+            </Modal>
         </section>
     );
 }
