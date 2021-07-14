@@ -47,7 +47,7 @@ class PostController extends Controller
                                 ];
                             })
                         ->all();
-        return $posts;
+        return response()->json($posts);
     }
 
     /**
@@ -149,7 +149,7 @@ class PostController extends Controller
         )
         ->all();
 
-        return $comments;
+        return response()->json($comments);
     }
 
     /**
@@ -217,7 +217,7 @@ class PostController extends Controller
                         ->all();
         
         
-        return $posts;
+        return response()->json($posts);
     }
 
 
