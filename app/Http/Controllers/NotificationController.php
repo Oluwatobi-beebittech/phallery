@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Notification;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class NotificationController extends Controller
@@ -26,8 +25,7 @@ class NotificationController extends Controller
                                       ->get()
                                       ->map(
                                           function($notify){
-                                            $time = Carbon::parse($notify->created_at);
-                                            $time_elapsed = $time->diffForHumans();
+                                            $time_elapsed = $notify->created_at->diffForHumans();
                                             return [
                                                 'notification_id'=>$notify->notification_id,
                                                 'message'=>$notify->message,
@@ -45,16 +43,14 @@ class NotificationController extends Controller
         $signedInUserEmail = $request->user()->email;
         $notification = Notification::where('recipient',$signedInUserEmail)
                     ->where('notification_id',$notifyId)
-                    ->first();
-        $notification->was_read = true;
-        $notification->save();
+                    ->update(['was_read'=>true]);
 
         return response()->json(["message"=>"Marked as read successfully", "status"=>"success"],200);
     }
 
     public function markAllAsRead(Request $request){
         $signedInUserEmail = $request->user()->email;
-        $notification = Notification::where('recipient',$signedInUserEmail)
+        Notification::where('recipient',$signedInUserEmail)
                     ->where('was_read',false)
                     ->update(['was_read'=>true]);
 

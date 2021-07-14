@@ -11,7 +11,6 @@ use App\Models\Comment;
 use App\Events\CommentProcessed;
 use App\Events\LikeProcessed;
 use App\Events\HeartProcessed;
-use Carbon\Carbon;
 
 class PostController extends Controller
 {
@@ -21,14 +20,13 @@ class PostController extends Controller
      * @return JSON
      */
     public function getMyPosts(Request $request){
-
         $signedInUserEmail =  $request->user()->email;
         $posts = Post::select('post_id', 'user_email','post_text', 'post_image', 'likes','hearts','comments','created_at')
                         ->where('user_email', $signedInUserEmail)
                         ->orderBy('created_at','desc')
                         ->get()
                         ->map(
-                            function($post,$key) use ($signedInUserEmail){ 
+                            function($post) use ($signedInUserEmail){ 
                                 $self_comment = Comment::where('post_id',$post->post_id)->where('user_email',$signedInUserEmail)->exists();
                                 $self_like = Like::where('post_id',$post->post_id)->where('user_email',$signedInUserEmail)->exists();
                                 $self_heart = Heart::where('post_id',$post->post_id)->where('user_email',$signedInUserEmail)->exists();
@@ -49,8 +47,6 @@ class PostController extends Controller
                                 ];
                             })
                         ->all();
-        
-        
         return $posts;
     }
 
@@ -61,16 +57,9 @@ class PostController extends Controller
      */
     public function likePost(Request $request, $postId){
         $signedInUserEmail = $request->user()->email;
-        $post = Post::where('post_id',$postId)->first();
-        $postLike = $post->likes;
-        $post->likes = $postLike+1;
-
-        $like = Like::create(['post_id'=>$post->post_id, 'user_email'=>$signedInUserEmail]);
-        
-        $post->save();
-
+        Post::where('post_id',$postId)->increment('likes');
+        $like = Like::create(['post_id'=>$postId, 'user_email'=>$signedInUserEmail]);
         LikeProcessed::dispatch($like);
-        
         return response()->json(["message"=>"Post liked"]);
     }
 
@@ -81,14 +70,9 @@ class PostController extends Controller
      */
     public function unLikePost(Request $request, $postId){
         $signedInUserEmail = $request->user()->email;
-        $post = Post::where('post_id',$postId)->first();
-        $postLike = $post->likes;
-        $post->likes = $postLike-1;
-
-        $like = Like::where('post_id', $post->post_id)->where('user_email',$signedInUserEmail);
-        
+        Post::where('post_id',$postId)->decrement('likes');
+        $like = Like::where('post_id', $postId)->where('user_email',$signedInUserEmail);
         $like->delete();
-        $post->save();
         return response()->json(["message"=>"Post unliked"]);
     }
 
@@ -99,15 +83,9 @@ class PostController extends Controller
      */
     public function heartPost(Request $request, $postId){
         $signedInUserEmail = $request->user()->email;
-        $post = Post::where('post_id',$postId)->first();
-        $postHeart = $post->hearts;
-        $post->hearts = $postHeart+1;
-
-        $heart = Heart::create(['post_id'=>$post->post_id, 'user_email'=>$signedInUserEmail]);
-        $post->save();
-
+        Post::where('post_id',$postId)->increment('hearts');
+        $heart = Heart::create(['post_id'=>$postId, 'user_email'=>$signedInUserEmail]);
         HeartProcessed::dispatch($heart);
-
         return response()->json(["message"=>"Post hearted"]);
     }
 
@@ -118,16 +96,60 @@ class PostController extends Controller
      */
     public function unHeartPost(Request $request, $postId){
         $signedInUserEmail = $request->user()->email;
-        $post = Post::where('post_id',$postId)->first();
-        $postHeart = $post->hearts;
-        $post->hearts = $postHeart-1;
-
-        $heart = Heart::where('post_id', $post->post_id)->where('user_email',$signedInUserEmail);
-        
+        Post::where('post_id',$postId)->decrement('hearts');
+        $heart = Heart::where('post_id', $postId)->where('user_email',$signedInUserEmail);
         $heart->delete();
-        $post->save();
         return response()->json(["message"=>"Post unhearted"]);
     }
+
+    public function commentOnPost(Request $request){
+        $validatedData = Validator::make($request->all(),
+                                        [
+                                            'post_id'=>'required|uuid|exists:posts',
+                                            'comment'=>'required|string'
+                                        ]);
+        if($validatedData->fails()){
+            return response()->json(["message"=>"Comment creation failed", "errors"=>$validatedData->errors(),"status"=>"failed"], 422);
+        }
+        $signedInUserEmail = $request->user()->email;
+        $comment = Comment::create([
+                                'user_email'=>$signedInUserEmail,
+                                'post_id'=>$request->post_id,
+                                'comment'=>$request->comment
+                                ]);
+        $comment->post()->increment('comments');
+        CommentProcessed::dispatch($comment);
+        return response()->json(["message"=>"Comment created","status"=>"success"], 201);
+
+    }
+
+    public function getCommentsOnPost(Request $request, $postId){
+        $comments = Comment::where('post_id', $postId)->get();
+        $signedInUserEmail = $request->user()->email;
+        $result = array();
+        foreach($comments as $comment){
+            $commenter_first_name = $comment->user->first_name;
+            $commenter_last_name = $comment->user->last_name;
+            $commenter_profile_image = $comment->user->profile_image;
+            $comment_time_elapsed = $comment->created_at->diffForHumans();
+            $isOwnComment = $signedInUserEmail == $comment->user_email;
+            
+            array_push($result, array(
+                "comment_id"=>$comment->comment_id,
+                "post_id"=>$comment->post_id,
+                "email"=>$comment->user_email,
+                "comment"=>$comment->comment,
+                "first_name"=>$commenter_first_name,
+                "last_name"=>$commenter_last_name,
+                "profile_image"=>$commenter_profile_image,
+                "time_elapsed"=>$comment_time_elapsed,
+                "isOwnComment"=>$isOwnComment
+            ));
+        }
+
+        return $result;
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -135,9 +157,7 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
-        
+    {        
         $validatedData = Validator::make($request->all(),[
             'post_text' => 'required|max:100|string',
             'post_image' => 'required|image'
@@ -172,7 +192,7 @@ class PostController extends Controller
                         ->orderBy('created_at','desc')
                         ->get()
                         ->map(
-                            function($post,$key) use ($signedInUserEmail){ 
+                            function($post) use ($signedInUserEmail){ 
                                 $self_comment = Comment::where('post_id',$post->post_id)->where('user_email',$signedInUserEmail)->exists();
                                 $self_like = Like::where('post_id',$post->post_id)->where('user_email',$signedInUserEmail)->exists();
                                 $self_heart = Heart::where('post_id',$post->post_id)->where('user_email',$signedInUserEmail)->exists();
@@ -196,78 +216,6 @@ class PostController extends Controller
         
         
         return $posts;
-    }
-
-    public function commentOnPost(Request $request){
-
-        $validatedData = Validator::make($request->all(),
-                                        [
-                                            'post_id'=>'required|uuid|exists:posts',
-                                            'comment'=>'required|string'
-                                        ]);
-        if($validatedData->fails()){
-            return response()->json(["message"=>"Comment creation failed", "errors"=>$validatedData->errors(),"status"=>"failed"], 422);
-        }
-
-        $signedInUserEmail = $request->user()->email;
-        $comment = Comment::create([
-                                'user_email'=>$signedInUserEmail,
-                                'post_id'=>$request->post_id,
-                                'comment'=>$request->comment
-                                ]);
-        $post = $comment->post;
-        $post_comment_count = $post->comments;
-        $post->comments = $post_comment_count + 1;
-        $post->save();
-
-        CommentProcessed::dispatch($comment);
-
-        return response()->json(["message"=>"Comment created","status"=>"success"], 201);
-
-    }
-
-    public function getCommentsOnPost(Request $request, $postId){
-        $comments = Comment::where('post_id', $postId)->get();
-        $signedInUserEmail = $request->user()->email;
-        $result = array();
-        foreach($comments as $comment){
-            $commenter_first_name = $comment->user->first_name;
-            $commenter_last_name = $comment->user->last_name;
-            $commenter_profile_image = $comment->user->profile_image;
-
-            $comment_timestamp = Carbon::parse($comment->created_at);
-            $comment_time_elapsed = $comment_timestamp->diffForHumans();
-            
-            $isOwnComment = $signedInUserEmail == $comment->user_email 
-                            ? true 
-                            : false;
-            
-            array_push($result, array(
-                "comment_id"=>$comment->comment_id,
-                "post_id"=>$comment->post_id,
-                "email"=>$comment->user_email,
-                "comment"=>$comment->comment,
-                "first_name"=>$commenter_first_name,
-                "last_name"=>$commenter_last_name,
-                "profile_image"=>$commenter_profile_image,
-                "time_elapsed"=>$comment_time_elapsed,
-                "isOwnComment"=>$isOwnComment
-            ));
-        }
-
-        return $result;
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
     }
 
 
