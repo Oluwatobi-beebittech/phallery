@@ -61,7 +61,7 @@ class Profile extends Component {
             .get(`${DOMAIN_NAME}/api/logout`, this.configAxios)
             .then(result => {
                 console.log(result);
-                if (result.data.status == "success") {
+                if (result.data.status === "success") {
                     console.log("result");
                     const cookies = new Cookies();
                     if (cookies.get("sanctum_token")) {

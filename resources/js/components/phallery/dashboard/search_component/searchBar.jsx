@@ -56,7 +56,7 @@ class SearchBar extends Component {
     render() {
         const focus = this.state.focused || this.state.searchResultFocus;
         const searchUI =
-            this.state.searchText.trim() != "" && focus ? (
+            this.state.searchText.trim() !== "" && focus ? (
                 <SearchResultUI
                     text={this.state.searchText}
                     searchResultFocused={this.searchResultFocused}
@@ -79,8 +79,8 @@ class SearchBar extends Component {
                                 className="form-control rounded-left"
                                 placeholder="Search for friends"
                                 onChange={this.handleSearchChange}
-                                onBlur={()=>this.focused(false)}
-                                onFocus={()=>this.focused(true)}
+                                onBlur={() => this.focused(false)}
+                                onFocus={() => this.focused(true)}
                                 value={this.state.searchText}
                             />
                         </div>

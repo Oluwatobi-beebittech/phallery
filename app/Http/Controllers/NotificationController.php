@@ -34,12 +34,12 @@ class NotificationController extends Controller
                                         )
                                         ->all();
     
-        return $notification;
+        return response()->json($notification);
     }
 
     public function markAsRead(Request $request, $notifyId){
         $signedInUserEmail = $request->user()->email;
-        $notification = Notification::where('recipient',$signedInUserEmail)
+        Notification::where('recipient',$signedInUserEmail)
                     ->where('notification_id',$notifyId)
                     ->update(['was_read'=>true]);
 

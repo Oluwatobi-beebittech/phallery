@@ -121,7 +121,7 @@ class Comment extends Component {
             : "far fa-comment-dots";
         const classText = color + " fa-2x text-decoration-none";
         const isDisabled =
-            this.state.commentText.trim() != "" && !this.state.isSendClicked
+            this.state.commentText.trim() !== "" && !this.state.isSendClicked
                 ? false
                 : true;
         return (

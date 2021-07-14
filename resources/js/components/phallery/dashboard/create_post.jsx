@@ -137,7 +137,7 @@ class CreatePost extends Component {
             "alert " + alertType + " alert-dismissible fade show";
 
         const bannerAlert =
-            this.state.message != "" ? (
+            this.state.message !== "" ? (
                 <div className={alertClass} role="alert">
                     <strong>{this.state.message}</strong>
                 </div>
@@ -158,7 +158,7 @@ class CreatePost extends Component {
                 <span className="text-success fa fa-check"></span>
             </p>
         );
-        const isFilePresent = this.state.file != "";
+        const isFilePresent = this.state.file !== "";
         const fileType = isFilePresent ? this.getFileType() : "";
         const imageValidity = isFilePresent ? fileType === "image" : false;
         const message = isFilePresent
@@ -168,7 +168,7 @@ class CreatePost extends Component {
             : " ";
 
         const btnDisabled = !this.state.loading
-            ? !(imageValidity && this.state.postText.trim() != "")
+            ? !(imageValidity && this.state.postText.trim() !== "")
             : this.state.loading;
 
         return (
