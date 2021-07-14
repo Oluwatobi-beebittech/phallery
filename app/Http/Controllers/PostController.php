@@ -126,28 +126,30 @@ class PostController extends Controller
     public function getCommentsOnPost(Request $request, $postId){
         $comments = Comment::where('post_id', $postId)->get();
         $signedInUserEmail = $request->user()->email;
-        $result = array();
-        foreach($comments as $comment){
-            $commenter_first_name = $comment->user->first_name;
-            $commenter_last_name = $comment->user->last_name;
-            $commenter_profile_image = $comment->user->profile_image;
-            $comment_time_elapsed = $comment->created_at->diffForHumans();
-            $isOwnComment = $signedInUserEmail == $comment->user_email;
-            
-            array_push($result, array(
-                "comment_id"=>$comment->comment_id,
-                "post_id"=>$comment->post_id,
-                "email"=>$comment->user_email,
-                "comment"=>$comment->comment,
-                "first_name"=>$commenter_first_name,
-                "last_name"=>$commenter_last_name,
-                "profile_image"=>$commenter_profile_image,
-                "time_elapsed"=>$comment_time_elapsed,
-                "isOwnComment"=>$isOwnComment
-            ));
-        }
+        $comments = $comments->map(
+            function($comment) use ($signedInUserEmail){
+                $commenter_first_name = $comment->user->first_name;
+                $commenter_last_name = $comment->user->last_name;
+                $commenter_profile_image = $comment->user->profile_image;
+                $comment_time_elapsed = $comment->created_at->diffForHumans();
+                $isOwnComment = $signedInUserEmail == $comment->user_email;
 
-        return $result;
+                return [
+                    "comment_id"=>$comment->comment_id,
+                    "post_id"=>$comment->post_id,
+                    "email"=>$comment->user_email,
+                    "comment"=>$comment->comment,
+                    "first_name"=>$commenter_first_name,
+                    "last_name"=>$commenter_last_name,
+                    "profile_image"=>$commenter_profile_image,
+                    "time_elapsed"=>$comment_time_elapsed,
+                    "isOwnComment"=>$isOwnComment
+                ];
+            }
+        )
+        ->all();
+
+        return $comments;
     }
 
     /**
