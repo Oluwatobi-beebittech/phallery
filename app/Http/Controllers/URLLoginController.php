@@ -13,26 +13,6 @@ use App\Mail\LoginURL;
 class URLLoginController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Finds and sends a mail.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -48,11 +28,11 @@ class URLLoginController extends Controller
         }
 
         try{
-            $user = User::find($request->email);
-            if($user){
+            $userExists = User::find($request->email)->exists();
+            if($userExists){
                 $plainTextToken = $user->createToken($request->email)->plainTextToken;
                 $signedURL = URL::temporarySignedRoute(
-                    'api.pass', now()->addMinutes(60), ['user' => $request->email, 'token' => $plainTextToken]
+                    'api.pass', now()->addMinutes(10), ['user' => $request->email, 'token' => $plainTextToken]
                 );
                 
                 
@@ -86,50 +66,5 @@ class URLLoginController extends Controller
             
         }
         return response()->view("invalidLogin");
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

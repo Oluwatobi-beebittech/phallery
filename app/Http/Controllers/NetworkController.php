@@ -100,7 +100,6 @@ class NetworkController extends Controller
 
     public function follow(Request $request, $email){
         $signedInUserEmail = $request->user()->email;
-
         $isNotFollowing = Following::where('follower', $signedInUserEmail)->where('follows', $email)->doesntExist();
         if($isNotFollowing){
             $following = Following::create(['follower'=>$signedInUserEmail, 'follows'=>$email]); 
@@ -115,7 +114,6 @@ class NetworkController extends Controller
 
     public function unfollow(Request $request, $email){
         $signedInUserEmail = $request->user()->email;
-
         $following = Following::where('follower', $signedInUserEmail)->where('follows', $email);
         if($following->exists()){
             $newUnFollowing = $following->delete();

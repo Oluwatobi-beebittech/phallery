@@ -15,12 +15,14 @@ class SearchController extends Controller
      * @return App\Models\User
      */
     public function search(Request $request,$text){
-        $user_email = $request->user()->email;
-        return User::select('first_name', 'last_name', 'email', 'profile_image')
-                    ->where('email','<>',$user_email)
+        $signedInUserEmail = $request->user()->email;
+        $user = User::select('first_name', 'last_name', 'email', 'profile_image')
+                    ->where('email','<>',$signedInUserEmail)
                     ->where('first_name','like',"%$text%")
                     ->orWhere('last_name','Like',"%$text%")
-                    ->where('email','<>',$user_email)
+                    ->where('email','<>',$signedInUserEmail)
                     ->get();
+        
+        return response()->json($user);
     }
 }
