@@ -14,7 +14,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'Phallery'),
-
+    'log'=>'errorlog',
     /*
     |--------------------------------------------------------------------------
     | Application Environment
