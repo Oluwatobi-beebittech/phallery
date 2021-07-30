@@ -9,7 +9,7 @@ function Nav() {
         <Router>
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
                 <Link to="/" className="navbar-brand font-weight-bold">
-                    Phallery1
+                    Phallery
                 </Link>
 
                 <button
