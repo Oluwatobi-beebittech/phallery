@@ -60,7 +60,7 @@ class Signup extends Component {
             axios
                 .post(`${DOMAIN_NAME}/api/register`, input)
                 .then((res) => {
-                    console.log(res);
+                    
                     let success = { OK: "Success" };
                     this.setState({
                         message: success,

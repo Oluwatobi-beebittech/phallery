@@ -29,7 +29,7 @@ class URLLoginController extends Controller
 
         try{
             $user = User::find($request->email);
-            if($user->exists()){
+            if($user){
                 $plainTextToken = $user->createToken($request->email)->plainTextToken;
                 $signedURL = URL::temporarySignedRoute(
                     'api.pass', now()->addMinutes(10), ['user' => $request->email, 'token' => $plainTextToken]
