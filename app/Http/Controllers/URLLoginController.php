@@ -42,7 +42,7 @@ class URLLoginController extends Controller
                 return response()->json(["status"=>"Success", "togken"=>"old","message" => $user->tokens]);
             }
         }catch(\Illuminate\Database\QueryException $err){
-            return response()->json(["status"=>"Failed", "message"=>"Error  connecting to database"]);
+            return response()->json(["status"=>"Failed", "message"=>"Error  connecting to database","error"=>$err]);
         }catch(\Swift_TransportException $e){
             return response()->json(["status"=>"Failed", "message"=>"Could not connect to mail server. Kindly try again."]);
         }
