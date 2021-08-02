@@ -54,9 +54,9 @@ class URLLoginController extends Controller
     public function signedLogin(Request $request, $user)
     {
         if($request->hasValidSignature()){
-            if(Auth::loginUsingId($user)){
-                $user_obj = User::where('email',$user)->first();
-                  
+            $user_obj = User::where('email',$user)->first();
+            if($user_obj->exists()){
+                
                 if(count($user_obj->tokens)>0){
                     return response()->view("dashboard.index");
                 }

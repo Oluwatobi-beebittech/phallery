@@ -23,11 +23,11 @@
                     <span class="fa fa-bug text-danger"></span>
                     Oops we encountered an error
                 </h3>
-                <a href="http://localhost:8000/signin" class = "btn btn-warning btn-lg">
+                <a href="https://phallery.herokuapp.com/signin" class = "btn btn-warning btn-lg">
                     <span class="fa fa-arrow-circle-left fa-3x"></span>
                     Sign In
                 </a>
-                <a href="http://localhost:8000" class = "btn btn-primary btn-lg">
+                <a href="https://phallery.herokuapp.com" class = "btn btn-primary btn-lg">
                     <span class="fa fa-home fa-3x"></span>
                     Home
                 </a>
