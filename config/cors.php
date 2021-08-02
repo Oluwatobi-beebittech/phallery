@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['phallery.herokuapp.com'],
+    'allowed_origins' => ['phallery.herokuapp.com','phallery.herokuapp.com/api/dashboard'],
 
     'allowed_origins_patterns' => [],
 

@@ -44,7 +44,7 @@ class URLLoginController extends Controller
         }catch(\Illuminate\Database\QueryException $err){
             return response()->json(["status"=>"Failed", "message"=>"Error  connecting to database","error"=>$err]);
         }catch(\Swift_TransportException $e){
-            return response()->json(["status"=>"Failed", "message"=>"Could not connect to mail server. Kindly try again.", "error"=>$e]);
+            return response()->json(["status"=>"Failed", "message"=>"Could not connect to mail server. Kindly try again."]);
         }
         return response()->json(["status"=>"Failed", "message"=>"Some errors were encountered. Ensure the email is
         registered."]);
