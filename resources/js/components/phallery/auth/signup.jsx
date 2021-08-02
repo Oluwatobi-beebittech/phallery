@@ -87,8 +87,7 @@ class Signup extends Component {
                     role="alert"
                 >
                     <strong>
-                        Registration was successful. Check your email for
-                        confirmation.
+                        Registration was successful. Proceed to sign in
                     </strong>
                 </div>
             );
