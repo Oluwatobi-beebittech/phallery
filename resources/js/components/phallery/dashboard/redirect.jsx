@@ -51,7 +51,7 @@ class Redirect extends Component {
                 status: res.data.status,
                 redirect: res.data.redirect,
                 token: token
-            });
+            }).catch(error=>console.log(error));
         });
     }
     render() {
