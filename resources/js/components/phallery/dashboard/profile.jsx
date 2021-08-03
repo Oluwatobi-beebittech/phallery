@@ -72,7 +72,7 @@ class Profile extends Component {
                         });
                     }
 
-                    //this.props.history.push("/signin");
+                    this.props.history.push("/signin");
                     window.location.reload();
                 }
             })
