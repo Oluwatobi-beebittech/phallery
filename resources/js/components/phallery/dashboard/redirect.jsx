@@ -51,7 +51,7 @@ class Redirect extends Component {
                 status: res.data.status,
                 redirect: res.data.redirect,
                 token: token
-            }).catch(error=>console.log(error));
+            }).catch(error=>{console.log("error axios");console.log(error);});
         });
     }
     render() {
@@ -63,7 +63,7 @@ class Redirect extends Component {
                 secure: true,
                 sameSite: "lax"
             });
-
+            console.log("Success");
             return <Redirector to={this.state.redirect} />;
         } else if (typeof this.state.status === "undefined") {
             // if (cookies.get("sanctum_token")) {
@@ -74,7 +74,7 @@ class Redirect extends Component {
             //     });
             console.log("Remove");
             // }
-            
+            console.log("Undefined");
             return <Redirector to="/" />;
         } else {
             return (
