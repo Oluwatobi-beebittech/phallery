@@ -66,4 +66,9 @@ class Kernel extends HttpKernel
         'tokenAttach' => \App\Http\Middleware\TokenAttach::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
     ];
+
+    protected $middlewarePriority = [
+        \App\Http\Middleware\Authenticate::class,
+        \Illuminate\Routing\Middleware\SubstituteBindings::class,
+    ];
 }
