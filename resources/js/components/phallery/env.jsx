@@ -1,1 +1,1 @@
-export const DOMAIN_NAME = "https://phallery.herokuapp.com";
+export const DOMAIN_NAME = "http://localhost:8000";
