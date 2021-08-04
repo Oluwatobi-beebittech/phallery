@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Http;
 class TokenAttach
 {
     /**
-     * Handle an iincoming request.
+     * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next

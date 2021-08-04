@@ -37,7 +37,7 @@ function Dashboard() {
                     />
                     <Route exact path="/dashboard/myposts" component={Feeds} />
                     <Route exact path="/dashboard/feeds" component={Home} />
-                    <Route exact path="/xyz" component={Index} />
+                    <Route exact path="/" component={Index} />
                     <Redirect />
                 </Switch>
             </Router>
