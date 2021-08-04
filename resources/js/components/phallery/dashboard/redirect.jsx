@@ -18,18 +18,17 @@ class Redirect extends Component {
     }
 
     redirect() {
-        let value = "";
+        
         let token = "";
         const cookies = this.cookies;
 
         if (cookies.get("sanctum_token")) {
             token = cookies.get("sanctum_token");
         } else {
-            value = queryString.parse(window.location.search);
-            token = value.token;
             let tokenPath = this.props.location.pathname;
             let tokenArray = tokenPath.split("/");
-            console.log(tokenArray.pop());
+            token = tokenArray.pop();
+            console.log(token);
         }
 
         axios.defaults.headers.common = { Authorization: "Bearer " + token };
