@@ -62,7 +62,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
 
 Route::post('register', [RegisterController::class, 'store']);
 Route::post('login', [URLLoginController::class, 'findAndSend']);
-Route::get('pass/{user}', [URLLoginController::class, 'signedLogin'])
+Route::get('pass/{user}/{token}', [URLLoginController::class, 'signedLogin'])
     ->name('api.pass');
 
 
