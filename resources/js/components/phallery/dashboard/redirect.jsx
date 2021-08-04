@@ -27,6 +27,7 @@ class Redirect extends Component {
         } else {
             value = queryString.parse(window.location.search);
             token = value.token;
+            console.log(this.props.location.pathname);
         }
 
         axios.defaults.headers.common = { Authorization: "Bearer " + token };
