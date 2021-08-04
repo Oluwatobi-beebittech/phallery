@@ -56,10 +56,9 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::get('post/{email}', [PostController::class, 'show']);
     Route::get('search/{text}', [SearchController::class, 'search']);
     
-    
-    
+    Route::get('dashboard', [FeedsController::class, 'index']);
 });
-Route::get('dashboard', [FeedsController::class, 'index']);
+
 Route::post('register', [RegisterController::class, 'store']);
 Route::post('login', [URLLoginController::class, 'findAndSend']);
 Route::get('pass/{user}/{token}', [URLLoginController::class, 'signedLogin'])
