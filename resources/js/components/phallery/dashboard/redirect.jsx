@@ -25,13 +25,13 @@ class Redirect extends Component {
         if (cookies.get("sanctum_token")) {
             token = cookies.get("sanctum_token");
         } else {
-            value = queryString.parse(window.location.search);
-            token = value.token;
-            console.log(this.props.location.pathname);
-            // let tokenPath = this.props.location.pathname;
-            // let tokenArray = tokenPath.split("/");
-            // token = tokenArray.pop();
-            // console.log(token);
+            // value = queryString.parse(window.location.search);
+            // token = value.token;
+            // console.log(this.props.location.pathname);
+            let tokenPath = this.props.location.pathname;
+            let tokenArray = tokenPath.split("/");
+            token = tokenArray.pop();
+            console.log(token);
         }
 
         axios.defaults.headers.common = { Authorization: "Bearer " + token };
