@@ -16,7 +16,7 @@ class ProfileController extends Controller
     public function update(Request $request){
         
         $user = $request->user();
-        $isSamePhoneNumber = $user->phone_number == $request->phone_number;
+        $isSamePhoneNumber = (($user->phone_number == $request->phone_number) || $request->phone_number =="");
         
         if($isSamePhoneNumber){
             $request->merge(['phone_number' => null]);
