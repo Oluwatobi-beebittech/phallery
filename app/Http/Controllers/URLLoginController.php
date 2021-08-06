@@ -52,14 +52,14 @@ class URLLoginController extends Controller
 
 
     public function signedLogin(Request $request, $user)
-    {print_r($request);
+    {
         if($request->hasValidSignature()){
             $user_obj = User::where('email',$user)->first();
             if($user_obj->exists()){
                 
                 if(count($user_obj->tokens)>0){
-                    return "Y";
-                    //return response()->view("dashboard.index");
+                    
+                    return response()->view("dashboard.index");
                 }
                 
             }
