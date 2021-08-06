@@ -37,7 +37,7 @@ class ProfileController extends Controller
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
         if($request->hasFile('profile_image')){
-            $user->profile_image = $request->file('profile_image')->store('profile');
+            $user->profile_image = cloudinary()->upload($request->file('profile_image')->getRealPath())->getSecurePath();
         }
         if(!$isSamePhoneNumber){
             $user->phone_number = $request->phone_number;

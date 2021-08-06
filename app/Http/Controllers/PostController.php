@@ -173,7 +173,7 @@ class PostController extends Controller
         
         $post->user_email = $request->user()->email;
         $post->post_text = $request->post_text;
-        $post->post_image = $request->file('post_image')->store('posts');
+        $post->post_image = cloudinary()->upload($request->file('post_image')->getRealPath())->getSecurePath();
 
         $post->save();
 
