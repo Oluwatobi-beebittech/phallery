@@ -52,7 +52,7 @@ class URLLoginController extends Controller
 
 
     public function signedLogin(Request $request, $user)
-    {dd($request);
+    {print_r($request);
         if($request->hasValidSignature()){
             $user_obj = User::where('email',$user)->first();
             if($user_obj->exists()){
