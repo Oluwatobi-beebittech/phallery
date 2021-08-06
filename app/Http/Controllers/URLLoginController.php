@@ -53,11 +53,7 @@ class URLLoginController extends Controller
 
     public function signedLogin(Request $request, $user)
     {
-        foreach (array_keys($request->all()) as $key) {
-            if (!in_array($key, ['expires', 'signature']) {
-                $request->request->remove($key);
-            }
-        }
+        
         if($request->hasValidSignature()){
             $user_obj = User::where('email',$user)->first();
             if($user_obj->exists()){
