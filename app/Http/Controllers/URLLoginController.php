@@ -67,6 +67,6 @@ class URLLoginController extends Controller
             return response()->json(["message"=>"User object tokens is not >0"]);
             
         }
-        return response()->json(["message"=>"Request has invalid signature", "r"=>$request->hasValidSignature(), "re"=>$request->query('signature')]);
+        return response()->json(["message"=>"Request has invalid signature", "r"=>$request->hasValidSignature(), "re"=>$request->query('signature'), "re"=>$request->query('expires')]);
     }
 }
