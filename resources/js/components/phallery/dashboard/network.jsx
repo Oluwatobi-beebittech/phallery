@@ -184,7 +184,7 @@ class Network extends Component {
                                                 <div className="img-circle-wrapper">
                                                     <img
                                                         src={
-                                                            `${DOMAIN_NAME}/${connection.conn_profile_image}`
+                                                            `${connection.conn_profile_image}`
                                                         }
                                                         className="img-circle"
                                                     />

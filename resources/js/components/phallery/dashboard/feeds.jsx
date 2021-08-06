@@ -57,7 +57,7 @@ function Feeds() {
                             <PostContainer
                                 key={item.post_id}
                                 imgUrl={
-                                    `${DOMAIN_NAME}/${item.post_image}`
+                                    `${item.post_image}`
                                 }
                                 poster_first_name={item.poster_first_name}
                                 poster_last_name={item.poster_last_name}

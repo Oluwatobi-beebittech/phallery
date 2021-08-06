@@ -232,9 +232,7 @@ class Profile extends Component {
             });
     }
     render() {
-        const imageURLPrefix = _.isEqual(this.state.imageFile, {})
-            ? `${DOMAIN_NAME}/`
-            : "";
+        const imageURLPrefix = "";
         const isProfileUpdateSuccess = this.state.isProfileUpdateSuccess;
 
         const alertClass =

@@ -175,7 +175,7 @@ class SearchResultUI extends Component {
                                     <div className="img-circle-wrapper">
                                         <img
                                             src={
-                                                `${DOMAIN_NAME}/${item.profile_image}`
+                                                `${item.profile_image}`
                                             }
                                             className="img-circle"
                                         />

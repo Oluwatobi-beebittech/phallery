@@ -278,7 +278,7 @@ class ViewProfile extends Component {
                         <div className="img-circle-wrapper-profile">
                             <img
                                 src={
-                                    `${DOMAIN_NAME}/${this.state.profile_image}`
+                                    `${this.state.profile_image}`
                                 }
                                 className="img-circle"
                                 alt="profile image"
@@ -311,7 +311,7 @@ class ViewProfile extends Component {
                                         <PostContainer
                                             key={item.post_id}
                                             imgUrl={
-                                                `${DOMAIN_NAME}/${item.post_image}`
+                                                `${item.post_image}`
                                             }
                                             poster_first_name={
                                                 item.poster_first_name
@@ -367,7 +367,7 @@ class ViewProfile extends Component {
                                                 <div className="img-circle-wrapper">
                                                     <img
                                                         src={
-                                                            `${DOMAIN_NAME}/${connection.conn_profile_image}`
+                                                            `${connection.conn_profile_image}`
                                                         }
                                                         className="img-circle"
                                                     />
@@ -435,7 +435,7 @@ class ViewProfile extends Component {
                                                 <div className="img-circle-wrapper">
                                                     <img
                                                         src={
-                                                            `${DOMAIN_NAME}/${connection.conn_profile_image}`
+                                                            `${connection.conn_profile_image}`
                                                         }
                                                         className="img-circle"
                                                     />
